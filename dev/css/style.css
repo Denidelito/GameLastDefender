@@ -1,4 +1,7 @@
-/* Удаление отступов и внешних границ у элементов body и html */
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../assets/fonts/vcrosdmonorusbyd.ttf') format('truetype');
+}
 html, body {
     margin: 0;
     padding: 0;

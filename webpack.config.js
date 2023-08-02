@@ -70,6 +70,7 @@ module.exports = (env, argv) => {
                     },
                 ],
             }),
+
             new MiniCssExtractPlugin({
                 filename: isProduction ? 'css/style.min.css' : 'css/style.css',
             }),
