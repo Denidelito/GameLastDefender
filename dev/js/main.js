@@ -7,6 +7,7 @@ const config = {
     type: Phaser.AUTO,
     width: 1280,   // Устанавливаем ширину игры равной ширине окна браузера
     height: 720, // Устанавливаем высоту игры равной высоте окна браузера
+    parent: 'game-container',
     scene: [PreloadScene, MenuScene, GameScene],
     loader: {
         fonts: [

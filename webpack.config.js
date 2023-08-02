@@ -82,10 +82,10 @@ module.exports = (env, argv) => {
         devtool: isProduction ? false : 'inline-source-map',
         "devServer": {
             "static": {
-                "directory": path.resolve(__dirname, "dev"),
+                "directory": path.resolve(__dirname, ""),
                 "watch": true
             },
             "open": true
-        }
+        },
     };
 };
