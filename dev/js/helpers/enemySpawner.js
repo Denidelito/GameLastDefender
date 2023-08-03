@@ -24,6 +24,7 @@ export function spawnRandomEnemy(scene, enemiesData) {
     if (!scene.enemyNameText) {
         scene.enemyNameText = scene.add.text(0, 0, '', { fontFamily: 'CustomFont', fontSize: '14px', fill: '#ffffff' });
     }
+
     scene.enemyNameText.setOrigin(0.5, 1); // Устанавливаем точку опоры для центрирования текста
     // Обновляем текстовые объекты с именем и здоровьем противника
     scene.enemyNameText.setText(randomEnemy.name);
