@@ -17,11 +17,11 @@ export default class WorldScene extends Phaser.Scene {
         // Вызываем функцию для создания и настройки камеры
         setupCamera(this, 959, 421, 25, 25);
 
-        // Загрузка фонового изображения или фонового цвета
-        this.background = this.add.image(0, 0, 'land').setOrigin(0);
-
         // Объект с характеристиками игрока
         this.playerData = playerData;
+
+        // Объект с характеристиками противников
+        this.enemiesData = enemiesData;
 
         // Создаем персонажа в виде спрайта
         this.player = this.add.sprite(playerData.x, playerData.y, 'playerSprite'); // Изображение playerSprite.png должно быть предварительно загружено с помощью загрузчика
@@ -29,25 +29,14 @@ export default class WorldScene extends Phaser.Scene {
         // Изменяем размер спрайта в соответствии с playerData.width и playerData.height
         this.player.setScale(playerData.width / this.player.width, playerData.height / this.player.height);
 
-        // Флаг для отслеживания спавна противника
-        this.isEnemySpawned = false;
-
         // Время последнего нанесения урона
         this.lastDamageTime = 0;
 
         // Переменная для отслеживания количества очков
         this.score = 0;
 
-        // Объект с характеристиками противников
-        this.enemiesData = enemiesData;
-
         // Флаг для отслеживания спавна противника
         this.isEnemySpawned = false;
-
-        // Создаем текстовый объект для отображения имени противника
-        this.enemyNameText = this.add.text(0, 0, '', { fontFamily: 'CustomFont', fontSize: '14px', fill: '#ffffff' });
-        this.enemyNameText.setOrigin(0.5, 1); // Устанавливаем точку опоры для центрирования текста
-
     }
     update() {
         if (!this.isEnemySpawned) {
