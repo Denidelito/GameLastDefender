@@ -24,7 +24,7 @@ export default class PreloadScene extends Phaser.Scene {
         });
 
 
-        this.load.image('player', 'assets/spritesheets/player.png');
+        this.load.image('playerSprite', 'assets/spritesheets/player.png');
         this.load.image('land', 'assets/spritesheets/background/land.png');
         this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');
     }

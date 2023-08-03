@@ -1,3 +1,9 @@
+import playerData from "../object/player";
+import enemiesData from "../object/enemies";
+import {calculatePlayerMovement} from "../utils/playerMovement";
+import {setupCamera} from "../config/cameraSetup";
+import {handleCombat} from "../helpers/combat";
+
 export default class WorldScene extends Phaser.Scene {
     constructor() {
         super('WorldScene');
@@ -7,35 +13,24 @@ export default class WorldScene extends Phaser.Scene {
         // Загрузка фонового изображения или фонового цвета
         this.background = this.add.image(0, 0, 'land').setOrigin(0);
 
-        // Устанавливаем размеры камеры сцены WorldScene
-        this.cameras.main.setSize(959, 421);
-        this.cameras.main.setPosition(25, 25);
-        this.cameras.main.centerOn(959 / 2, 421 / 2); // Центрируем камеру по размеру
+        // Вызываем функцию для создания и настройки камеры
+        setupCamera(this, 959, 421, 25, 25);
+
         // Загрузка фонового изображения или фонового цвета
         this.background = this.add.image(0, 0, 'land').setOrigin(0);
 
         // Объект с характеристиками игрока
-        this.playerData = {
-            x: 100,
-            y: 300,
-            width: 39,
-            height: 50,
-            speed: 2, // Скорость передвижения игрока
-            health: 100, // Здоровье игрока
-            damage: 10 // Урон, который игрок наносит
-        };
+        this.playerData = playerData;
 
-        // Создаем игрока с использованием характеристик из объекта playerData
-        this.player = this.add.rectangle(this.playerData.x, this.playerData.y, this.playerData.width, this.playerData.height, 0xffffff).setOrigin(0);
+        // Создаем персонажа в виде спрайта
+        this.player = this.add.sprite(playerData.x, playerData.y, 'playerSprite'); // Изображение playerSprite.png должно быть предварительно загружено с помощью загрузчика
+
+        // Изменяем размер спрайта в соответствии с playerData.width и playerData.height
+        this.player.setScale(playerData.width / this.player.width, playerData.height / this.player.height);
 
         // Устанавливаем размеры камеры сцены WorldScene
         this.cameras.main.setSize(959, 421);
         this.cameras.main.setPosition(25, 25);
-
-        // Переменные для определения направления движения игрока
-        this.directionX = 0;
-        this.directionY = 0;
-
 
         // Флаг для отслеживания спавна противника
         this.isEnemySpawned = false;
@@ -43,38 +38,11 @@ export default class WorldScene extends Phaser.Scene {
         // Время последнего нанесения урона
         this.lastDamageTime = 0;
 
-        // Устанавливаем интервал нанесения урона в 1 секунду
-        this.damageInterval = 1000;
-
         // Переменная для отслеживания количества очков
         this.score = 0;
 
-
         // Объект с характеристиками противников
-        this.enemiesData = [
-            {
-                type: 'enemy1',
-                name: 'Противник 1', // Имя противника
-                health: 50,
-                damage: 5,
-                color: 0xff0000 // Красный цвет
-            },
-            {
-                type: 'enemy2',
-                name: 'Противник 2', // Имя противника
-                health: 80,
-                damage: 8,
-                color: 0x00ff00 // Зеленый цвет
-            },
-            {
-                type: 'enemy3',
-                name: 'Противник 3', // Имя противника
-                health: 100,
-                damage: 12,
-                color: 0x0000ff // Синий цвет
-            }
-            // Можете добавить больше типов противников с их характеристиками и цветами по аналогии
-        ];
+        this.enemiesData = enemiesData;
 
         // Флаг для отслеживания спавна противника
         this.isEnemySpawned = false;
@@ -125,74 +93,18 @@ export default class WorldScene extends Phaser.Scene {
         this.infoScene.updateScore(score);
     }
     update() {
-        // Перемещение плеера к противнику
-        this.player.x += this.directionX * this.playerData.speed;
-        this.player.y += this.directionY * this.playerData.speed;
+        // Обновляем позицию камеры, чтобы она следовала за персонажем
+        this.cameras.main.scrollX = this.player.x - this.cameras.main.width / 2;
+        this.cameras.main.scrollY = this.player.y - this.cameras.main.height / 2;
 
-        // Ограничиваем позицию камеры, чтобы она не выходила за края фонового изображения
-        const halfWidth = this.cameras.main.width / 2;
-        const halfHeight = this.cameras.main.height / 2;
-        const maxX = this.background.width - halfWidth;
-        const maxY = this.background.height - halfHeight;
-        this.cameras.main.scrollX = Phaser.Math.Clamp(this.player.x - halfWidth, 0, maxX);
-        this.cameras.main.scrollY = Phaser.Math.Clamp(this.player.y - halfHeight, 0, maxY);
+        // Вызываем функцию для определения направления движения персонажа
+        const { directionX, directionY } = calculatePlayerMovement(this.player, this.enemy);
 
-        // Определяем расстояние между плеером и противником
-        const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.enemy.x, this.enemy.y);
+        handleCombat(this.player, this.enemy, this.lastDamageTime, this.score);
 
-        // Проверяем, достаточно ли прошло времени с момента последнего нанесения урона
-        const currentTime = this.time.now;
-        if (currentTime - this.lastDamageTime >= this.damageInterval) {
-            // Если расстояние меньше определенного значения, игрок и противник начинают наносить урон друг другу
-            if (distance < 50) {
-                this.playerData.health -= this.enemy.damage;
-                this.enemy.health -= this.playerData.damage;
+        // Изменяем позицию спрайта в соответствии с направлением
+        this.player.x += directionX * this.playerData.speed;
+        this.player.y += directionY * this.playerData.speed;
 
-                // Обновление показателей здоровья в информации
-                this.scene.get('InfoScene').updatePlayerHealth(this.playerData.health);
-                this.scene.get('InfoScene').updateEnemyHealth(this.enemy.health);
-
-                // Проверяем состояние здоровья противника
-                if (this.enemy.health <= 0) {
-                    // Если здоровье противника меньше или равно 0, удаляем противника и спавним нового
-                    this.enemy.destroy();
-                    this.isEnemySpawned = false;
-                    this.spawnRandomEnemy();
-
-                    // Прибавляем 10 очков к счету после убийства противника
-                    this.score += 10;
-
-                    // Обновляем счет на сцене Game
-                    this.scene.get('GameScene').updateScore(this.score);
-
-                }
-
-                // Обновляем время последнего нанесения урона
-                this.lastDamageTime = currentTime;
-            }
-        }
-
-        // Если расстояние меньше определенного значения, останавливаем плеера
-        if (distance < 50) {
-            this.directionX = 0;
-            this.directionY = 0;
-        } else {
-            // Определяем направление движения плеера по горизонтали и вертикали
-            if (this.player.x < this.enemy.x) {
-                this.directionX = 1; // Движение вправо
-            } else if (this.player.x > this.enemy.x) {
-                this.directionX = -1; // Движение влево
-            } else {
-                this.directionX = 0; // Стоп по горизонтали
-            }
-
-            if (this.player.y < this.enemy.y) {
-                this.directionY = 1; // Движение вниз
-            } else if (this.player.y > this.enemy.y) {
-                this.directionY = -1; // Движение вверх
-            } else {
-                this.directionY = 0; // Стоп по вертикали
-            }
-        }
     }
 }
