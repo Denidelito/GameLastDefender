@@ -29,10 +29,6 @@ export default class WorldScene extends Phaser.Scene {
         // Изменяем размер спрайта в соответствии с playerData.width и playerData.height
         this.player.setScale(playerData.width / this.player.width, playerData.height / this.player.height);
 
-        // Устанавливаем размеры камеры сцены WorldScene
-        this.cameras.main.setSize(959, 421);
-        this.cameras.main.setPosition(25, 25);
-
         // Флаг для отслеживания спавна противника
         this.isEnemySpawned = false;
 
