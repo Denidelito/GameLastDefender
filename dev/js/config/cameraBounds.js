@@ -1,4 +1,3 @@
-// dev/js/config/cameraBounds.js
 export function setCameraBounds(camera, background) {
     const halfWidth = camera.width / 2;
     const halfHeight = camera.height / 2;

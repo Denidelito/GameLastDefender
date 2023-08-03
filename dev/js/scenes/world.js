@@ -3,6 +3,7 @@ import enemiesData from "../object/enemies";
 import {calculatePlayerMovement} from "../utils/playerMovement";
 import {setupCamera} from "../config/cameraSetup";
 import {handleCombat} from "../helpers/combat";
+import {spawnRandomEnemy} from "../helpers/enemySpawner";
 
 export default class WorldScene extends Phaser.Scene {
     constructor() {
@@ -51,48 +52,11 @@ export default class WorldScene extends Phaser.Scene {
         this.enemyNameText = this.add.text(0, 0, '', { fontFamily: 'CustomFont', fontSize: '14px', fill: '#ffffff' });
         this.enemyNameText.setOrigin(0.5, 1); // Устанавливаем точку опоры для центрирования текста
 
-        this.spawnRandomEnemy();
-    }
-    spawnRandomEnemy() {
-        // Проверяем флаг, чтобы убедиться, что на сцене нет другого противника
-        if (this.isEnemySpawned) {
-            return; // Возвращаемся, если противник уже заспавнен
-        }
-
-        // Генерируем случайные координаты для противника в пределах размеров сцены
-        const randomX = Phaser.Math.Between(0, 1920);
-        const randomY = Phaser.Math.Between(0, 1080);
-
-
-        this.enemy = this.add.rectangle(randomX, randomY, 28, 28).setOrigin(0);
-
-        // Обновляем характеристики противника на основе случайного выбора из объекта enemiesData
-        const randomIndex = Phaser.Math.Between(0, this.enemiesData.length - 1);
-        const randomEnemy = this.enemiesData[randomIndex];
-        this.enemy.x = randomX;
-        this.enemy.y = randomY;
-        this.enemy.health = randomEnemy.health;
-        this.enemy.damage = randomEnemy.damage;
-        this.enemy.setFillStyle(randomEnemy.color);
-
-        // Обновляем текстовые объекты с именем и здоровьем противника
-        this.enemyNameText.setText(randomEnemy.name);
-        this.enemyNameText.setPosition(this.enemy.x + this.enemy.width / 2, this.enemy.y); // Позиционируем над противником
-
-        // Устанавливаем флаг в true, чтобы отметить, что противник заспавнен
-        this.isEnemySpawned = true;
-
-
-    }
-
-    updateScore(score) {
-        // Обновляем текстовый объект с счетом
-        this.scoreText.setText(`Score: ${score}`);
-
-        // Передаем счет на сцену InfoScene
-        this.infoScene.updateScore(score);
     }
     update() {
+        if (!this.isEnemySpawned) {
+            spawnRandomEnemy (this, this.enemiesData);
+        }
         // Обновляем позицию камеры, чтобы она следовала за персонажем
         this.cameras.main.scrollX = this.player.x - this.cameras.main.width / 2;
         this.cameras.main.scrollY = this.player.y - this.cameras.main.height / 2;
@@ -106,5 +70,9 @@ export default class WorldScene extends Phaser.Scene {
         this.player.x += directionX * this.playerData.speed;
         this.player.y += directionY * this.playerData.speed;
 
+        if (this.playerData.health <= 0) {
+            this.scene.get('GameScene').resetGame();
+            this.playerData.health = 100;
+        }
     }
 }

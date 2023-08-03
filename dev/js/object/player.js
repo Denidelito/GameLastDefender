@@ -5,7 +5,7 @@ const playerData = {
     height: 50,
     speed: 1, // Скорость передвижения игрока
     health: 100, // Здоровье игрока
-    damage: 10
+    damage: 100
 };
 
 export default playerData;

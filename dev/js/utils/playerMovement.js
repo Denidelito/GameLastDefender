@@ -1,4 +1,3 @@
-// dev/js/helpers/playerMovement.js
 export function calculatePlayerMovement(player, enemy) {
     const distance = Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y);
     let directionX, directionY;

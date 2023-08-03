@@ -1,4 +1,3 @@
-// dev/js/helpers/combatMechanics.js
 export function handleCombat(player, enemy, lastDamageTime, score) {
     const currentTime = player.scene.time.now;
     const distance = Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y);
@@ -23,7 +22,6 @@ export function handleCombat(player, enemy, lastDamageTime, score) {
                 // Если здоровье противника меньше или равно 0, удаляем противника и спавним нового
                 enemy.destroy();
                 player.scene.isEnemySpawned = false;
-                player.scene.spawnRandomEnemy();
 
                 // Прибавляем 10 очков к счету после убийства противника
                 player.scene.score += 10;
