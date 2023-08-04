@@ -1,5 +1,6 @@
 import WorldScene from './world';
 import InfoScene from './info';
+import SpecificationsScene from "./specifications";
 import playerData from "../object/player";
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -14,6 +15,7 @@ export default class GameScene extends Phaser.Scene {
         if (!this.scene.isActive('WorldScene')) {
             this.scene.add('WorldScene', WorldScene, true);
             this.scene.add('InfoScene', InfoScene, true);
+            this.scene.add('SpecificationsScene', SpecificationsScene, true)
         }
         // Создаем текстовый объект для отображения счета
         this.scoreText = this.add.text(1100, 125, 'Score: 0', { fontFamily: 'Arial', fontSize: '24px', fill: '#ffffff' });
@@ -22,6 +24,7 @@ export default class GameScene extends Phaser.Scene {
         this.score = 0;
         this.scene.remove('WorldScene')
         this.scene.remove('InfoScene')
+        this.scene.remove('SpecificationsScene')
         this.scene.restart()
 
     }
