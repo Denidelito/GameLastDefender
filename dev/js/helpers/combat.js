@@ -24,6 +24,20 @@ export function handleCombat(player, enemy, lastDamageTime, score, currentPlayer
 
                     // Прибавляем 10 очков к счету после убийства противника
                     player.scene.score += 10;
+                    // Получаем доступные предметы для данного типа врага
+                    const possibleItems = enemy.possibleItems;
+
+                    // Если у врага есть доступные предметы
+                    if (possibleItems && possibleItems.length > 0) {
+                        // Случайным образом выбираем предмет для дропа
+                        const randomItemIndex = Phaser.Math.Between(0, possibleItems.length - 1);
+                        const droppedItem = possibleItems[randomItemIndex];
+
+                        player.scene.scene.get('InfoScene').updateDialogModal(`Вы получили: ${possibleItems[randomItemIndex]}`);
+                        // Добавляем предмет в инвентарь или делаем другие действия с ним
+                        player.scene.scene.get('InventoryScene').addToInventory(droppedItem);
+                    }
+
 
                     player.scene.scene.get('InfoScene').updateDialogModal(`Ваш счет равен: ${player.scene.score}`);
                 }

@@ -14,6 +14,7 @@ export function spawnRandomEnemy(scene, enemiesData) {
     const randomIndex = Phaser.Math.Between(0, enemiesData.length - 1);
     const randomEnemy = enemiesData[randomIndex];
     scene.enemy.name = randomEnemy.name;
+    scene.enemy.possibleItems = randomEnemy.possibleItems;
     scene.enemy.x = randomX;
     scene.enemy.y = randomY;
     scene.enemy.health = randomEnemy.health;

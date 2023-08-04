@@ -68,6 +68,12 @@ export default class WorldScene extends Phaser.Scene {
         this.isEnemySpawned = false;
     }
 
+    updatePlayer(itemName) {
+        if (itemName === 'potion') {
+            this.playerData.health += 100;
+        }
+    }
+
     update() {
         if (!this.isEnemySpawned) {
             spawnRandomEnemy(this, this.enemiesData);
