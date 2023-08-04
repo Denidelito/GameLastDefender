@@ -1,0 +1,73 @@
+Index: dev/js/scenes/preload.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>export default class PreloadScene extends Phaser.Scene {\r\n    constructor() {\r\n        super('PreloadScene');\r\n    }\r\n\r\n    preload() {\r\n        // Фоновое изображение\r\n        this.add.image(0, 0, 'background').setOrigin(0);\r\n\r\n        // Загрузка полосы (здесь показан простой способ, вы можете использовать свои спрайты для стилизации)\r\n        const progressBar = this.add.graphics();\r\n        const progressBox = this.add.graphics();\r\n        const width = this.cameras.main.width;\r\n        const height = this.cameras.main.height;\r\n\r\n        progressBox.fillStyle(0x222222, 0.8);\r\n        progressBox.fillRect(width / 4, height / 2 - 30, width / 2, 50);\r\n\r\n        // Обновление полосы загрузки\r\n        this.load.on('progress', (value) => {\r\n            progressBar.clear();\r\n            progressBar.fillStyle(0xffffff, 1);\r\n            progressBar.fillRect(width / 4 + 10, height / 2 - 20, (width / 2 - 20) * value, 30);\r\n        });\r\n\r\n\r\n        this.load.image('playerSprite', 'assets/spritesheets/player.png');\r\n        this.load.spritesheet('playerWalkLeft', 'assets/spritesheets/sprite/player/walk-left.png', {\r\n            frameWidth: 128,\r\n            frameHeight: 128,\r\n            startFrame: 0,\r\n            endFrame: 6\r\n        });\r\n        this.load.spritesheet('playerWalkRight', 'assets/spritesheets/sprite/player/walk-right.png', {\r\n            frameWidth: 128,\r\n            frameHeight: 128,\r\n            startFrame: 0,\r\n            endFrame: 6\r\n        });\r\n        this.load.spritesheet('playerWalkUp', 'assets/spritesheets/sprite/player/walk-up.png', {\r\n            frameWidth: 128,\r\n            frameHeight: 128,\r\n            startFrame: 0,\r\n            endFrame: 6\r\n        });\r\n        this.load.spritesheet('playerWalkDown', 'assets/spritesheets/sprite/player/walk-down.png', {\r\n            frameWidth: 128,\r\n            frameHeight: 128,\r\n            startFrame: 0,\r\n            endFrame: 6\r\n        });\r\n\r\n\r\n        this.load.image('land', 'assets/spritesheets/background/land.png');\r\n\r\n        this.load.image('poutionHP', 'assets/spritesheets/sprite/items/poution.png');\r\n        this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');\r\n    }\r\n\r\n    create() {\r\n        // По завершении загрузки переходим в сцену меню\r\n        this.scene.start('MenuScene');\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/dev/js/scenes/preload.js b/dev/js/scenes/preload.js
+--- a/dev/js/scenes/preload.js	
++++ b/dev/js/scenes/preload.js	
+@@ -24,26 +24,26 @@
+         });
+ 
+ 
+-        this.load.image('playerSprite', 'assets/spritesheets/player.png');
+-        this.load.spritesheet('playerWalkLeft', 'assets/spritesheets/sprite/player/walk-left.png', {
++        this.load.image('playerSprite', './assets/spritesheets/player.png');
++        this.load.spritesheet('playerWalkLeft', './assets/spritesheets/sprite/player/walk-left.png', {
+             frameWidth: 128,
+             frameHeight: 128,
+             startFrame: 0,
+             endFrame: 6
+         });
+-        this.load.spritesheet('playerWalkRight', 'assets/spritesheets/sprite/player/walk-right.png', {
++        this.load.spritesheet('playerWalkRight', './assets/spritesheets/sprite/player/walk-right.png', {
+             frameWidth: 128,
+             frameHeight: 128,
+             startFrame: 0,
+             endFrame: 6
+         });
+-        this.load.spritesheet('playerWalkUp', 'assets/spritesheets/sprite/player/walk-up.png', {
++        this.load.spritesheet('playerWalkUp', './assets/spritesheets/sprite/player/walk-up.png', {
+             frameWidth: 128,
+             frameHeight: 128,
+             startFrame: 0,
+             endFrame: 6
+         });
+-        this.load.spritesheet('playerWalkDown', 'assets/spritesheets/sprite/player/walk-down.png', {
++        this.load.spritesheet('playerWalkDown', './assets/spritesheets/sprite/player/walk-down.png', {
+             frameWidth: 128,
+             frameHeight: 128,
+             startFrame: 0,
+@@ -51,10 +51,10 @@
+         });
+ 
+ 
+-        this.load.image('land', 'assets/spritesheets/background/land.png');
++        this.load.image('land', './assets/spritesheets/background/land.png');
+ 
+-        this.load.image('poutionHP', 'assets/spritesheets/sprite/items/poution.png');
+-        this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');
++        this.load.image('poutionHP', './assets/spritesheets/sprite/items/poution.png');
++        this.load.image('game_interface', './assets/spritesheets/background/game_interface.png');
+     }
+ 
+     create() {
+Index: dev/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"ru\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>The Last Defender - Rise of the King</title>\r\n    <link rel=\"stylesheet\" href=\"./css/style.css\">\r\n    <script type=\"module\" src=\"./js/main.js\" ></script>\r\n</head>\r\n<body>\r\n</body>\r\n</html>
+===================================================================
+diff --git a/dev/index.html b/dev/index.html
+--- a/dev/index.html	
++++ b/dev/index.html	
+@@ -3,8 +3,8 @@
+ <head>
+     <meta charset="UTF-8">
+     <title>The Last Defender - Rise of the King</title>
+-    <link rel="stylesheet" href="./css/style.css">
+-    <script type="module" src="./js/main.js" ></script>
++    <link rel="stylesheet" href="css/style.css">
++    <script type="module" src="js/main.js" ></script>
+ </head>
+ <body>
+ </body>
