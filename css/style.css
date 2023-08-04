@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../assets/fonts/vcrosdmonorusbyd.ttf') format('truetype');
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    background-color: #757161;
+}
+/* Полноэкранный размер для игрового канваса */
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
