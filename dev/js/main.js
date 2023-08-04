@@ -8,8 +8,8 @@ const config = {
     scale: {
         mode: Phaser.Scale.FIT, // Формат масштабирования (FIT - масштабирует содержимое с сохранением пропорций, но не обрезает, SHOW_ALL - масштабирует содержимое с сохранением пропорций и обрезает, RESIZE - изменяет размер canvas и содержимого без сохранения пропорций)
         autoCenter: Phaser.Scale.CENTER_BOTH, // Располагает игровое окно по центру экрана (CENTER_BOTH) или только по горизонтали/вертикали (CENTER_HORIZONTALLY/CENTER_VERTICALLY)
-        width: 1280, // Ширина окна игры
-        height: 720, // Высота окна игры
+        width: 1920, // Ширина окна игры
+        height: 1080, // Высота окна игры
     },
     scene: [PreloadScene, MenuScene, GameScene],
     physics: {

@@ -8,7 +8,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.setViewport(0, 0, 1280, 720);
+        this.cameras.main.setViewport(0, 0, 1920, 1080);
 
         this.add.image(0, 0, 'game_interface').setOrigin(0);
 

@@ -25,6 +25,32 @@ export default class PreloadScene extends Phaser.Scene {
 
 
         this.load.image('playerSprite', 'assets/spritesheets/player.png');
+        this.load.spritesheet('playerWalkLeft', 'assets/spritesheets/sprite/player/walk-left.png', {
+            frameWidth: 128,
+            frameHeight: 128,
+            startFrame: 0,
+            endFrame: 6
+        });
+        this.load.spritesheet('playerWalkRight', 'assets/spritesheets/sprite/player/walk-right.png', {
+            frameWidth: 128,
+            frameHeight: 128,
+            startFrame: 0,
+            endFrame: 6
+        });
+        this.load.spritesheet('playerWalkUp', 'assets/spritesheets/sprite/player/walk-up.png', {
+            frameWidth: 128,
+            frameHeight: 128,
+            startFrame: 0,
+            endFrame: 6
+        });
+        this.load.spritesheet('playerWalkDown', 'assets/spritesheets/sprite/player/walk-down.png', {
+            frameWidth: 128,
+            frameHeight: 128,
+            startFrame: 0,
+            endFrame: 6
+        });
+
+
         this.load.image('land', 'assets/spritesheets/background/land.png');
         this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');
     }

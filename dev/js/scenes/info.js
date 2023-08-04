@@ -4,9 +4,9 @@ export default class InfoScene extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.setSize(477, 200);
-        this.cameras.main.setPosition(18, 500);
-        this.cameras.main.centerOn(477 / 2, 200 / 2); // Центрируем камеру по размеру
+        this.cameras.main.setSize(710, 294);
+        this.cameras.main.setPosition(28, 753);
+        this.cameras.main.centerOn(710 / 2, 294 / 2); // Центрируем камеру по размеру
 
         // Слушаем события updatePlayerHealth и updateEnemyHealth, чтобы обновлять информацию о здоровье
         this.events.on('updatePlayerHealth', this.updatePlayerHealth, this);
@@ -16,7 +16,7 @@ export default class InfoScene extends Phaser.Scene {
         // Создаем затемненный фон для информационной сцены
         const graphics = this.add.graphics();
         graphics.fillStyle(0x000000, 0.7);
-        graphics.fillRect(0, 0, 475, 200);
+        graphics.fillRect(0, 0, 710, 294);
 
         // Создаем текстовый элемент
         this.text = this.add.text(0, 0, '', { fontFamily: 'Arial', color: '#00ff00', wordWrap: { width: 310 } }).setOrigin(0);
@@ -28,7 +28,7 @@ export default class InfoScene extends Phaser.Scene {
         this.text.setMask(mask);
 
         // Создаем интерактивную зону, которую можно "перетаскивать" внутри
-        const zone = this.add.zone(0, 0, 475, 200).setOrigin(0).setInteractive();
+        const zone = this.add.zone(0, 0, 710, 294).setOrigin(0).setInteractive();
 
         // Обрабатываем событие колесика мыши на зоне для скроллинга текста
         zone.on('wheel', (pointer, deltaX, deltaY, deltaZ) => {

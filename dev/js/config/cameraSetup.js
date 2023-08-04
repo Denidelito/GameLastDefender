@@ -6,6 +6,6 @@ export function setupCamera(scene, width, height, offsetX, offsetY) {
 
 
     // Устанавливаем размеры камеры сцены WorldScene
-    scene.cameras.main.setSize(959, 421);
-    scene.cameras.main.setPosition(25, 25);
+    scene.cameras.main.setSize(width, height);
+    scene.cameras.main.setPosition(offsetX, offsetY);
 }
