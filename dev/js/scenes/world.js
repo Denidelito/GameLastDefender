@@ -56,6 +56,7 @@ export default class WorldScene extends Phaser.Scene {
 
         // Время последнего нанесения урона
         this.lastDamageTime = 0;
+        this.isCombatTurn = 'player';
 
         // В начале создания персонажа
         this.isMovingOnX = true; // Флаг для отслеживания движения по оси X
@@ -78,7 +79,7 @@ export default class WorldScene extends Phaser.Scene {
         // Вызываем функцию для определения направления движения персонажа
         const { directionX, directionY } = calculatePlayerMovement(this.player, this.enemy);
 
-        handleCombat(this.player, this.enemy, this.lastDamageTime, this.score);
+        handleCombat(this.player, this.enemy, this.lastDamageTime, this.score, this.isCombatTurn);
 
         // Изменяем позицию спрайта в соответствии с направлением
         if (this.isMovingOnX) {

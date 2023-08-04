@@ -40,6 +40,11 @@ export default class InfoScene extends Phaser.Scene {
 
     }
 
+    updateDialogModal(text) {
+        this.log.push(text);
+        this.text.setText(this.log.slice().reverse());
+    }
+
     updatePlayerHealth(health) {
         // Обновляем текстовый объект с здоровьем игрока
         this.log.push(`Player Health: ${health}`)

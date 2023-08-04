@@ -17,8 +17,6 @@ export default class GameScene extends Phaser.Scene {
             this.scene.add('InfoScene', InfoScene, true);
             this.scene.add('SpecificationsScene', SpecificationsScene, true)
         }
-        // Создаем текстовый объект для отображения счета
-        this.scoreText = this.add.text(1100, 125, 'Score: 0', { fontFamily: 'Arial', fontSize: '24px', fill: '#ffffff' });
     }
     resetGame() {
         this.score = 0;
@@ -30,11 +28,6 @@ export default class GameScene extends Phaser.Scene {
     }
     update(time, delta) {
         super.update(time, delta);
-    }
-
-    updateScore(score) {
-        // Обновляем текстовый объект с счетом
-        this.scoreText.setText(`Score: ${score}`);
     }
 
 }
