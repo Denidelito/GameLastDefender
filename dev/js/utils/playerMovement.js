@@ -31,10 +31,8 @@ export function playWalkAnimation(player, directionX, directionY) {
     if (directionX !== 0) {
         if (directionX > 0) {
             player.anims.play('walk-right', true);
-            player.flipX = false;
         } else {
             player.anims.play('walk-left', true);
-            player.flipX = true;
         }
     } else if (directionY !== 0) {
         if (directionY > 0) {
