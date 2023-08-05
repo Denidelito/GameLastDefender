@@ -48,14 +48,12 @@ export default class InventoryScene extends Phaser.Scene {
                 slot.on('pointerover', () => {
                     if (this.inventoryItems[row * gridSize.cols + col]) {
                         // Показываем описание предмета в каком-то текстовом поле или окне
-                        // Вам нужно заменить это на свою логику отображения описания
                         console.log(`Description: ${this.inventoryItems[row * gridSize.cols + col].description}`);
                     }
                 });
 
                 slot.on('pointerout', () => {
                     // Скрываем описание при уходе курсора с ячейки
-                    // Вам также нужно заменить это на свою логику скрытия описания
                     console.log('Description hidden');
                 });
 

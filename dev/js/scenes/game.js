@@ -29,8 +29,4 @@ export default class GameScene extends Phaser.Scene {
         this.scene.restart()
 
     }
-    update(time, delta) {
-        super.update(time, delta);
-    }
-
 }

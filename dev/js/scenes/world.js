@@ -54,6 +54,7 @@ export default class WorldScene extends Phaser.Scene {
             repeat: -1,
         });
 
+
         // Время последнего нанесения урона
         this.lastDamageTime = 0;
         this.isCombatTurn = 'player';
@@ -63,7 +64,6 @@ export default class WorldScene extends Phaser.Scene {
 
         // Переменная для отслеживания количества очков
         this.score = 0;
-
         // Флаг для отслеживания спавна противника
         this.isEnemySpawned = false;
     }
@@ -82,6 +82,7 @@ export default class WorldScene extends Phaser.Scene {
         this.cameras.main.scrollX = this.player.x - this.cameras.main.width / 2;
         this.cameras.main.scrollY = this.player.y - this.cameras.main.height / 2;
 
+        this.scene.get('SpecificationsScene').updateInformationPlayer('Уровень: 1', `Здоровье: ${playerData.health} / 100`, `Опыт: ${this.score}`, `Урон: ${playerData.damage}`)
         // Вызываем функцию для определения направления движения персонажа
         const { directionX, directionY } = calculatePlayerMovement(this.player, this.enemy);
 
