@@ -26,20 +26,45 @@ export function calculatePlayerMovement(player, enemy) {
 
     return { directionX, directionY };
 }
+export function createPlayerAnimations(scene) {
+    scene.anims.create({
+        key: 'walk-left',
+        frames: scene.anims.generateFrameNumbers('playerWalkLeft', { start: 0, end: 5 }),
+        frameRate: 8,
+        repeat: -1,
+    });
+
+    scene.anims.create({
+        key: 'walk-right',
+        frames: scene.anims.generateFrameNumbers('playerWalkRight', { start: 0, end: 5 }),
+        frameRate: 8,
+        repeat: -1,
+    });
+
+    scene.anims.create({
+        key: 'walk-up',
+        frames: scene.anims.generateFrameNumbers('playerWalkUp', { start: 0, end: 5 }),
+        frameRate: 8,
+        repeat: -1,
+    });
+
+    scene.anims.create({
+        key: 'walk-down',
+        frames: scene.anims.generateFrameNumbers('playerWalkDown', { start: 0, end: 5 }),
+        frameRate: 8,
+        repeat: -1,
+    });
+}
 
 export function playWalkAnimation(player, directionX, directionY) {
-    if (directionX !== 0) {
-        if (directionX > 0) {
-            player.anims.play('walk-right', true);
-        } else {
-            player.anims.play('walk-left', true);
-        }
-    } else if (directionY !== 0) {
-        if (directionY > 0) {
-            player.anims.play('walk-down', true);
-        } else {
-            player.anims.play('walk-up', true);
-        }
+    if (directionX < 0) {
+        player.anims.play('walk-left', true);
+    } else if (directionX > 0) {
+        player.anims.play('walk-right', true);
+    } else if (directionY < 0) {
+        player.anims.play('walk-up', true);
+    } else if (directionY > 0) {
+        player.anims.play('walk-down', true);
     } else {
         player.anims.stop();
     }

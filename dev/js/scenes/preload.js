@@ -52,8 +52,7 @@ export default class PreloadScene extends Phaser.Scene {
 
 
         this.load.image('land', 'assets/spritesheets/background/land.png');
-
-        this.load.image('poutionHP', 'assets/spritesheets/sprite/items/poution.png');
+        this.load.image('potionHP', 'assets/spritesheets/sprite/items/poution.png');
         this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');
     }
 

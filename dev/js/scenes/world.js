@@ -1,10 +1,10 @@
 import playerData from "../object/player";
+import staff from "../object/items";
 import enemiesData from "../object/enemies";
-import { calculatePlayerMovement } from "../utils/playerMovement";
 import { setupCamera } from "../config/cameraSetup";
 import { handleCombat } from "../helpers/combat";
 import { spawnRandomEnemy } from "../helpers/enemySpawner";
-import {playWalkAnimation} from "../utils/playerMovement";
+import {playWalkAnimation, createPlayerAnimations, calculatePlayerMovement} from "../utils/playerMovement";
 
 export default class WorldScene extends Phaser.Scene {
     constructor() {
@@ -13,10 +13,15 @@ export default class WorldScene extends Phaser.Scene {
 
     create() {
         // Загрузка фонового изображения или фонового цвета
-        this.background = this.add.image(0, 0, 'land').setOrigin(0);
+        this.add.image(0, 0, 'land').setOrigin(0);
 
         // Вызываем функцию для создания и настройки камеры
-        setupCamera(this, 1467, 660, 21, 24);
+        setupCamera(
+            this,
+            1467,
+            660,
+            21,
+            24);
 
         // Объект с характеристиками игрока
         this.playerData = playerData;
@@ -28,49 +33,34 @@ export default class WorldScene extends Phaser.Scene {
         this.player = this.add.sprite(playerData.x, playerData.y, 'playerSprite');
         this.player.setScale(playerData.width / this.player.width, playerData.height / this.player.height);
 
-        // Добавляем анимацию ходьбы вправо
-        this.anims.create({
-            key: 'walk-left',
-            frames: this.anims.generateFrameNumbers('playerWalkLeft', { start: 0, end: 5 }),
-            frameRate: 8,
-            repeat: -1,
-        });
-        this.anims.create({
-            key: 'walk-right',
-            frames: this.anims.generateFrameNumbers('playerWalkRight', { start: 0, end: 5 }),
-            frameRate: 8,
-            repeat: -1,
-        });
-        this.anims.create({
-            key: 'walk-up',
-            frames: this.anims.generateFrameNumbers('playerWalkUp', { start: 0, end: 5 }),
-            frameRate: 8,
-            repeat: -1,
-        });
-        this.anims.create({
-            key: 'walk-down',
-            frames: this.anims.generateFrameNumbers('playerWalkDown', { start: 0, end: 5 }),
-            frameRate: 8,
-            repeat: -1,
-        });
-
-
         // Время последнего нанесения урона
         this.lastDamageTime = 0;
         this.isCombatTurn = 'player';
 
-        // В начале создания персонажа
-        this.isMovingOnX = true; // Флаг для отслеживания движения по оси X
+        // Флаг для отслеживания движения по оси X
+        this.isMovingOnX = true;
 
         // Переменная для отслеживания количества очков
         this.score = 0;
+
         // Флаг для отслеживания спавна противника
         this.isEnemySpawned = false;
+
+        createPlayerAnimations(this);
     }
 
-    updatePlayer(itemName) {
-        if (itemName === 'potion') {
-            this.playerData.health += 100;
+    updatePlayer(idStaff) {
+
+        // Получаем выьранный предмет
+        const currentStaff = staff[idStaff];
+
+        // Проверяем к какому типу он оттносится
+        if (currentStaff.type === 'potion') {
+
+            // Обновлям характеристики игрока
+            this.playerData.health += currentStaff.stats.health;
+            this.playerData.damage += currentStaff.stats.damage;
+            this.playerData.speed += currentStaff.stats.speed;
         }
     }
 
@@ -83,6 +73,7 @@ export default class WorldScene extends Phaser.Scene {
         this.cameras.main.scrollY = this.player.y - this.cameras.main.height / 2;
 
         this.scene.get('SpecificationsScene').updateInformationPlayer('Уровень: 1', `Здоровье: ${playerData.health} / 100`, `Опыт: ${this.score}`, `Урон: ${playerData.damage}`)
+
         // Вызываем функцию для определения направления движения персонажа
         const { directionX, directionY } = calculatePlayerMovement(this.player, this.enemy);
 

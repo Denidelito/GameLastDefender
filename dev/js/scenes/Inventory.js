@@ -1,3 +1,4 @@
+import staff from "../object/items";
 export default class InventoryScene extends Phaser.Scene {
     constructor() {
         super('InventoryScene');
@@ -65,25 +66,27 @@ export default class InventoryScene extends Phaser.Scene {
     addToInventory(itemName) {
         // Проверяем, есть ли свободные слоты в инвентаре
         const emptySlotIndex = this.inventoryItems.findIndex(item => !item);
+        const dropStaff = staff[itemName];
+
 
         if (this.inventorySlots.length !== this.inventoryItems.length) {
             if (emptySlotIndex !== -1) {
                 // Добавляем предмет в свободный слот
-                this.inventoryItems[emptySlotIndex] = { name: itemName, description: 'хилка'};
+                this.inventoryItems[emptySlotIndex] = { name: itemName, description: dropStaff.description};
 
                 // Обновляем отображение слота
                 const slot = this.inventorySlots[emptySlotIndex];
-                const itemSprite = this.add.sprite(slot.x, slot.y, 'poutionHP');
+                const itemSprite = this.add.sprite(slot.x, slot.y, dropStaff.sprite);
                 itemSprite.setDisplaySize(120, 120);
                 this.inventorySlots[emptySlotIndex].itemSprite = itemSprite;
             } else {
                 // Находим последний доступный слот и добавляем предмет в него
                 const lastSlotIndex = this.inventoryItems.length;
-                this.inventoryItems[lastSlotIndex] = { name: itemName, description: 'хилка' };
+                this.inventoryItems[lastSlotIndex] = { name: itemName, description: dropStaff.description };
 
                 // Обновляем отображение последнего слота
                 const slot = this.inventorySlots[lastSlotIndex];
-                const itemSprite = this.add.sprite(slot.x, slot.y, 'poutionHP');
+                const itemSprite = this.add.sprite(slot.x, slot.y, dropStaff.sprite);
                 itemSprite.setDisplaySize(120, 120);
                 this.inventorySlots[lastSlotIndex].itemSprite = itemSprite;
             }
