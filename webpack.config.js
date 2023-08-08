@@ -9,7 +9,8 @@ module.exports = (env, argv) => {
     const isProduction = argv.mode === 'production';
 
     return {
-        entry: './dev/js/main.js', // Путь к главному файлу JavaScript
+        // Путь к главному файлу JavaScript
+        entry: './dev/js/main.js',
         output: {
             path: path.resolve(__dirname, 'dist'),
             filename: isProduction ? 'bundle.min.js' : 'bundle.js',
@@ -39,7 +40,7 @@ module.exports = (env, argv) => {
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                publicPath: '../', // Добавлено, чтобы пути к CSS-файлам внутри dist/css были верными
+                                publicPath: '../',
                             },
                         },
                         'css-loader',
@@ -50,7 +51,8 @@ module.exports = (env, argv) => {
         plugins: [
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
-                template: './dev/index.html', // Путь к HTML-шаблону
+                // Путь к HTML-шаблону
+                template: './dev/index.html',
                 minify: isProduction
                     ? {
                         collapseWhitespace: true,

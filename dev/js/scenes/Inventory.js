@@ -1,4 +1,5 @@
 import staff from "../object/items";
+
 export default class InventoryScene extends Phaser.Scene {
     constructor() {
         super('InventoryScene');
@@ -7,9 +8,11 @@ export default class InventoryScene extends Phaser.Scene {
     }
 
     create() {
+        // Созаем камеру
         this.cameras.main.setSize(820, 281);
         this.cameras.main.setPosition(1060, 764);
-        this.cameras.main.centerOn(820 / 2, 281 / 2); // Центрируем камеру по размеру
+        // Центрируем камеру по размеру
+        this.cameras.main.centerOn(820 / 2, 281 / 2);
 
         // Создание сетки предметов
         const gridSize = { rows: 2, cols: 5 };

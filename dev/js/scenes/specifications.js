@@ -4,9 +4,11 @@ export default class SpecificationsScene extends Phaser.Scene{
     }
 
     create() {
-        this.cameras.main.setSize(370, 224);
-        this.cameras.main.setPosition(1524, 458);
-        this.cameras.main.centerOn(370 / 2, 224 / 2); // Центрируем камеру по размеру
+        const mainCamera = this.cameras.main;
+
+        mainCamera.setSize(370, 224);
+        mainCamera.setPosition(1524, 458);
+        mainCamera.centerOn(370 / 2, 224 / 2); // Центрируем камеру по размеру
 
         this.textLVL = this.add.text(0, 0, 'LVL:', { fontFamily: 'Arial', color: '#00ff00', wordWrap: { width: 310 } }).setOrigin(0);
         this.textHP = this.add.text(0, 50, 'HP:', { fontFamily: 'Arial', color: '#00ff00', wordWrap: { width: 310 } }).setOrigin(0);

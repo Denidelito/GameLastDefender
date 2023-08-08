@@ -7,7 +7,7 @@ export default class PreloadScene extends Phaser.Scene {
         // Фоновое изображение
         this.add.image(0, 0, 'background').setOrigin(0);
 
-        // Загрузка полосы (здесь показан простой способ, вы можете использовать свои спрайты для стилизации)
+        // Загрузка полосы
         const progressBar = this.add.graphics();
         const progressBox = this.add.graphics();
         const width = this.cameras.main.width;
@@ -23,8 +23,10 @@ export default class PreloadScene extends Phaser.Scene {
             progressBar.fillRect(width / 4 + 10, height / 2 - 20, (width / 2 - 20) * value, 30);
         });
 
-
+        // Спрайт персанажа
         this.load.image('playerSprite', 'assets/spritesheets/player.png');
+
+        // Загрузка анимаций
         this.load.spritesheet('playerWalkLeft', 'assets/spritesheets/sprite/player/walk-left.png', {
             frameWidth: 128,
             frameHeight: 128,
@@ -50,9 +52,10 @@ export default class PreloadScene extends Phaser.Scene {
             endFrame: 6
         });
 
+        // Спрайт зелья здоровья
+        this.load.image('potionHP', 'assets/spritesheets/sprite/items/poution.png');
 
         this.load.image('land', 'assets/spritesheets/background/land.png');
-        this.load.image('potionHP', 'assets/spritesheets/sprite/items/poution.png');
         this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');
     }
 

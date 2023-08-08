@@ -23,28 +23,34 @@ export default class WorldScene extends Phaser.Scene {
             21,
             24);
 
-        // Объект с характеристиками игрока
-        this.playerData = playerData;
 
-        // Объект с характеристиками противников
-        this.enemiesData = enemiesData;
+        this.GameData = {
+            // Объект с характеристиками игрока
+            playerData: playerData,
+            // Объект с характеристиками противников
+            enemiesData: enemiesData,
+            combat: {
+                // Время последнего нанесения урона
+                lastDamageTime: 0,
+                // Очередность ударов
+                isCombatTurn: 'player',
+                // Интервал уларов
+                damageInterval: 1000
+            },
+            // Переменная для отслеживания количества очков
+            score: 0,
+            // Флаг для отслеживания движения по оси X
+            isMovingOnX: true,
+            // Флаг для отслеживания спавна противника
+            isEnemySpawned: false
+        }
 
         // Создаем персонажа в виде спрайта
         this.player = this.add.sprite(playerData.x, playerData.y, 'playerSprite');
-        this.player.setScale(playerData.width / this.player.width, playerData.height / this.player.height);
-
-        // Время последнего нанесения урона
-        this.lastDamageTime = 0;
-        this.isCombatTurn = 'player';
-
-        // Флаг для отслеживания движения по оси X
-        this.isMovingOnX = true;
-
-        // Переменная для отслеживания количества очков
-        this.score = 0;
-
-        // Флаг для отслеживания спавна противника
-        this.isEnemySpawned = false;
+        this.player.setScale(
+            playerData.width / this.player.width,
+            playerData.height / this.player.height
+        );
 
         createPlayerAnimations(this);
     }
@@ -58,51 +64,61 @@ export default class WorldScene extends Phaser.Scene {
         if (currentStaff.type === 'potion') {
 
             // Обновлям характеристики игрока
-            this.playerData.health += currentStaff.stats.health;
-            this.playerData.damage += currentStaff.stats.damage;
-            this.playerData.speed += currentStaff.stats.speed;
+            const playerSpecifications  = this.GameData.playerData;
+
+            playerSpecifications.health += currentStaff.stats.health;
+            playerSpecifications.damage += currentStaff.stats.damage;
+            playerSpecifications.speed += currentStaff.stats.speed;
         }
     }
 
     update() {
-        if (!this.isEnemySpawned) {
-            spawnRandomEnemy(this, this.enemiesData);
+        // Если противник мертв спавним нового
+        if (!this.GameData.isEnemySpawned) {
+            spawnRandomEnemy(this, this.GameData.enemiesData);
         }
-        // Обновляем позицию камеры, чтобы она следовала за персонажем
-        this.cameras.main.scrollX = this.player.x - this.cameras.main.width / 2;
-        this.cameras.main.scrollY = this.player.y - this.cameras.main.height / 2;
 
-        this.scene.get('SpecificationsScene').updateInformationPlayer('Уровень: 1', `Здоровье: ${playerData.health} / 100`, `Опыт: ${this.score}`, `Урон: ${playerData.damage}`)
+        // Обновляем позицию камеры, чтобы она следовала за персонажем
+        const mainCamera = this.cameras.main
+        mainCamera.scrollX = this.player.x - mainCamera.width / 2;
+        mainCamera.scrollY = this.player.y - mainCamera.height / 2;
+
+        // Обновляем характеристики персонажа
+        this.scene.get('SpecificationsScene').updateInformationPlayer(
+            'Уровень: 1',
+            `Здоровье: ${playerData.health} / 100`,
+            `Опыт: ${this.GameData.score}`,
+            `Урон: ${playerData.damage}`)
 
         // Вызываем функцию для определения направления движения персонажа
         const { directionX, directionY } = calculatePlayerMovement(this.player, this.enemy);
 
-        handleCombat(this.player, this.enemy, this.lastDamageTime, this.score, this.isCombatTurn);
+        // Запуск боя
+        handleCombat(this.player, this.enemy, this.GameData.combat, this.GameData.score);
 
         // Изменяем позицию спрайта в соответствии с направлением
-        if (this.isMovingOnX) {
-            this.player.x += directionX * this.playerData.speed;
+        if (this.GameData.isMovingOnX) {
+            this.player.x += directionX * this.GameData.playerData.speed;
 
             playWalkAnimation(this.player, directionX, directionY);
 
             if (directionX === 0) {
-                this.isMovingOnX = false;
+                this.GameData.isMovingOnX = false;
             }
         } else {
-            this.player.y += directionY * this.playerData.speed;
+            this.player.y += directionY * this.GameData.playerData.speed;
 
             playWalkAnimation(this.player, directionX, directionY);
 
             if (directionY === 0) {
-                this.isMovingOnX = true;
+                this.GameData.isMovingOnX = true;
             }
         }
 
-
-
-        if (this.playerData.health <= 0) {
+        // Проверям здоровье персанажа и рестартим игру
+        if (this.GameData.playerData.health <= 0) {
             this.scene.get('GameScene').resetGame();
-            this.playerData.health = 100;
+            this.GameData.playerData.health = 100;
         }
     }
 }

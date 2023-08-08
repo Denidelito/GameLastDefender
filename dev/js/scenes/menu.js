@@ -7,7 +7,7 @@ export default class MenuScene extends Phaser.Scene {
         const { width, height } = this.cameras.main;
 
         const startButton = this.add
-            .text(width / 2, height / 2 - 50, 'Начать игру', {
+            .text(width / 2, height / 2 - 50, 'Начать игру',  {
                 fontFamily: 'CustomFont', // Используем имя, которое мы указали в ключе 'CustomFont'
                 fontSize: '24px',
                 fill: '#fff',

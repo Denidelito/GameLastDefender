@@ -1,6 +1,6 @@
 export function spawnRandomEnemy(scene, enemiesData) {
     // Проверяем флаг, чтобы убедиться, что на сцене нет другого противника
-    if (scene.isEnemySpawned) {
+    if (scene.GameData.isEnemySpawned) {
         return; // Возвращаемся, если противник уже заспавнен
     }
 
@@ -26,12 +26,13 @@ export function spawnRandomEnemy(scene, enemiesData) {
     if (!scene.enemyNameText) {
         scene.enemyNameText = scene.add.text(0, 0, '', { fontFamily: 'CustomFont', fontSize: '14px', fill: '#ffffff' });
     }
+    // Устанавливаем точку опоры для центрирования текста
+    scene.enemyNameText.setOrigin(0.5, 1);
 
-    scene.enemyNameText.setOrigin(0.5, 1); // Устанавливаем точку опоры для центрирования текста
     // Обновляем текстовые объекты с именем и здоровьем противника
     scene.enemyNameText.setText(randomEnemy.name);
     scene.enemyNameText.setPosition(scene.enemy.x + scene.enemy.width / 2, scene.enemy.y); // Позиционируем над противником
 
     // Устанавливаем флаг в true, чтобы отметить, что противник заспавнен
-    scene.isEnemySpawned = true;
+    scene.GameData.isEnemySpawned = true;
 }

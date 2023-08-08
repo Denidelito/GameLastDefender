@@ -3,6 +3,8 @@ import InfoScene from './info';
 import SpecificationsScene from "./specifications";
 import playerData from "../object/player";
 import InventoryScene from "./Inventory";
+import Phaser from "phaser";
+
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super('GameScene');
