@@ -1,30 +1,46 @@
-export function calculatePlayerMovement(player, enemy) {
-    const distance = Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y);
-    let directionX, directionY;
+import {handleCombat} from "../helpers/combat";
 
-    if (distance < 50) {
-        directionX = 0;
-        directionY = 0;
-    } else {
-        // Определяем направление движения плеера по горизонтали и вертикали
-        if (player.x < enemy.x) {
-            directionX = 1; // Движение вправо
-        } else if (player.x > enemy.x) {
-            directionX = -1; // Движение влево
-        } else {
-            directionX = 0; // Стоп по горизонтали
+export function PlayerMovement(scene, player, enemy) {
+    const playerTileX = scene.map.worldToTileX(player.x);
+    const playerTileY = scene.map.worldToTileY(player.y);
+
+    const enemyTileX = scene.map.worldToTileX(enemy.x);
+    const enemyTileY = scene.map.worldToTileY(enemy.y);
+
+    scene.easystar.findPath(playerTileX, playerTileY, enemyTileX, enemyTileY, (path) => {
+        if (path !== null) {
+            // Передвигайте игрока по пути
+            let currentPathIndex = 0;
+            scene.time.addEvent({
+                delay: 200, // Задержка между шагами пути (в миллисекундах)
+                loop: true,
+                callback: () => {
+                    if (currentPathIndex < path.length) {
+                        const nextTile = path[currentPathIndex];
+                        const nextWorldX = scene.map.tileToWorldX(nextTile.x);
+                        const nextWorldY = scene.map.tileToWorldY(nextTile.y);
+
+                        // Переместите игрока к следующему тайлу
+                        scene.tweens.add({
+                            targets: player,
+                            x: nextWorldX,
+                            y: nextWorldY,
+                            duration: 200, // Продолжительность перемещения (в миллисекундах)
+                            onComplete: () => {
+                                currentPathIndex++;
+                            }
+                        });
+                    } else {
+                        handleCombat(scene.player, scene.enemy, scene.GameData.combat, scene.GameData.score);
+                        // Достигнут последний тайл пути
+                        // Вы можете добавить дополнительные действия здесь
+                    }
+                }
+            });
         }
+    });
 
-        if (player.y < enemy.y) {
-            directionY = 1; // Движение вниз
-        } else if (player.y > enemy.y) {
-            directionY = -1; // Движение вверх
-        } else {
-            directionY = 0; // Стоп по вертикали
-        }
-    }
-
-    return { directionX, directionY };
+    scene.easystar.calculate();
 }
 export function createPlayerAnimations(scene) {
     scene.anims.create({

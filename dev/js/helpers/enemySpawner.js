@@ -1,38 +1,47 @@
-export function spawnRandomEnemy(scene, enemiesData) {
-    // Проверяем флаг, чтобы убедиться, что на сцене нет другого противника
+import {PlayerMovement} from "../utils/playerMovement";
+export function spawnRandomEnemy(scene, enemiesData, gridMap) {
     if (scene.GameData.isEnemySpawned) {
         return; // Возвращаемся, если противник уже заспавнен
     }
 
-    // Генерируем случайные координаты для противника в пределах размеров сцены
-    const randomX = Phaser.Math.Between(0, 1920);
-    const randomY = Phaser.Math.Between(0, 1080);
-
-    scene.enemy = scene.add.rectangle(randomX, randomY, 28, 28).setOrigin(0);
-
-    // Обновляем характеристики противника на основе случайного выбора из объекта enemiesData
-    const randomIndex = Phaser.Math.Between(0, enemiesData.length - 1);
-    const randomEnemy = enemiesData[randomIndex];
-    scene.enemy.name = randomEnemy.name;
-    scene.enemy.possibleItems = randomEnemy.possibleItems;
-    scene.enemy.x = randomX;
-    scene.enemy.y = randomY;
-    scene.enemy.health = randomEnemy.health;
-    scene.enemy.damage = randomEnemy.damage;
-    scene.enemy.setFillStyle(randomEnemy.color);
+    const layerDate  = scene.woodLayer.layer.data;
 
 
-    // Создаем текстовый объект для отображения имени противника
-    if (!scene.enemyNameText) {
-        scene.enemyNameText = scene.add.text(0, 0, '', { fontFamily: 'CustomFont', fontSize: '14px', fill: '#ffffff' });
+    const randomX = Phaser.Math.Between(0, scene.map.width);
+    const randomY = Phaser.Math.Between(0, scene.map.height);
+
+    const tileX = scene.map.worldToTileX(randomX);
+    const tileY = scene.map.worldToTileY(randomY);
+
+    console.log(layerDate[randomX][randomY])
+    const tile = layerDate[randomX][randomY];
+
+    if (tile.index === -1) {
+        scene.enemy = scene.add.rectangle(randomX, randomY, 32, 32).setOrigin(0);
+
+        const randomIndex = Phaser.Math.Between(0, enemiesData.length - 1);
+        const randomEnemy = enemiesData[randomIndex];
+
+        const tileSize = 32; // Размер тайла в пикселях
+
+        scene.enemy.name = randomEnemy.name;
+        scene.enemy.possibleItems = randomEnemy.possibleItems;
+        scene.enemy.x = tile.pixelX;
+        scene.enemy.y = tile.pixelY;
+        scene.enemy.health = randomEnemy.health;
+        scene.enemy.damage = randomEnemy.damage;
+        scene.enemy.setFillStyle(randomEnemy.color);
+
+        if (!scene.enemyNameText) {
+            scene.enemyNameText = scene.add.text(0, 0, '', { fontFamily: 'CustomFont', fontSize: '14px', fill: '#ffffff' });
+        }
+        scene.enemyNameText.setOrigin(0.5, 1);
+        scene.enemyNameText.setText(randomEnemy.name);
+        scene.enemyNameText.setPosition(scene.enemy.x + scene.enemy.width / 2, scene.enemy.y);
+
+        scene.GameData.isEnemySpawned = true;
+
+        PlayerMovement(scene, scene.player, scene.enemy)
     }
-    // Устанавливаем точку опоры для центрирования текста
-    scene.enemyNameText.setOrigin(0.5, 1);
 
-    // Обновляем текстовые объекты с именем и здоровьем противника
-    scene.enemyNameText.setText(randomEnemy.name);
-    scene.enemyNameText.setPosition(scene.enemy.x + scene.enemy.width / 2, scene.enemy.y); // Позиционируем над противником
-
-    // Устанавливаем флаг в true, чтобы отметить, что противник заспавнен
-    scene.GameData.isEnemySpawned = true;
 }

@@ -1,10 +1,12 @@
 import playerData from "../object/player";
 import staff from "../object/items";
 import enemiesData from "../object/enemies";
+import EasyStar from 'easystarjs';
 import { setupCamera } from "../config/cameraSetup";
 import { handleCombat } from "../helpers/combat";
 import { spawnRandomEnemy } from "../helpers/enemySpawner";
-import {playWalkAnimation, createPlayerAnimations, calculatePlayerMovement} from "../utils/playerMovement";
+import {playWalkAnimation, createPlayerAnimations, /*calculatePlayerMovement*/} from "../utils/playerMovement";
+import player from "../object/player";
 
 export default class WorldScene extends Phaser.Scene {
     constructor() {
@@ -12,8 +14,67 @@ export default class WorldScene extends Phaser.Scene {
     }
 
     create() {
-        // Загрузка фонового изображения или фонового цвета
-        this.add.image(0, 0, 'land').setOrigin(0);
+        let tile;
+        let layer;
+        let layerWood;
+
+        this.map = this.make.tilemap({ key: 'map' });
+        tile = this.map.addTilesetImage('terrain_atlas', 'tiles');
+        this.groundLayer = this.map.createLayer('main', tile, 0, 0);
+        this.woodLayer = this.map.createLayer('wood', tile, 0, 0);
+        this.hs = this.map.createLayer('hs', tile, 0, 0);
+
+
+        // Настройте свойства тайлов (проходимость и др.)
+        this.map.setCollisionByProperty({ collides: true });
+
+        // Настройте параметры сетки
+        const gridConfig = {
+            width: this.map.width,
+            height: this.map.height,
+            cellSize: this.map.tileWidth,
+            showHexGrid: true,
+        };
+
+        // Создайте сетку
+        this.gridGraphics = this.add.graphics();
+        this.gridGraphics.lineStyle(2, 0xffffff, 0.5);
+
+        // Отобразите поля сетки, рисуя границы каждого тайла
+        for (let row = 0; row < gridConfig.height; row++) {
+            for (let col = 0; col < gridConfig.width; col++) {
+                const x = col * gridConfig.cellSize;
+                const y = row * gridConfig.cellSize;
+
+                if (gridConfig.showHexGrid) {
+                    this.gridGraphics.strokeRect(x, y, gridConfig.cellSize, gridConfig.cellSize);
+                }
+            }
+        }
+
+        // Получите данные тайлов
+        const tileData = this.woodLayer.layer.data;
+        const gridOccupied = [];
+
+        // Создайте сетку для EasyStar
+        const grid = [];
+        for (let y = 0; y < tileData.length; y++) {
+            const row = [];
+            for (let x = 0; x < tileData[y].length; x++) {
+                console.log()
+                // Проверьте свойство "walkable" тайла
+                const isWalkable = tileData[y][x].index === -1;
+                // 0 - проходимый, 1 - непроходимый
+                row.push(isWalkable ? 0 : 1);
+            }
+            grid.push(row);
+        }
+        // В конструкторе сцены
+        this.easystar = new EasyStar.js();
+        this.easystar.setGrid(grid);
+        this.easystar.setAcceptableTiles([0]);
+        // Если вы хотите включить диагональное передвижение
+        // this.easystar.enableDiagonals();
 
         // Вызываем функцию для создания и настройки камеры
         setupCamera(
@@ -46,7 +107,7 @@ export default class WorldScene extends Phaser.Scene {
         }
 
         // Создаем персонажа в виде спрайта
-        this.player = this.add.sprite(playerData.x, playerData.y, 'playerSprite');
+        this.player = this.add.sprite(0, 0, 'playerSprite').setOrigin(0, 0);
         this.player.setScale(
             playerData.width / this.player.width,
             playerData.height / this.player.height
@@ -91,13 +152,13 @@ export default class WorldScene extends Phaser.Scene {
             `Урон: ${playerData.damage}`)
 
         // Вызываем функцию для определения направления движения персонажа
-        const { directionX, directionY } = calculatePlayerMovement(this.player, this.enemy);
+        /*const { directionX, directionY } = calculatePlayerMovement(this.player, this.enemy);*/
 
         // Запуск боя
-        handleCombat(this.player, this.enemy, this.GameData.combat, this.GameData.score);
+        /*handleCombat(this.player, this.enemy, this.GameData.combat, this.GameData.score);*/
 
         // Изменяем позицию спрайта в соответствии с направлением
-        if (this.GameData.isMovingOnX) {
+        /*if (this.GameData.isMovingOnX) {
             this.player.x += directionX * this.GameData.playerData.speed;
 
             playWalkAnimation(this.player, directionX, directionY);
@@ -113,7 +174,7 @@ export default class WorldScene extends Phaser.Scene {
             if (directionY === 0) {
                 this.GameData.isMovingOnX = true;
             }
-        }
+        }*/
 
         // Проверям здоровье персанажа и рестартим игру
         if (this.GameData.playerData.health <= 0) {

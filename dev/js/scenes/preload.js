@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 export default class PreloadScene extends Phaser.Scene {
     constructor() {
         super('PreloadScene');
@@ -57,6 +59,10 @@ export default class PreloadScene extends Phaser.Scene {
 
         this.load.image('land', 'assets/spritesheets/background/land.png');
         this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');
+
+
+        this.load.tilemapTiledJSON('map', 'assets/tilemaps/tilemaps.tmj');
+        this.load.image('tiles', 'assets/images/terrain_atlas.png');
     }
 
     create() {
