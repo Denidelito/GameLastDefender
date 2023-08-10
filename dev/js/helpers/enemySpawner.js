@@ -7,13 +7,13 @@ export function spawnRandomEnemy(scene, enemiesData, gridMap) {
     const layerDate  = scene.woodLayer.layer.data;
 
 
-    const randomX = Phaser.Math.Between(0, scene.map.width);
-    const randomY = Phaser.Math.Between(0, scene.map.height);
+    const randomX = Phaser.Math.Between(0, scene.map.width - 1);
+    const randomY = Phaser.Math.Between(0, scene.map.height - 1);
 
     const tileX = scene.map.worldToTileX(randomX);
     const tileY = scene.map.worldToTileY(randomY);
 
-    console.log(layerDate[randomX][randomY])
+    console.log(layerDate[randomX][randomY], randomX, randomY)
     const tile = layerDate[randomX][randomY];
 
     if (tile.index === -1) {
