@@ -29,29 +29,64 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('playerSprite', 'assets/spritesheets/player.png');
 
         // Загрузка анимаций
-        this.load.spritesheet('playerWalkLeft', 'assets/spritesheets/sprite/player/walk-left.png', {
-            frameWidth: 128,
-            frameHeight: 128,
+        this.load.spritesheet(
+            'playerIdle',
+            'assets/spritesheets/sprite/player/idle.png', {
+            frameWidth: 192,
+            frameHeight: 192,
+            startFrame: 0,
+            endFrame: 5
+        });
+        this.load.spritesheet(
+            'playerWalkLeft',
+            'assets/spritesheets/sprite/player/walk-left.png', {
+            frameWidth: 192,
+            frameHeight: 192,
+            startFrame: 0,
+            endFrame: 5
+        });
+        this.load.spritesheet(
+            'playerWalkRight',
+            'assets/spritesheets/sprite/player/walk-right.png', {
+            frameWidth: 192,
+            frameHeight: 192,
+            startFrame: 0,
+            endFrame: 5
+        });
+        this.load.spritesheet(
+            'playerWalkUp',
+            'assets/spritesheets/sprite/player/walk-up.png', {
+            frameWidth: 192,
+            frameHeight: 192,
             startFrame: 0,
             endFrame: 6
         });
-        this.load.spritesheet('playerWalkRight', 'assets/spritesheets/sprite/player/walk-right.png', {
-            frameWidth: 128,
-            frameHeight: 128,
+        this.load.spritesheet(
+            'playerWalkDown',
+            'assets/spritesheets/sprite/player/walk-down.png',
+            {
+            frameWidth: 192,
+            frameHeight: 192,
             startFrame: 0,
             endFrame: 6
         });
-        this.load.spritesheet('playerWalkUp', 'assets/spritesheets/sprite/player/walk-up.png', {
-            frameWidth: 128,
-            frameHeight: 128,
+        this.load.spritesheet(
+            'playerAttack',
+            'assets/spritesheets/sprite/player/attack.png',
+            {
+            frameWidth: 192,
+            frameHeight: 192,
             startFrame: 0,
-            endFrame: 6
+            endFrame: 4
         });
-        this.load.spritesheet('playerWalkDown', 'assets/spritesheets/sprite/player/walk-down.png', {
-            frameWidth: 128,
-            frameHeight: 128,
+        this.load.spritesheet(
+            'enemy1Idle',
+            'assets/spritesheets/sprite/enemy/slime-idle.png',
+            {
+            frameWidth: 192,
+            frameHeight: 192,
             startFrame: 0,
-            endFrame: 6
+            endFrame: 4
         });
 
         // Спрайт зелья здоровья

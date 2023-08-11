@@ -1,8 +1,8 @@
 const playerData = {
-    x: 300,
-    y: 300,
-    width: 32,
-    height: 32,
+    x: 600,
+    y: 600,
+    width: 96,
+    height: 96,
     speed: 1, // Скорость передвижения игрока
     health: 100, // Здоровье игрока
     damage: 25

@@ -16,10 +16,11 @@ export default class WorldScene extends Phaser.Scene {
         let tile;
 
         this.map = this.make.tilemap({ key: 'map' });
-        tile = this.map.addTilesetImage('terrain_atlas', 'tiles');
+        this.map2 = this.make.tilemap({ key: 'map' });
+        tile = this.map.addTilesetImage('tilemap', 'tiles');
         this.groundLayer = this.map.createLayer('main', tile, 0, 0);
         this.woodLayer = this.map.createLayer('wood', tile, 0, 0);
-        this.hs = this.map.createLayer('hs', tile, 0, 0);
+        this.hs = this.map2.createLayer('hs', tile, 0, 0).setDepth(3);
 
 
         // Настройте свойства тайлов (проходимость и др.)
@@ -104,12 +105,11 @@ export default class WorldScene extends Phaser.Scene {
         }
 
         // Создаем персонажа в виде спрайта
-        this.player = this.add.sprite(0, 0, 'playerSprite').setOrigin(0.5, 0.5);
+        this.player = this.add.sprite(this.GameData.playerData.x, this.GameData.playerData.y, 'playerSprite');
         this.player.setScale(
             playerData.width / this.player.width,
             playerData.height / this.player.height
-        );
-
+        ).setOrigin(0, 0.5).setDepth(1);
         createPlayerAnimations(this);
     }
 
