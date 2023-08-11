@@ -4,20 +4,22 @@ import MenuScene from './scenes/menu';
 import GameScene from './scenes/game';
 
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     scale: {
-        mode: Phaser.Scale.FIT, // Формат масштабирования (FIT - масштабирует содержимое с сохранением пропорций, но не обрезает, SHOW_ALL - масштабирует содержимое с сохранением пропорций и обрезает, RESIZE - изменяет размер canvas и содержимого без сохранения пропорций)
-        autoCenter: Phaser.Scale.CENTER_BOTH, // Располагает игровое окно по центру экрана (CENTER_BOTH) или только по горизонтали/вертикали (CENTER_HORIZONTALLY/CENTER_VERTICALLY)
-        width: 1920, // Ширина окна игры
-        height: 1080, // Высота окна игры
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        // Ширина окна игры
+        width: 1920,
+        // Высота окна игры
+        height: 1080,
     },
     scene: [PreloadScene, MenuScene, GameScene],
-    physics: {
+    /*physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
         },
-    },
+    },*/
     loader: {
         fonts: [
             {

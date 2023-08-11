@@ -3,9 +3,8 @@ import staff from "../object/items";
 import enemiesData from "../object/enemies";
 import EasyStar from 'easystarjs';
 import { setupCamera } from "../config/cameraSetup";
-import { handleCombat } from "../helpers/combat";
 import { spawnRandomEnemy } from "../helpers/enemySpawner";
-import {playWalkAnimation, createPlayerAnimations, /*calculatePlayerMovement*/} from "../utils/playerMovement";
+import {createPlayerAnimations} from "../utils/playerMovement";
 import player from "../object/player";
 
 export default class WorldScene extends Phaser.Scene {
@@ -15,8 +14,6 @@ export default class WorldScene extends Phaser.Scene {
 
     create() {
         let tile;
-        let layer;
-        let layerWood;
 
         this.map = this.make.tilemap({ key: 'map' });
         tile = this.map.addTilesetImage('terrain_atlas', 'tiles');
@@ -33,7 +30,7 @@ export default class WorldScene extends Phaser.Scene {
             width: this.map.width,
             height: this.map.height,
             cellSize: this.map.tileWidth,
-            showHexGrid: true,
+            showHexGrid: false,
         };
 
         // Создайте сетку
@@ -107,7 +104,7 @@ export default class WorldScene extends Phaser.Scene {
         }
 
         // Создаем персонажа в виде спрайта
-        this.player = this.add.sprite(0, 0, 'playerSprite').setOrigin(0, 0);
+        this.player = this.add.sprite(0, 0, 'playerSprite').setOrigin(0.5, 0.5);
         this.player.setScale(
             playerData.width / this.player.width,
             playerData.height / this.player.height
@@ -151,30 +148,6 @@ export default class WorldScene extends Phaser.Scene {
             `Опыт: ${this.GameData.score}`,
             `Урон: ${playerData.damage}`)
 
-        // Вызываем функцию для определения направления движения персонажа
-        /*const { directionX, directionY } = calculatePlayerMovement(this.player, this.enemy);*/
-
-        // Запуск боя
-        /*handleCombat(this.player, this.enemy, this.GameData.combat, this.GameData.score);*/
-
-        // Изменяем позицию спрайта в соответствии с направлением
-        /*if (this.GameData.isMovingOnX) {
-            this.player.x += directionX * this.GameData.playerData.speed;
-
-            playWalkAnimation(this.player, directionX, directionY);
-
-            if (directionX === 0) {
-                this.GameData.isMovingOnX = false;
-            }
-        } else {
-            this.player.y += directionY * this.GameData.playerData.speed;
-
-            playWalkAnimation(this.player, directionX, directionY);
-
-            if (directionY === 0) {
-                this.GameData.isMovingOnX = true;
-            }
-        }*/
 
         // Проверям здоровье персанажа и рестартим игру
         if (this.GameData.playerData.health <= 0) {
