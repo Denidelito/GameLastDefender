@@ -13,11 +13,17 @@ export default class InfoScene extends Phaser.Scene {
 
         // Создаем затемненный фон для информационной сцены
         const graphics = this.add.graphics();
-        graphics.fillStyle(0x000000, 0.7);
+        graphics.fillStyle(0xC4C4C4, 0.7);
         graphics.fillRect(0, 0, 710, 294);
 
         // Создаем текстовый элемент
-        this.text = this.add.text(0, 0, '', { fontFamily: 'Arial', color: '#00ff00', wordWrap: { width: 310 } }).setOrigin(0);
+        this.text = this.add.text(0, 0, '',
+            {
+                fontFamily: 'alundratext',
+                fontSize: '24px',
+                color: '#312F31',
+                wordWrap: { width: 310 }
+            }).setOrigin(0);
 
         // Создаем маску для текстового элемента
         const mask = new Phaser.Display.Masks.GeometryMask(this, graphics);

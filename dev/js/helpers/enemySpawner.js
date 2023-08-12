@@ -5,7 +5,7 @@ export function spawnRandomEnemy(scene, enemiesData, gridMap) {
         return; // Возвращаемся, если противник уже заспавнен
     }
 
-    const layerDate  = scene.woodLayer.layer.data;
+    const layerDate  = scene.mapLayers.wood.layer.data;
 
 
     const randomX = Phaser.Math.Between(0, scene.map.width - 1);

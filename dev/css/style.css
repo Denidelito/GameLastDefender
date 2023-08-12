@@ -2,6 +2,10 @@
     font-family: 'CustomFont';
     src: url('../assets/fonts/vcrosdmonorusbyd.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'alundratext';
+    src: url('../assets/fonts/alundratext.ttf') format('truetype');
+}
 html, body {
     margin: 0;
     padding: 0;

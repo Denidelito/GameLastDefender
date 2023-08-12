@@ -1,5 +1,4 @@
 import staff from "../object/items";
-
 export default class InventoryScene extends Phaser.Scene {
     constructor() {
         super('InventoryScene');
@@ -42,6 +41,7 @@ export default class InventoryScene extends Phaser.Scene {
                         if (this.inventorySlots[itemIndex].itemSprite) {
                             this.inventorySlots[itemIndex].itemSprite.destroy();
                             this.inventorySlots[itemIndex].itemSprite = null;
+
                         }
                         // Удаляем предмет из массива
                         this.inventoryItems[itemIndex] = null;
@@ -71,8 +71,9 @@ export default class InventoryScene extends Phaser.Scene {
         const emptySlotIndex = this.inventoryItems.findIndex(item => !item);
         const dropStaff = staff[itemName];
 
+        const hasNullValue = this.inventoryItems.some(item => item === null);
 
-        if (this.inventorySlots.length !== this.inventoryItems.length) {
+        if (this.inventorySlots.length !== this.inventoryItems.length || hasNullValue) {
             if (emptySlotIndex !== -1) {
                 // Добавляем предмет в свободный слот
                 this.inventoryItems[emptySlotIndex] = { name: itemName, description: dropStaff.description};

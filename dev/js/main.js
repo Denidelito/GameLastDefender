@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import PreloadScene from './scenes/preload';
 import MenuScene from './scenes/menu';
 import GameScene from './scenes/game';
+import GameOverScene from "./scenes/gameOver";
 
 const config = {
     type: Phaser.WEBGL,
@@ -13,7 +14,7 @@ const config = {
         // Высота окна игры
         height: 1080,
     },
-    scene: [PreloadScene, MenuScene, GameScene],
+    scene: [PreloadScene, MenuScene, GameScene, GameOverScene],
     /*physics: {
         default: 'arcade',
         arcade: {
@@ -24,7 +25,11 @@ const config = {
         fonts: [
             {
                 key: 'CustomFont',
-                url: 'assets/fonts/vcrosdmonorusbyd.ttf',
+                url: '../assets/fonts/vcrosdmonorusbyd.ttf',
+            },
+            {
+                key: 'alundratext',
+                url: '../assets/fonts/alundratext.ttf',
             },
         ],
     },

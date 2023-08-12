@@ -1,14 +1,9 @@
-import Phaser from 'phaser';
-
 export default class PreloadScene extends Phaser.Scene {
     constructor() {
         super('PreloadScene');
     }
 
     preload() {
-        // Фоновое изображение
-        this.add.image(0, 0, 'background').setOrigin(0);
-
         // Загрузка полосы
         const progressBar = this.add.graphics();
         const progressBox = this.add.graphics();
@@ -91,10 +86,7 @@ export default class PreloadScene extends Phaser.Scene {
 
         // Спрайт зелья здоровья
         this.load.image('potionHP', 'assets/spritesheets/sprite/items/poution.png');
-
-        this.load.image('land', 'assets/spritesheets/background/land.png');
         this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');
-
 
         this.load.tilemapTiledJSON('map', 'assets/tilemaps/tilemaps.tmj');
         this.load.image('tiles', 'assets/images/terrain_atlas.png');
