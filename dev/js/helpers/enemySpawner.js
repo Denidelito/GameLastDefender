@@ -24,6 +24,7 @@ export function spawnRandomEnemy(scene, enemiesData, gridMap) {
 
         const tileSize = 32; // Размер тайла в пикселях
 
+
         scene.enemy.name = randomEnemy.name;
         scene.enemy.possibleItems = randomEnemy.possibleItems;
         scene.enemy.x = tile.pixelX;
@@ -36,11 +37,44 @@ export function spawnRandomEnemy(scene, enemiesData, gridMap) {
         }
         scene.enemyNameText.setOrigin(1, 2);
         scene.enemyNameText.setText(randomEnemy.name);
-        scene.enemyNameText.setPosition(scene.enemy.x + scene.enemy.width / 2, scene.enemy.y);
+        scene.enemyNameText.setPosition(scene.enemy.x + scene.enemy.width / 2, scene.enemy.y - 30);
 
         scene.GameData.isEnemySpawned = true;
 
         scene.enemy.anims.play('enemy1Idle', true);
+
+
+        if (!scene.enemyHealthBar && !scene.backgroundEnemyHealthBar) {
+            // Создаем полоску здоровья
+            scene.enemyHealthBar = scene.add.graphics();
+            scene.enemyHealthBar.setDepth(4);
+            scene.enemyHealthBar.fillStyle(0xFF0000, 1); // Красный цвет
+            scene.enemyHealthBar.fillRect(scene.enemy.x, scene.enemy.y - 30, 64, 8); // Начальные параметры
+
+            // Создаем белую подложку
+            scene.backgroundEnemyHealthBar = scene.add.graphics();
+            scene.backgroundEnemyHealthBar.setDepth(3);
+            scene.backgroundEnemyHealthBar.fillStyle(0xFFFFFF, 1); // Красный цвет
+            scene.backgroundEnemyHealthBar.fillRect(scene.enemy.x, scene.enemy.y - 30, 64, 8); // Начальные параметры
+        }
+
+        // Обновляем полоску здоровья в соответствии с здоровьем врага
+        if (scene.enemy && scene.enemyHealthBar) {
+            // Предполагается, что у врагов одинаковое максимальное здоровье
+            const healthPercent = scene.enemy.health / scene.GameData.enemiesData[0].health;
+            // Максимальная ширина полоски здоровья (96 пикселей)
+            const healthBarWidth = 64 * healthPercent;
+            // Очищаем старое состояние полоски
+            scene.enemyHealthBar.clear();
+            // Красный цвет
+            scene.enemyHealthBar.fillStyle(0xFF0000, 1);
+            // Обновляем ширину полоски
+            scene.enemyHealthBar.fillRect(scene.enemy.x, scene.enemy.y - 30, healthBarWidth, 8);
+            // Очищаем старое состояние полоски
+            scene.backgroundEnemyHealthBar.clear();
+            // Обновляем ширину полоски
+            scene.backgroundEnemyHealthBar.fillRect(scene.enemy.x, scene.enemy.y - 30, healthBarWidth, 8);
+        }
 
         PlayerMovement(scene, scene.player, scene.enemy)
     }

@@ -44,9 +44,6 @@ export function PlayerMovement(scene, player, enemy) {
                                 // Проверяем, достиг ли игрок конечной точки пути
                                 if (currentPathIndex >= path.length) {
                                     // Останавливаем анимацию ходьбы
-                                    player.anims.stop();
-                                    // Выполняем дополнительные действия, если необходимо
-                                    player.anims.play('attack', true);
                                 }
 
                                 currentPathIndex++;

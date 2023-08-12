@@ -21,8 +21,9 @@ export default class InfoScene extends Phaser.Scene {
             {
                 fontFamily: 'alundratext',
                 fontSize: '24px',
+                lineSpacing: '10',
                 color: '#312F31',
-                wordWrap: { width: 310 }
+                wordWrap: { width: 710 }
             }).setOrigin(0);
 
         // Создаем маску для текстового элемента

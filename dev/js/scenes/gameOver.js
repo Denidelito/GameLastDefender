@@ -5,16 +5,30 @@ export default class GameOverScene extends Phaser.Scene {
 
     create() {
         const { width, height } = this.cameras.main;
+        this.text = this.add.text(0, 0, 'Тебя поглотила пустыня',
+            {
+                fontFamily: 'alundratext',
+                fontSize: '55px',
+                lineSpacing: '10',
+                color: '#312F31',
+            }).setOrigin(0);
+
+        // В функции create, после создания текстового элемента
+        const centerX = this.cameras.main.centerX;
+
+        // Размещаем текстовый элемент по центру сцены
+        this.text.setPosition(centerX - this.text.width / 2, 300);
+
 
         const startButton = this.add
             .text(width / 2, height / 2 - 50, 'Вернуться в меню',  {
-                fontFamily: 'CustomFont', // Используем имя, которое мы указали в ключе 'CustomFont'
-                fontSize: '24px',
-                fill: '#fff',
-                backgroundColor: '#00f',
+                fontFamily: 'alundratext',
+                fontSize: '36px',
+                fill: '#312F31',
+                backgroundColor: '#C4C4C4',
                 padding: {
-                    x: 10,
-                    y: 5,
+                    x: 40,
+                    y: 10,
                 },
             })
             .setOrigin(0.5)

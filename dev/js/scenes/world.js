@@ -39,7 +39,7 @@ export default class WorldScene extends Phaser.Scene {
                 // Очередность ударов
                 isCombatTurn: 'player',
                 // Интервал уларов
-                damageInterval: 1000
+                damageInterval: 2000,
             },
             // Переменная для отслеживания количества очков
             score: 0,

@@ -1,6 +1,6 @@
 {
   "name": "The Last Defender - Rise of the King",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "scripts": {
     "start": "webpack serve --mode development",
