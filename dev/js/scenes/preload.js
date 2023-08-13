@@ -83,6 +83,24 @@ export default class PreloadScene extends Phaser.Scene {
             startFrame: 0,
             endFrame: 4
         });
+        this.load.spritesheet(
+            'enemy1Attack',
+            'assets/spritesheets/sprite/enemy/slime-attack.png',
+            {
+            frameWidth: 192,
+            frameHeight: 192,
+            startFrame: 0,
+            endFrame: 7
+        });
+        this.load.spritesheet(
+            'enemy1die',
+            'assets/spritesheets/sprite/enemy/slime-die.png',
+            {
+            frameWidth: 192,
+            frameHeight: 192,
+            startFrame: 0,
+            endFrame: 5
+        });
 
         // Спрайт зелья здоровья
         this.load.image('potionHP', 'assets/spritesheets/sprite/items/poution.png');

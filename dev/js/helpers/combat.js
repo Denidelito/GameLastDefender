@@ -1,3 +1,5 @@
+import playerData from "../object/player";
+
 export function handleCombat(player, enemy, combatData, score) {
     const currentTime = player.scene.time.now;
     const distance = Phaser.Math.Distance.Between(player.x, player.y, enemy.x, enemy.y);
@@ -6,36 +8,62 @@ export function handleCombat(player, enemy, combatData, score) {
     const InfoScene = player.scene.scene.get('InfoScene');
     const InventoryScene = player.scene.scene.get('InventoryScene');
 
-    console.log(GameData.combat.isCombatTurn)
+
+    const numberOfDice = 2; // Количество бросков кубика
+    const typeOfDice = 16;   // Тип кубика
+
+    function calculateDamage(numberOfDice, typeOfDice, modifier) {
+        let totalDamage = 0;
+
+        for (let i = 0; i < numberOfDice; i++) {
+            const diceRoll = Phaser.Math.Between(1, typeOfDice);
+            totalDamage += diceRoll;
+        }
+
+
+        totalDamage += modifier;
+
+        return totalDamage;
+    }
+
+
     if (distance < 50) {
 
         // Если прошло достаточно времени с момента последнего удара
         if (currentTime - combatData.lastDamageTime >= combatData.damageInterval) {
-
             // Проверяем, кто сейчас может наносить удар
             if (combatData.isCombatTurn === 'player') {
                 player.anims.play('attack', true);
+                enemy.anims.play('enemy1-idle', true);
 
-                enemy.health -= GameData.playerData.damage;
+                const damage = calculateDamage(numberOfDice, typeOfDice, GameData.playerData.damage, playerData);
+
+                enemy.health -= damage;
 
                 // Обновление показателей здоровья в информации
                 if (enemy.health > 0) {
                     InfoScene.updateDialogModal(
-                        `${GameData.playerData.name}: нанесит противнику ${GameData.playerData.damage} урона`
+                        `${GameData.playerData.name}: нанесит противнику ${damage} урона`
                     );
                 } else {
                     InfoScene.updateDialogModal(
-                        `${GameData.playerData.name}: наносит ${GameData.playerData.damage} урона, и пустили на фарш ${enemy.name}`
+                        `${GameData.playerData.name}: наносит ${damage} урона, и пустили на фарш ${enemy.name}`
                     );
                 }
 
 
                 // Проверяем состояние здоровья противника
                 if (enemy.health <= 0) {
+                    enemy.anims.play('enemy1-die', true);
 
-                    // Если здоровье противника меньше или равно 0, удаляем противника и спавним нового
-                    enemy.destroy();
-                    GameData.isEnemySpawned = false;
+                    // Обработчик события завершения анимации
+                    enemy.on('animationcomplete', function(animation, frame) {
+                        if (animation.key === 'enemy1-die') {
+                            // Если здоровье противника меньше или равно 0, удаляем противника и спавним нового
+                            enemy.destroy();
+                            GameData.isEnemySpawned = false;
+                        }
+                    }, this);
 
                     // Прибавляем 10 очков к счету после убийства противника
                     GameData.score += 10;
@@ -76,20 +104,27 @@ export function handleCombat(player, enemy, combatData, score) {
 
             } else if (combatData.isCombatTurn === 'enemy') {
                 player.anims.stop()
+                enemy.anims.play('enemy1-attack', true);
 
-                player.scene.GameData.playerData.health -= enemy.damage;
+                const damage = calculateDamage(numberOfDice, typeOfDice, enemy.damage, enemy);
+                player.scene.GameData.playerData.health -= damage;
 
                 // Обновление показателей здоровья в информации
                 InfoScene.updateDialogModal(
-                    `${enemy.name}: нанесли ${enemy.damage} урона`
+                    `${enemy.name}: нанесли ${damage} урона`
                 );
 
                 if (enemy && player.scene.enemyHealthBar) {
-                    const healthPercent = enemy.health / GameData.enemiesData[0].health; // Предполагается, что у врагов одинаковое максимальное здоровье
-                    const healthBarWidth = 64 * healthPercent; // Максимальная ширина полоски здоровья (96 пикселей)
-                    player.scene.enemyHealthBar.clear(); // Очищаем старое состояние полоски
-                    player.scene.enemyHealthBar.fillStyle(0xFF0000, 1); // Красный цвет
-                    player.scene.enemyHealthBar.fillRect(enemy.x, enemy.y - 30, healthBarWidth, 8); // Обновляем ширину полоски
+                    // Предполагается, что у врагов одинаковое максимальное здоровье
+                    const healthPercent = enemy.health / GameData.enemiesData[0].health;
+                    // Предполагается, что у врагов одинаковое максимальное здоровье                    // Максимальная ширина полоски здоровья (64 пикселей)
+                    const healthBarWidth = 64 * healthPercent;
+                    // Очищаем старое состояние полоски
+                    player.scene.enemyHealthBar.clear();
+                    // Красный цвет
+                    player.scene.enemyHealthBar.fillStyle(0xFF0000, 1);
+                    // Обновляем ширину полоски
+                    player.scene.enemyHealthBar.fillRect(enemy.x, enemy.y - 30, healthBarWidth, 8);
                 }
 
                 // Обновляем время последнего удара

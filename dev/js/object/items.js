@@ -6,7 +6,7 @@ const staff = {
         sprite: 'potionHP',
         stats: {
             speed: 0,
-            health: 100,
+            health: 25,
             damage: 0
         }
     },

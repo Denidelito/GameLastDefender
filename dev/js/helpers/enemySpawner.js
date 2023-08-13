@@ -41,7 +41,7 @@ export function spawnRandomEnemy(scene, enemiesData, gridMap) {
 
         scene.GameData.isEnemySpawned = true;
 
-        scene.enemy.anims.play('enemy1Idle', true);
+        scene.enemy.anims.play('enemy1-idle', true);
 
 
         if (!scene.enemyHealthBar && !scene.backgroundEnemyHealthBar) {
