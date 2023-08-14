@@ -30,24 +30,6 @@ export default class InventoryScene extends Phaser.Scene {
                 slot.setInteractive(); // Сделать слоты интерактивными
                 this.inventorySlots.push(slot);
 
-                // Добавляем обработчик события для удаления предмета при клике
-                slot.on('pointerdown', () => {
-                    const itemIndex = row * gridSize.cols + col;
-
-                    this.scene.get('WorldScene').updatePlayer(this.inventoryItems[row * gridSize.cols + col].name);
-
-                    if (this.inventoryItems[itemIndex]) {
-                        // Убираем спрайт предмета из слота
-                        if (this.inventorySlots[itemIndex].itemSprite) {
-                            this.inventorySlots[itemIndex].itemSprite.destroy();
-                            this.inventorySlots[itemIndex].itemSprite = null;
-
-                        }
-                        // Удаляем предмет из массива
-                        this.inventoryItems[itemIndex] = null;
-                    }
-                });
-
                 // Добавляем обработчики событий для отображения описания при наведении
                 slot.on('pointerover', () => {
                     if (this.inventoryItems[row * gridSize.cols + col]) {
@@ -55,16 +37,70 @@ export default class InventoryScene extends Phaser.Scene {
                         console.log(`Description: ${this.inventoryItems[row * gridSize.cols + col].description}`);
                     }
                 });
+                slot.on('pointerdown', (event, localX, localY) => {
+                    // Проверяем, является ли это событие событием правой кнопки мыши
+                    const itemIndex = row * gridSize.cols + col;
+                    if (this.inventoryItems[itemIndex] !== undefined) {
+                        if (this.itemContextMenu) {
+                            this.itemContextMenu.destroy();
+                        }
 
+                        if (event.button === 2) {
+                            console.log(`Right-clicked on item ${this.inventoryItems[itemIndex].name}`);
+
+                            // Вызываем функцию для показа модального окна
+                            this.showInventoryItemContextMenu(this, event.x - this.cameras.main.x, event.y - this.cameras.main.y);
+                        } else {
+
+                            this.scene.get('WorldScene').updatePlayer(this.inventoryItems[row * gridSize.cols + col].name);
+
+                            if (this.inventoryItems[itemIndex]) {
+                                // Убираем спрайт предмета из слота
+                                if (this.inventorySlots[itemIndex].itemSprite) {
+                                    this.inventorySlots[itemIndex].itemSprite.destroy();
+                                    this.inventorySlots[itemIndex].itemSprite = null;
+
+                                }
+                                // Удаляем предмет из массива
+                                this.inventoryItems[itemIndex] = null;
+                            }
+                        }
+                    }
+                });
                 slot.on('pointerout', () => {
                     // Скрываем описание при уходе курсора с ячейки
-                    console.log('Description hidden');
+                    // console.log('Description hidden');
                 });
 
             }
         }
     }
 
+    showInventoryItemContextMenu(scene, x, y) {
+        const container = scene.add.container(x, y);
+        scene.itemContextMenu = container;
+
+        const background = scene.add.graphics();
+        background.fillStyle(0x000000, 0.7);
+        background.fillRect(-50, -30, 100, 60);
+        container.add(background);
+
+        const button1 = scene.add.text(-40, -20, 'Действие 1', { fontSize: '16px', fill: '#ffffff' });
+        button1.setInteractive({ useHandCursor: true });
+        button1.on('pointerdown', () => {
+            // Действие при нажатии на кнопку 1
+            container.destroy();
+        });
+        container.add(button1);
+
+        const button2 = scene.add.text(-40, 0, 'Действие 2', { fontSize: '16px', fill: '#ffffff' });
+        button2.setInteractive({ useHandCursor: true });
+        button2.on('pointerdown', () => {
+            // Действие при нажатии на кнопку 2
+            container.destroy();
+        });
+        container.add(button2);
+    }
 
     addToInventory(itemName) {
         // Проверяем, есть ли свободные слоты в инвентаре

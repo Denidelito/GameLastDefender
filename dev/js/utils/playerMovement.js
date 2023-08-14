@@ -41,18 +41,14 @@ export function PlayerMovement(scene, player, enemy) {
                             y: nextWorldY,
                             duration: 200, // Продолжительность перемещения (в миллисекундах)
                             onComplete: () => {
-                                // Проверяем, достиг ли игрок конечной точки пути
                                 if (currentPathIndex >= path.length) {
-                                    // Останавливаем анимацию ходьбы
+                                    player.anims.stop();
                                 }
-
                                 currentPathIndex++;
                             }
                         });
                     } else {
                         handleCombat(scene.player, scene.enemy, scene.GameData.combat, scene.GameData.score);
-                        // Достигнут последний тайл пути
-                        // Вы можете добавить дополнительные действия здесь
                     }
                 }
             });
@@ -60,4 +56,33 @@ export function PlayerMovement(scene, player, enemy) {
     });
 
     scene.easystar.calculate();
+}
+export function createPlayerAnimations(scene) {
+    scene.anims.create({
+        key: 'walk-left',
+        frames: scene.anims.generateFrameNumbers('playerWalkLeft', { start: 0, end: 5 }),
+        frameRate: 10,
+        repeat: -1,
+    });
+
+    scene.anims.create({
+        key: 'walk-right',
+        frames: scene.anims.generateFrameNumbers('playerWalkRight', { start: 0, end: 5 }),
+        frameRate: 10,
+        repeat: -1,
+    });
+
+    scene.anims.create({
+        key: 'walk-up',
+        frames: scene.anims.generateFrameNumbers('playerWalkUp', { start: 0, end: 5 }),
+        frameRate: 10,
+        repeat: -1,
+    });
+
+    scene.anims.create({
+        key: 'walk-down',
+        frames: scene.anims.generateFrameNumbers('playerWalkDown', { start: 0, end: 5 }),
+        frameRate: 10,
+        repeat: -1,
+    });
 }
