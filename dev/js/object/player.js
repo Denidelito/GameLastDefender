@@ -6,7 +6,8 @@ const playerData = {
     name: 'Джотаро',
     speed: 1, // Скорость передвижения игрока
     health: 100, // Здоровье игрока
-    damage: 25
+    damage: 25,
+    inventory: ['hpPotion']
 };
 
 export default playerData;

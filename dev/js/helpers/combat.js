@@ -20,7 +20,6 @@ export function handleCombat(player, enemy, combatData, score) {
             totalDamage += diceRoll;
         }
 
-
         totalDamage += modifier;
 
         return totalDamage;
@@ -34,6 +33,7 @@ export function handleCombat(player, enemy, combatData, score) {
             // Проверяем, кто сейчас может наносить удар
             if (combatData.isCombatTurn === 'player') {
                 player.anims.play('attack', true);
+
                 enemy.anims.play('enemy1-idle', true);
 
                 const damage = calculateDamage(numberOfDice, typeOfDice, GameData.playerData.damage, playerData);
@@ -103,7 +103,8 @@ export function handleCombat(player, enemy, combatData, score) {
                 combatData.lastDamageTime = currentTime;
 
             } else if (combatData.isCombatTurn === 'enemy') {
-                player.anims.stop()
+                player.anims.stop();
+
                 enemy.anims.play('enemy1-attack', true);
 
                 const damage = calculateDamage(numberOfDice, typeOfDice, enemy.damage, enemy);

@@ -41,9 +41,6 @@ export function PlayerMovement(scene, player, enemy) {
                             y: nextWorldY,
                             duration: 200, // Продолжительность перемещения (в миллисекундах)
                             onComplete: () => {
-                                if (currentPathIndex >= path.length) {
-                                    player.anims.stop();
-                                }
                                 currentPathIndex++;
                             }
                         });

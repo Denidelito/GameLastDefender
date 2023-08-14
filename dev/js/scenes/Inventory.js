@@ -7,6 +7,8 @@ export default class InventoryScene extends Phaser.Scene {
     }
 
     create() {
+        this.playerInventory = this.scene.get('WorldScene').GameData.playerData.inventory;
+
         // Созаем камеру
         this.cameras.main.setSize(820, 281);
         this.cameras.main.setPosition(1060, 764);
@@ -19,6 +21,7 @@ export default class InventoryScene extends Phaser.Scene {
         const gridOffset = { x: 100, y: 80 };
         const spacing = 10;
 
+
         for (let row = 0; row < gridSize.rows; row++) {
             for (let col = 0; col < gridSize.cols; col++) {
                 const x = gridOffset.x + col * (itemSize.width + spacing);
@@ -30,21 +33,22 @@ export default class InventoryScene extends Phaser.Scene {
                 slot.setInteractive(); // Сделать слоты интерактивными
                 this.inventorySlots.push(slot);
 
+                // Проверяем, является ли это событие событием правой кнопки мыши
+                const itemIndex = row * gridSize.cols + col;
+
                 // Добавляем обработчики событий для отображения описания при наведении
                 slot.on('pointerover', () => {
+                    console.log(itemIndex)
                     if (this.inventoryItems[row * gridSize.cols + col]) {
                         // Показываем описание предмета в каком-то текстовом поле или окне
-                        console.log(`Description: ${this.inventoryItems[row * gridSize.cols + col].description}`);
+                        console.log(`Description: ${staff[this.playerInventory[itemIndex]].description}`);
                     }
                 });
                 slot.on('pointerdown', (event, localX, localY) => {
-                    // Проверяем, является ли это событие событием правой кнопки мыши
-                    const itemIndex = row * gridSize.cols + col;
-
                     if (this.itemContextMenu) {
                         this.itemContextMenu.destroy();
                     }
-                    if (this.inventoryItems[itemIndex] !== undefined && this.inventoryItems[itemIndex] !== null) {
+                    if (this.playerInventory[itemIndex] !== undefined && this.playerInventory[itemIndex] !== null) {
                         this.showInventoryItemContextMenu(
                             this, event.x - this.cameras.main.x,
                             event.y - this.cameras.main.y,
@@ -58,6 +62,10 @@ export default class InventoryScene extends Phaser.Scene {
 
             }
         }
+
+        this.scene.get('WorldScene').GameData.playerData.inventory.forEach((item) => {
+            this.addToInventory(item);
+        })
     }
 
     showInventoryItemContextMenu(scene, x, y, itemIndex) {
@@ -66,7 +74,7 @@ export default class InventoryScene extends Phaser.Scene {
 
         const background = scene.add.graphics();
         background.fillStyle(0x854C30, 1);
-        background.fillRect(-50, -30, 200, 80);
+        background.fillRect(-50, -30, 200, 90);
         container.add(background);
 
         const button1 = scene.add.text(-40, -20, 'Использовать', {
@@ -77,13 +85,13 @@ export default class InventoryScene extends Phaser.Scene {
         button1.setInteractive({ useHandCursor: true });
         button1.on('pointerdown', () => {
 
-            scene.inventoryItems[itemIndex] = scene.itemUse(scene, scene.inventoryItems[itemIndex], scene.inventorySlots[itemIndex]);
+            scene.playerInventory[itemIndex] = scene.itemUse(scene, scene.playerInventory[itemIndex], scene.inventorySlots[itemIndex]);
 
             container.destroy();
         });
         container.add(button1);
 
-        const button2 = scene.add.text(-40, 0, 'Продать', {
+        const button2 = scene.add.text(-40, 20, 'Продать', {
             fontFamily: 'alundratext',
             fontSize: '24px',
             lineSpacing: '10',
@@ -100,7 +108,7 @@ export default class InventoryScene extends Phaser.Scene {
 
         if (item !== null) {
 
-            scene.scene.get('WorldScene').updatePlayer(item.name);
+            scene.scene.get('WorldScene').updatePlayer(item);
 
             // Убираем спрайт предмета из слота
             if (slot.itemSprite) {
@@ -114,16 +122,19 @@ export default class InventoryScene extends Phaser.Scene {
     }
 
     addToInventory(itemName) {
+
         // Проверяем, есть ли свободные слоты в инвентаре
-        const emptySlotIndex = this.inventoryItems.findIndex(item => !item);
+        const emptySlotIndex = this.playerInventory.findIndex(item => !item);
         const dropStaff = staff[itemName];
 
-        const hasNullValue = this.inventoryItems.some(item => item === null);
 
-        if (this.inventorySlots.length !== this.inventoryItems.length || hasNullValue) {
+        const hasNullValue = this.playerInventory.some(item => item === null);
+
+        if (this.inventorySlots.length !== this.playerInventory.length || hasNullValue) {
             if (emptySlotIndex !== -1) {
                 // Добавляем предмет в свободный слот
-                this.inventoryItems[emptySlotIndex] = { name: itemName, description: dropStaff.description};
+
+                this.playerInventory[emptySlotIndex].push(itemName);
 
                 // Обновляем отображение слота
                 const slot = this.inventorySlots[emptySlotIndex];
@@ -131,9 +142,10 @@ export default class InventoryScene extends Phaser.Scene {
                 itemSprite.setDisplaySize(120, 120);
                 this.inventorySlots[emptySlotIndex].itemSprite = itemSprite;
             } else {
+
                 // Находим последний доступный слот и добавляем предмет в него
                 const lastSlotIndex = this.inventoryItems.length;
-                this.inventoryItems[lastSlotIndex] = { name: itemName, description: dropStaff.description };
+                this.inventoryItems.push(itemName);
 
                 // Обновляем отображение последнего слота
                 const slot = this.inventorySlots[lastSlotIndex];
