@@ -40,19 +40,15 @@ export default class InventoryScene extends Phaser.Scene {
                 slot.on('pointerdown', (event, localX, localY) => {
                     // Проверяем, является ли это событие событием правой кнопки мыши
                     const itemIndex = row * gridSize.cols + col;
-                    if (this.inventoryItems[itemIndex] !== undefined) {
-                        if (this.itemContextMenu) {
-                            this.itemContextMenu.destroy();
-                        }
 
-                        if (event.button === 2) {
-                            console.log(`Right-clicked on item ${this.inventoryItems[itemIndex].name}`);
-
-                            // Вызываем функцию для показа модального окна
-                            this.showInventoryItemContextMenu(this, event.x - this.cameras.main.x, event.y - this.cameras.main.y);
-                        } else {
-                            this.inventoryItems[itemIndex] = this.itemUse(this, this.inventoryItems[itemIndex], this.inventorySlots[itemIndex]);
-                        }
+                    if (this.itemContextMenu) {
+                        this.itemContextMenu.destroy();
+                    }
+                    if (this.inventoryItems[itemIndex] !== undefined && this.inventoryItems[itemIndex] !== null) {
+                        this.showInventoryItemContextMenu(
+                            this, event.x - this.cameras.main.x,
+                            event.y - this.cameras.main.y,
+                            itemIndex);
                     }
                 });
                 slot.on('pointerout', () => {
@@ -64,7 +60,7 @@ export default class InventoryScene extends Phaser.Scene {
         }
     }
 
-    showInventoryItemContextMenu(scene, x, y) {
+    showInventoryItemContextMenu(scene, x, y, itemIndex) {
         const container = scene.add.container(x, y);
         scene.itemContextMenu = container;
 
@@ -80,7 +76,9 @@ export default class InventoryScene extends Phaser.Scene {
             color: '#D9D9D9', });
         button1.setInteractive({ useHandCursor: true });
         button1.on('pointerdown', () => {
-            // Действие при нажатии на кнопку 1
+
+            scene.inventoryItems[itemIndex] = scene.itemUse(scene, scene.inventoryItems[itemIndex], scene.inventorySlots[itemIndex]);
+
             container.destroy();
         });
         container.add(button1);
