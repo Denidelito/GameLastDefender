@@ -7,7 +7,7 @@ const playerData = {
     speed: 1, // Скорость передвижения игрока
     health: 100, // Здоровье игрока
     damage: 25,
-    inventory: ['hpPotion']
+    inventory: ['hpPotion','hpPotion']
 };
 
 export default playerData;

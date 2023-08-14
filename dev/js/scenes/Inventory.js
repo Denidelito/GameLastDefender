@@ -3,7 +3,6 @@ export default class InventoryScene extends Phaser.Scene {
     constructor() {
         super('InventoryScene');
         this.inventorySlots = [];
-        this.inventoryItems = [];
     }
 
     create() {
@@ -38,8 +37,7 @@ export default class InventoryScene extends Phaser.Scene {
 
                 // Добавляем обработчики событий для отображения описания при наведении
                 slot.on('pointerover', () => {
-                    console.log(itemIndex)
-                    if (this.inventoryItems[row * gridSize.cols + col]) {
+                    if (this.playerInventory[row * gridSize.cols + col]) {
                         // Показываем описание предмета в каком-то текстовом поле или окне
                         console.log(`Description: ${staff[this.playerInventory[itemIndex]].description}`);
                     }
@@ -63,9 +61,17 @@ export default class InventoryScene extends Phaser.Scene {
             }
         }
 
-        this.scene.get('WorldScene').GameData.playerData.inventory.forEach((item) => {
-            this.addToInventory(item);
-        })
+        // Проверяем есть ли что то в инвентаре
+        if (this.playerInventory) {
+            // Перебераем инвентарь и добовляем слоты
+            this.playerInventory.forEach((itemName, index) => {
+                // Обновляем отображение последнего слота
+                const slot = this.inventorySlots[index];
+                const itemSprite = this.add.sprite(slot.x, slot.y, staff[itemName].sprite);
+                itemSprite.setDisplaySize(120, 120);
+                this.inventorySlots[index].itemSprite = itemSprite;
+            })
+        }
     }
 
     showInventoryItemContextMenu(scene, x, y, itemIndex) {
@@ -141,8 +147,8 @@ export default class InventoryScene extends Phaser.Scene {
                 itemSprite.setDisplaySize(120, 120);
                 this.inventorySlots[emptySlotIndex].itemSprite = itemSprite;
             } else {
-
                 // Находим последний доступный слот и добавляем предмет в него
+
                 const lastSlotIndex = this.playerInventory.length;
                 this.playerInventory.push(itemName);
 
