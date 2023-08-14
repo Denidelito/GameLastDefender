@@ -103,8 +103,7 @@ export function handleCombat(player, enemy, combatData, score) {
                 combatData.lastDamageTime = currentTime;
 
             } else if (combatData.isCombatTurn === 'enemy') {
-                player.anims.stop();
-
+                player.anims.play('idle', true);
                 enemy.anims.play('enemy1-attack', true);
 
                 const damage = calculateDamage(numberOfDice, typeOfDice, enemy.damage, enemy);
