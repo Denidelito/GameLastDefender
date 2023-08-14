@@ -36,10 +36,10 @@ export default class InventoryScene extends Phaser.Scene {
                 const itemIndex = row * gridSize.cols + col;
 
                 // Добавляем обработчики событий для отображения описания при наведении
-                slot.on('pointerover', () => {
+                slot.on('pointerover', (event) => {
                     if (this.playerInventory[row * gridSize.cols + col]) {
                         // Показываем описание предмета в каком-то текстовом поле или окне
-                        console.log(`Description: ${staff[this.playerInventory[itemIndex]].description}`);
+                        this.showInventoryItemInfo(this, x, y, itemIndex)
                     }
                 });
                 slot.on('pointerdown', (event, localX, localY) => {
@@ -55,7 +55,9 @@ export default class InventoryScene extends Phaser.Scene {
                 });
                 slot.on('pointerout', () => {
                     // Скрываем описание при уходе курсора с ячейки
-                    // console.log('Description hidden');
+                    if (this.containerInfo) {
+                        this.containerInfo.destroy();
+                    }
                 });
 
             }
@@ -66,12 +68,35 @@ export default class InventoryScene extends Phaser.Scene {
             // Перебераем инвентарь и добовляем слоты
             this.playerInventory.forEach((itemName, index) => {
                 // Обновляем отображение последнего слота
-                const slot = this.inventorySlots[index];
-                const itemSprite = this.add.sprite(slot.x, slot.y, staff[itemName].sprite);
-                itemSprite.setDisplaySize(120, 120);
-                this.inventorySlots[index].itemSprite = itemSprite;
+                const dropStaff = staff[itemName];
+
+                this.addSpriteToInventory(this, index, dropStaff)
             })
         }
+    }
+
+    showInventoryItemInfo(scene, x, y, itemIndex) {
+        if (this.containerInfo) {
+            this.containerInfo.destroy();
+        }
+
+        const containerInfo = scene.add.container(x, y);
+        scene.containerInfo = containerInfo;
+
+        const background = scene.add.graphics();
+        background.fillStyle(0x854C30, 1);
+        background.fillRect(59, -63, 300, 90);
+        containerInfo.add(background);
+
+        const text = scene.add.text(59, -63, staff[this.playerInventory[itemIndex]].description, {
+            fontFamily: 'alundratext',
+            fontSize: '24px',
+            lineSpacing: '10',
+            color: '#D9D9D9',
+            wordWrap: { width: 300 }
+        });
+
+        containerInfo.add(text)
     }
 
     showInventoryItemContextMenu(scene, x, y, itemIndex) {
@@ -88,7 +113,9 @@ export default class InventoryScene extends Phaser.Scene {
             fontSize: '24px',
             lineSpacing: '10',
             color: '#D9D9D9', });
+
         button1.setInteractive({ useHandCursor: true });
+
         button1.on('pointerdown', () => {
 
             scene.playerInventory[itemIndex] = scene.itemUse(scene, scene.playerInventory[itemIndex], scene.inventorySlots[itemIndex]);
@@ -102,7 +129,9 @@ export default class InventoryScene extends Phaser.Scene {
             fontSize: '24px',
             lineSpacing: '10',
             color: '#D9D9D9', });
+
         button2.setInteractive({ useHandCursor: true });
+
         button2.on('pointerdown', () => {
             // Действие при нажатии на кнопку 2
             container.destroy();
@@ -127,6 +156,14 @@ export default class InventoryScene extends Phaser.Scene {
         return item
     }
 
+    addSpriteToInventory(scene, slotIndex, spriteItem) {
+        const slot = scene.inventorySlots[slotIndex];
+        console.log(slotIndex)
+        const itemSprite = scene.add.sprite(slot.x, slot.y, spriteItem.sprite);
+        itemSprite.setDisplaySize(120, 120);
+        scene.inventorySlots[slotIndex].itemSprite = itemSprite;
+    }
+
     addToInventory(itemName) {
 
         // Проверяем, есть ли свободные слоты в инвентаре
@@ -141,22 +178,15 @@ export default class InventoryScene extends Phaser.Scene {
                 // Добавляем предмет в свободный слот
                 this.playerInventory[emptySlotIndex] = itemName;
 
-                // Обновляем отображение слота
-                const slot = this.inventorySlots[emptySlotIndex];
-                const itemSprite = this.add.sprite(slot.x, slot.y, dropStaff.sprite);
-                itemSprite.setDisplaySize(120, 120);
-                this.inventorySlots[emptySlotIndex].itemSprite = itemSprite;
+                // Обновляем отображение пустого слота
+                this.addSpriteToInventory(this, emptySlotIndex, dropStaff);
             } else {
                 // Находим последний доступный слот и добавляем предмет в него
-
                 const lastSlotIndex = this.playerInventory.length;
                 this.playerInventory.push(itemName);
 
                 // Обновляем отображение последнего слота
-                const slot = this.inventorySlots[lastSlotIndex];
-                const itemSprite = this.add.sprite(slot.x, slot.y, dropStaff.sprite);
-                itemSprite.setDisplaySize(120, 120);
-                this.inventorySlots[lastSlotIndex].itemSprite = itemSprite;
+                this.addSpriteToInventory(this, lastSlotIndex, dropStaff)
             }
         } else {
             this.scene.get('InfoScene').updateDialogModal('Ты зажрался!')
