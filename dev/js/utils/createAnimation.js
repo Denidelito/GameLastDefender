@@ -56,7 +56,7 @@ export function createAnimations(scene) {
     });
     scene.anims.create({
         key: 'enemy1-attack',
-        frames: scene.anims.generateFrameNumbers('enemy1Attack', { start: 0, end: 7 }),
+        frames: scene.anims.generateFrameNumbers('enemy1Attack', { start: 0, end: 6 }),
         frameRate: 8,
         repeat: -1,
     });

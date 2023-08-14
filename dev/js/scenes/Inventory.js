@@ -51,19 +51,7 @@ export default class InventoryScene extends Phaser.Scene {
                             // Вызываем функцию для показа модального окна
                             this.showInventoryItemContextMenu(this, event.x - this.cameras.main.x, event.y - this.cameras.main.y);
                         } else {
-
-                            this.scene.get('WorldScene').updatePlayer(this.inventoryItems[row * gridSize.cols + col].name);
-
-                            if (this.inventoryItems[itemIndex]) {
-                                // Убираем спрайт предмета из слота
-                                if (this.inventorySlots[itemIndex].itemSprite) {
-                                    this.inventorySlots[itemIndex].itemSprite.destroy();
-                                    this.inventorySlots[itemIndex].itemSprite = null;
-
-                                }
-                                // Удаляем предмет из массива
-                                this.inventoryItems[itemIndex] = null;
-                            }
+                            this.inventoryItems[itemIndex] = this.itemUse(this, this.inventoryItems[itemIndex], this.inventorySlots[itemIndex]);
                         }
                     }
                 });
@@ -81,11 +69,15 @@ export default class InventoryScene extends Phaser.Scene {
         scene.itemContextMenu = container;
 
         const background = scene.add.graphics();
-        background.fillStyle(0x000000, 0.7);
-        background.fillRect(-50, -30, 100, 60);
+        background.fillStyle(0x854C30, 1);
+        background.fillRect(-50, -30, 200, 80);
         container.add(background);
 
-        const button1 = scene.add.text(-40, -20, 'Действие 1', { fontSize: '16px', fill: '#ffffff' });
+        const button1 = scene.add.text(-40, -20, 'Использовать', {
+            fontFamily: 'alundratext',
+            fontSize: '24px',
+            lineSpacing: '10',
+            color: '#D9D9D9', });
         button1.setInteractive({ useHandCursor: true });
         button1.on('pointerdown', () => {
             // Действие при нажатии на кнопку 1
@@ -93,13 +85,34 @@ export default class InventoryScene extends Phaser.Scene {
         });
         container.add(button1);
 
-        const button2 = scene.add.text(-40, 0, 'Действие 2', { fontSize: '16px', fill: '#ffffff' });
+        const button2 = scene.add.text(-40, 0, 'Продать', {
+            fontFamily: 'alundratext',
+            fontSize: '24px',
+            lineSpacing: '10',
+            color: '#D9D9D9', });
         button2.setInteractive({ useHandCursor: true });
         button2.on('pointerdown', () => {
             // Действие при нажатии на кнопку 2
             container.destroy();
         });
         container.add(button2);
+    }
+
+    itemUse(scene, item, slot) {
+
+        if (item !== null) {
+
+            scene.scene.get('WorldScene').updatePlayer(item.name);
+
+            // Убираем спрайт предмета из слота
+            if (slot.itemSprite) {
+                slot.itemSprite.destroy();
+                slot.itemSprite = null;
+            }
+            item = null
+        }
+
+        return item
     }
 
     addToInventory(itemName) {
