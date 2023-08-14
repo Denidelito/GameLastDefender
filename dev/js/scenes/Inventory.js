@@ -39,10 +39,13 @@ export default class InventoryScene extends Phaser.Scene {
                 slot.on('pointerover', (event) => {
                     if (this.playerInventory[row * gridSize.cols + col]) {
                         // Показываем описание предмета в каком-то текстовом поле или окне
-                        this.showInventoryItemInfo(this, x, y, itemIndex)
+                        console.log(this.itemContextMenu)
+                        if (this.itemContextMenu === undefined || !this.itemContextMenu.active) {
+                            this.showInventoryItemInfo(this, x, y, itemIndex);
+                        }
                     }
                 });
-                slot.on('pointerdown', (event, localX, localY) => {
+                slot.on('pointerdown', (event) => {
                     if (this.itemContextMenu) {
                         this.itemContextMenu.destroy();
                     }
@@ -76,25 +79,29 @@ export default class InventoryScene extends Phaser.Scene {
     }
 
     showInventoryItemInfo(scene, x, y, itemIndex) {
-        if (this.containerInfo) {
-            this.containerInfo.destroy();
+        if (scene.containerInfo) {
+            scene.containerInfo.destroy();
         }
 
         const containerInfo = scene.add.container(x, y);
         scene.containerInfo = containerInfo;
-
-        const background = scene.add.graphics();
-        background.fillStyle(0x854C30, 1);
-        background.fillRect(59, -63, 300, 90);
-        containerInfo.add(background);
 
         const text = scene.add.text(59, -63, staff[this.playerInventory[itemIndex]].description, {
             fontFamily: 'alundratext',
             fontSize: '24px',
             lineSpacing: '10',
             color: '#D9D9D9',
-            wordWrap: { width: 300 }
+            wordWrap: { width: 300 },
+            padding: {
+                x: 15,
+                y: 25,
+            },
         });
+
+        const background = scene.add.graphics();
+        background.fillStyle(0x854C30, 1);
+        background.fillRect(59, -63, 300, text.height);
+        containerInfo.add(background);
 
         containerInfo.add(text)
     }
@@ -158,7 +165,6 @@ export default class InventoryScene extends Phaser.Scene {
 
     addSpriteToInventory(scene, slotIndex, spriteItem) {
         const slot = scene.inventorySlots[slotIndex];
-        console.log(slotIndex)
         const itemSprite = scene.add.sprite(slot.x, slot.y, spriteItem.sprite);
         itemSprite.setDisplaySize(120, 120);
         scene.inventorySlots[slotIndex].itemSprite = itemSprite;

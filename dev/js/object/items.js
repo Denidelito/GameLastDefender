@@ -2,7 +2,7 @@ const staff = {
     hpPotion: {
         type: 'potion',
         name: 'Зелье здоровья',
-        description: 'Востанавливает 10hp',
+        description: 'Востанавливает 25hp',
         sprite: 'potionHP',
         stats: {
             speed: 0,
