@@ -133,8 +133,7 @@ export default class InventoryScene extends Phaser.Scene {
         if (this.inventorySlots.length !== this.playerInventory.length || hasNullValue) {
             if (emptySlotIndex !== -1) {
                 // Добавляем предмет в свободный слот
-
-                this.playerInventory[emptySlotIndex].push(itemName);
+                this.playerInventory[emptySlotIndex] = itemName;
 
                 // Обновляем отображение слота
                 const slot = this.inventorySlots[emptySlotIndex];
@@ -144,8 +143,8 @@ export default class InventoryScene extends Phaser.Scene {
             } else {
 
                 // Находим последний доступный слот и добавляем предмет в него
-                const lastSlotIndex = this.inventoryItems.length;
-                this.inventoryItems.push(itemName);
+                const lastSlotIndex = this.playerInventory.length;
+                this.playerInventory.push(itemName);
 
                 // Обновляем отображение последнего слота
                 const slot = this.inventorySlots[lastSlotIndex];
