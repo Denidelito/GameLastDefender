@@ -104,6 +104,7 @@ export default class PreloadScene extends Phaser.Scene {
 
         // Спрайт зелья здоровья
         this.load.image('potionHP', 'assets/spritesheets/sprite/items/poution.png');
+        this.load.image('stick', 'assets/spritesheets/sprite/items/stick.png');
         this.load.image('game_interface', 'assets/spritesheets/background/game_interface.png');
 
         this.load.tilemapTiledJSON('map', 'assets/tilemaps/tilemaps.tmj');
