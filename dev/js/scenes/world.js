@@ -6,8 +6,7 @@ import { setupCamera } from "../config/cameraSetup";
 import { spawnRandomEnemy } from "../helpers/enemySpawner";
 import {createAnimations} from "../utils/createAnimation";
 import {wordGrid} from "../helpers/worldGrid";
-import player from "../object/player";
-import {PlayerMovement} from "../utils/playerMovement";
+import {handleCombat} from "../helpers/combat";
 
 export default class WorldScene extends Phaser.Scene {
     constructor() {
@@ -33,7 +32,7 @@ export default class WorldScene extends Phaser.Scene {
         this.GameData = {
             // Объект с характеристиками игрока
             playerData: structuredClone(playerData),
-            playerTarget: 0,
+            playerTarget: null,
             // Объект с характеристиками противников
             enemiesData: structuredClone(enemiesData),
             // Массив с живыми противниками
@@ -43,6 +42,7 @@ export default class WorldScene extends Phaser.Scene {
                 livingEnemies: [],
             },
             combat: {
+                active: false,
                 // Время последнего нанесения урона
                 lastDamageTime: 0,
                 // Очередность ударов
@@ -67,6 +67,8 @@ export default class WorldScene extends Phaser.Scene {
         ).setOrigin(0, 0.5).setDepth(1);
 
         createAnimations(this);
+        spawnRandomEnemy(this, this.GameData.enemiesData);
+
         this.GameData.isAnimationCreate = true;
     }
 
@@ -94,9 +96,11 @@ export default class WorldScene extends Phaser.Scene {
 
             this.GameData.spawnEnemy.lastTimeSpawn = this.player.scene.time.now;
 
-            if (this.GameData.spawnEnemy.livingEnemies.length >= 1) {
-                // PlayerMovement(this, this.player, this.GameData.spawnEnemy.livingEnemies[this.GameData.playerTarget])
-            }
+            this.scene.get('QuestScene').updateQuest(this, this.GameData.spawnEnemy.livingEnemies)
+        }
+
+        if (this.GameData.combat.active) {
+            handleCombat(this, this.player, this.GameData.spawnEnemy.livingEnemies[this.GameData.playerTarget], this.GameData.combat, this.GameData.score);
         }
 
         // Обновляем позицию камеры, чтобы она следовала за персонажем

@@ -6,7 +6,7 @@ const playerData = {
     name: 'Джотаро',
     speed: 1, // Скорость передвижения игрока
     health: 100, // Здоровье игрока
-    damage: 25,
+    damage: 15,
     characteristics: {
         force: 1,
         agility: 1,

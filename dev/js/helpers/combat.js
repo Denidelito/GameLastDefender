@@ -1,17 +1,16 @@
 import playerData from "../object/player";
 import {destroyEnemy} from "./enemyDestroy";
-
-export function handleCombat(player, targetEnemy, combatData) {
-    if (player.scene.playerTarget === null) {
+export function handleCombat(scene, player, targetEnemy, combatData) {
+    if (!scene.GameData.combat.active) {
         return
     }
 
-    const currentTime = player.scene.time.now;
+    const currentTime = scene.time.now;
     const distance = Phaser.Math.Distance.Between(player.x, player.y, targetEnemy.info.x, targetEnemy.info.y);
-    const GameData = player.scene.GameData;
+    const GameData = scene.GameData;
     // Устанавливаем интервал нанесения урона в 1 секунду
-    const InfoScene = player.scene.scene.get('InfoScene');
-    const InventoryScene = player.scene.scene.get('InventoryScene');
+    const InfoScene = scene.scene.get('InfoScene');
+    const InventoryScene = scene.scene.get('InventoryScene');
 
 
     const numberOfDice = 2; // Количество бросков кубика
@@ -30,9 +29,7 @@ export function handleCombat(player, targetEnemy, combatData) {
         return totalDamage;
     }
 
-
     if (distance < 50) {
-
         // Если прошло достаточно времени с момента последнего удара
         if (currentTime - combatData.lastDamageTime >= combatData.damageInterval) {
             // Проверяем, кто сейчас может наносить удар
@@ -65,8 +62,9 @@ export function handleCombat(player, targetEnemy, combatData) {
                     targetEnemy.info.on('animationcomplete', function(animation, frame) {
                         if (animation.key === 'enemy1-die') {
                             // Если здоровье противника меньше или равно 0, удаляем противника и спавним нового
-                            destroyEnemy(player.scene);
+                            destroyEnemy(scene);
 
+                            scene.scene.get('QuestScene').updateQuest(scene, scene.GameData.spawnEnemy.livingEnemies);
                             // targetEnemy.enemy.destroy();
                         }
                     }, this);
@@ -96,8 +94,11 @@ export function handleCombat(player, targetEnemy, combatData) {
                         `Ваш счет равен: ${GameData.score}`
                     );
 
+                    player.anims.play('idle', true);
+                    scene.GameData.combat.active = false;
 
-                    player.scene.playerTarget = null
+                    scene.playerTarget = null;
+
                 }
 
                 // Переключаем currentPlayer на 'enemy', чтобы следующий удар наносился противником
@@ -115,25 +116,23 @@ export function handleCombat(player, targetEnemy, combatData) {
                 targetEnemy.info.anims.play('enemy1-attack', true);
 
                 const damage = calculateDamage(numberOfDice, typeOfDice, targetEnemy.info.damage, targetEnemy.info);
-                player.scene.GameData.playerData.health -= damage;
+                scene.GameData.playerData.health -= damage;
 
                 // Обновление показателей здоровья в информации
                 InfoScene.updateDialogModal(
                     `${targetEnemy.info.name}: нанесли ${damage} урона`
                 );
 
-                if (targetEnemy.info && player.scene.enemyHealthBar) {
-                    // Предполагается, что у врагов одинаковое максимальное здоровье
-                    const healthPercent = enemy.health / GameData.enemiesData[0].health;
-                    // Предполагается, что у врагов одинаковое максимальное здоровье                    // Максимальная ширина полоски здоровья (64 пикселей)
-                    const healthBarWidth = 64 * healthPercent;
-                    // Очищаем старое состояние полоски
-                    targetEnemy.hpBar.clear();
-                    // Красный цвет
-                    targetEnemy.hpBar.fillStyle(0xFF0000, 1);
-                    // Обновляем ширину полоски
-                    targetEnemy.hpBar.fillRect(targetEnemy.info.x, targetEnemy.info.y - 30, healthBarWidth, 8);
-                }
+                // Предполагается, что у врагов одинаковое максимальное здоровье
+                const healthPercent = targetEnemy.health / GameData.enemiesData[0].health;
+                // Предполагается, что у врагов одинаковое максимальное здоровье                    // Максимальная ширина полоски здоровья (64 пикселей)
+                const healthBarWidth = 64 * healthPercent;
+                // Очищаем старое состояние полоски
+                targetEnemy.hpBar.clear();
+                // Красный цвет
+                targetEnemy.hpBar.fillStyle(0xFF0000, 1);
+                // Обновляем ширину полоски
+                targetEnemy.hpBar.fillRect(targetEnemy.info.x, targetEnemy.info.y - 30, healthBarWidth, 8);
 
                 // Обновляем время последнего удара
                 combatData.lastDamageTime = currentTime;

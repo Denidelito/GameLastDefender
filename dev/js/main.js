@@ -3,6 +3,7 @@ import PreloadScene from './scenes/preload';
 import MenuScene from './scenes/menu';
 import GameScene from './scenes/game';
 import GameOverScene from "./scenes/gameOver";
+import QuestScene from "./scenes/quest";
 
 const config = {
     type: Phaser.WEBGL,
@@ -14,7 +15,7 @@ const config = {
         // Высота окна игры
         height: 1080,
     },
-    scene: [PreloadScene, MenuScene, GameScene, GameOverScene],
+    scene: [PreloadScene, MenuScene, GameScene, GameOverScene, QuestScene],
     /*physics: {
         default: 'arcade',
         arcade: {

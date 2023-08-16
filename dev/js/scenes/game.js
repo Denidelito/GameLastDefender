@@ -2,6 +2,7 @@ import WorldScene from './world';
 import InfoScene from './info';
 import SpecificationsScene from "./specifications";
 import InventoryScene from "./Inventory";
+import QuestScene from "./quest";
 import Phaser from "phaser";
 
 export default class GameScene extends Phaser.Scene {
@@ -17,10 +18,12 @@ export default class GameScene extends Phaser.Scene {
         this.scene.add('InfoScene', InfoScene, true);
         this.scene.add('InventoryScene', InventoryScene, true);
         this.scene.add('SpecificationsScene', SpecificationsScene, true)
+        this.scene.add('QuestScene', QuestScene, true)
     }
     resetGame() {
         this.score = 0;
         this.scene.remove('WorldScene')
+        this.scene.remove('QuestScene')
         this.scene.remove('InfoScene')
         this.scene.remove('SpecificationsScene')
         this.scene.remove('InventoryScene')

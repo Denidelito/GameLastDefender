@@ -39,7 +39,6 @@ export default class InventoryScene extends Phaser.Scene {
                 slot.on('pointerover', (event) => {
                     if (this.playerInventory[row * gridSize.cols + col]) {
                         // Показываем описание предмета в каком-то текстовом поле или окне
-                        console.log(this.itemContextMenu)
                         if (this.itemContextMenu === undefined || !this.itemContextMenu.active) {
                             this.showInventoryItemInfo(this, x, y, itemIndex);
                         }

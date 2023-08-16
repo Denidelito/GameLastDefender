@@ -17,6 +17,7 @@ export function spawnRandomEnemy(scene, enemiesData) {
 
         enemy.name = randomEnemy.name;
         enemy.possibleItems = randomEnemy.possibleItems;
+        enemy.avatar = randomEnemy.avatar;
         enemy.x = tile.pixelX;
         enemy.y = tile.pixelY;
         enemy.health = randomEnemy.health;
