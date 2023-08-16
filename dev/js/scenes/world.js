@@ -6,6 +6,7 @@ import { setupCamera } from "../config/cameraSetup";
 import { spawnRandomEnemy } from "../helpers/enemySpawner";
 import {createAnimations} from "../utils/createAnimation";
 import {wordGrid} from "../helpers/worldGrid";
+import {destroyEnemy} from "../helpers/enemyDestroy";
 
 export default class WorldScene extends Phaser.Scene {
     constructor() {
@@ -31,6 +32,7 @@ export default class WorldScene extends Phaser.Scene {
         this.GameData = {
             // Объект с характеристиками игрока
             playerData: structuredClone(playerData),
+            playerTarget: 0,
             // Объект с характеристиками противников
             enemiesData: structuredClone(enemiesData),
             // Массив с живыми противниками
@@ -91,9 +93,8 @@ export default class WorldScene extends Phaser.Scene {
 
             this.GameData.spawnEnemy.lastTimeSpawn = this.player.scene.time.now;
 
-            if (this.GameData.spawnEnemy.livingEnemies.length > 1) {
-                this.GameData.spawnEnemy.livingEnemies[0].destroy()
-                console.log(this.GameData.spawnEnemy.livingEnemies)
+            if (this.GameData.spawnEnemy.livingEnemies.length > 2) {
+                destroyEnemy(this.GameData.playerTarget, this.GameData.spawnEnemy.livingEnemies);
             }
         }
 

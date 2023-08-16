@@ -1,12 +1,7 @@
 import {PlayerMovement} from "../utils/playerMovement";
 import playerData from "../object/player";
 export function spawnRandomEnemy(scene, enemiesData) {
-    /*if (scene.GameData.isEnemySpawned) {
-        return; // Возвращаемся, если противник уже заспавнен
-    }*/
-
     const layerDate  = scene.mapLayers.wood.layer.data;
-
 
     const randomX = Phaser.Math.Between(0, scene.map.width - 1);
     const randomY = Phaser.Math.Between(0, scene.map.height - 1);
@@ -30,18 +25,19 @@ export function spawnRandomEnemy(scene, enemiesData) {
         enemy.damage = randomEnemy.damage;
 
 
-        scene.GameData.spawnEnemy.livingEnemies.push(enemy)
+        let enemyNameText = scene.add.text(0, 0, '', { fontFamily: 'CustomFont', fontSize: '14px', fill: '#ffffff' });
 
-        console.log(scene.GameData.spawnEnemy.livingEnemies)
+        enemyNameText.setOrigin(1, 2);
+        enemyNameText.setText(randomEnemy.name);
+        enemyNameText.setPosition(enemy.x + enemy.width / 2, enemy.y - 30);
 
-        if (!scene.enemyNameText) {
-            scene.enemyNameText = scene.add.text(0, 0, '', { fontFamily: 'CustomFont', fontSize: '14px', fill: '#ffffff' });
-        }
-        scene.enemyNameText.setOrigin(1, 2);
-        scene.enemyNameText.setText(randomEnemy.name);
-        scene.enemyNameText.setPosition(enemy.x + enemy.width / 2, enemy.y - 30);
-
-        scene.GameData.isEnemySpawned = true;
+        scene.GameData.spawnEnemy.livingEnemies.push(
+            {
+                enemySprite: enemy,
+                enemyName: enemyNameText,
+                enemyHp: ''
+            }
+        )
 
         enemy.anims.play('enemy1-idle', true);
         /*
