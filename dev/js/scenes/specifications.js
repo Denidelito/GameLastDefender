@@ -6,32 +6,40 @@ export default class SpecificationsScene extends Phaser.Scene{
     create() {
         const mainCamera = this.cameras.main;
 
-        mainCamera.setSize(370, 224);
-        mainCamera.setPosition(1524, 458);
-        mainCamera.centerOn(370 / 2, 224 / 2); // Центрируем камеру по размеру
+        mainCamera.setSize(410, 190);
+        mainCamera.setPosition(1458, 470);
+        mainCamera.centerOn(410 / 2, 190 / 2); // Центрируем камеру по размеру
 
-        this.textLVL = this.add.text(0, 20, 'LVL:',
+
+        this.textDamage = this.add.text(239, 26, '',
             {
                 fontFamily: 'alundratext',
                 fontSize: '24px',
                 color: '#ACACAC',
                 wordWrap: { width: 310 }
             }).setOrigin(0);
-        this.textHP = this.add.text(0, 70, 'HP:',
+        this.textProtection = this.add.text(239, 86, '',
             {
                 fontFamily: 'alundratext',
                 fontSize: '24px',
                 color: '#ACACAC',
                 wordWrap: { width: 310 }
             }).setOrigin(0);
-        this.textEXP = this.add.text(0, 120, 'EXP:',
+        this.textForce = this.add.text(40, 26, '',
             {
                 fontFamily: 'alundratext',
                 fontSize: '24px',
                 color: '#ACACAC',
                 wordWrap: { width: 310 }
             }).setOrigin(0);
-        this.textDamage = this.add.text(0, 170, 'Damage:',
+        this.textAgility = this.add.text(40, 84, '',
+            {
+                fontFamily: 'alundratext',
+                fontSize: '24px',
+                color: '#ACACAC',
+                wordWrap: { width: 310 }
+            }).setOrigin(0);
+        this.textLuck = this.add.text(40, 142, '',
             {
                 fontFamily: 'alundratext',
                 fontSize: '24px',
@@ -39,10 +47,11 @@ export default class SpecificationsScene extends Phaser.Scene{
                 wordWrap: { width: 310 }
             }).setOrigin(0);
     }
-    updateInformationPlayer(lvl, hp, exp, damage) {
-        this.textLVL.setText(lvl);
-        this.textHP.setText(hp);
-        this.textEXP.setText(exp);
-        this.textDamage.setText(damage);
+    updateInformationPlayer(force, agility, luck, damage, protection) {
+        this.textDamage.setText(force);
+        this.textAgility.setText(agility);
+        this.textLuck.setText(luck);
+        this.textForce.setText(damage);
+        this.textProtection.setText(protection);
     }
 }

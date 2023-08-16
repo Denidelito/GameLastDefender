@@ -23,10 +23,10 @@ export default class WorldScene extends Phaser.Scene {
         // Вызываем функцию для создания и настройки камеры
         setupCamera(
             this,
-            1467,
-            660,
-            21,
-            24);
+            1362,
+            640,
+            36,
+            36);
 
         this.GameData = {
             // Объект с характеристиками игрока
@@ -91,10 +91,12 @@ export default class WorldScene extends Phaser.Scene {
 
         // Обновляем характеристики персонажа
         this.scene.get('SpecificationsScene').updateInformationPlayer(
-            'Уровень: 1',
-            `Здоровье: ${this.GameData.playerData.health} / 100`,
-            `Опыт: ${this.GameData.score}`,
-            `Урон: ${playerData.damage}`)
+            `Сила: ${this.GameData.playerData.characteristics.force}`,
+            `Ловкость: ${this.GameData.playerData.characteristics.agility}`,
+            `Удача: ${this.GameData.playerData.characteristics.luck}`,
+            `Урон: ${this.GameData.playerData.characteristics.damage}`,
+            `Защита: ${this.GameData.playerData.characteristics.protection}`,
+        )
 
 
         // Проверям здоровье персанажа и рестартим игру

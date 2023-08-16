@@ -9,16 +9,16 @@ export default class InventoryScene extends Phaser.Scene {
         this.playerInventory = this.scene.get('WorldScene').GameData.playerData.inventory;
 
         // Созаем камеру
-        this.cameras.main.setSize(820, 281);
-        this.cameras.main.setPosition(1060, 764);
+        this.cameras.main.setSize(638, 250);
+        this.cameras.main.setPosition(1220, 772);
         // Центрируем камеру по размеру
-        this.cameras.main.centerOn(820 / 2, 281 / 2);
+        this.cameras.main.centerOn(638 / 2, 250 / 2);
 
         // Создание сетки предметов
         const gridSize = { rows: 2, cols: 5 };
-        const itemSize = { width: 120, height: 120 };
-        const gridOffset = { x: 100, y: 80 };
-        const spacing = 10;
+        const itemSize = { width: 128, height: 128 };
+        const gridOffset = { x: 55, y: 55 };
+        const spacing = 0;
 
 
         for (let row = 0; row < gridSize.rows; row++) {
@@ -27,8 +27,8 @@ export default class InventoryScene extends Phaser.Scene {
                 const y = gridOffset.y + row * (itemSize.height + spacing);
 
                 // Создание "слотов" для предметов (может быть спрайт, текст и т.д.)
-                const slot = this.add.rectangle(x, y, itemSize.width, itemSize.height, 0xffffff);
-                slot.setStrokeStyle(2, 0xaaaaaa);
+                const slot = this.add.rectangle(x, y, itemSize.width, itemSize.height);
+                // slot.setStrokeStyle(2, 0xaaaaaa);
                 slot.setInteractive(); // Сделать слоты интерактивными
                 this.inventorySlots.push(slot);
 

@@ -6,15 +6,15 @@ export default class InfoScene extends Phaser.Scene {
     create() {
         // Создаем камеру
         const camera = this.cameras.main;
-        camera.setSize(710, 294);
-        camera.setPosition(28, 753);
+        camera.setSize(462, 284);
+        camera.setPosition(25, 774);
         // Центрируем камеру по размеру
-        camera.centerOn(710 / 2, 294 / 2);
+        camera.centerOn(462 / 2, 284 / 2);
 
         // Создаем затемненный фон для информационной сцены
         const graphics = this.add.graphics();
-        graphics.fillStyle(0xC4C4C4, 0.7);
-        graphics.fillRect(0, 0, 710, 294);
+        graphics.fillStyle(0xC4C4C4, 0);
+        graphics.fillRect(0, 0, 462, 284);
 
         // Создаем текстовый элемент
         this.text = this.add.text(0, 0, '',
@@ -22,8 +22,8 @@ export default class InfoScene extends Phaser.Scene {
                 fontFamily: 'alundratext',
                 fontSize: '24px',
                 lineSpacing: '10',
-                color: '#312F31',
-                wordWrap: { width: 710 }
+                color: '#ACACAC',
+                wordWrap: { width: 462 }
             }).setOrigin(0);
 
         // Создаем маску для текстового элемента
@@ -33,7 +33,7 @@ export default class InfoScene extends Phaser.Scene {
         this.text.setMask(mask);
 
         // Создаем интерактивную зону, которую можно "перетаскивать" внутри
-        const zone = this.add.zone(0, 0, 710, 294).setOrigin(0).setInteractive();
+        const zone = this.add.zone(0, 0, 462, 294).setOrigin(0).setInteractive();
 
         // Обрабатываем событие колесика мыши на зоне для скроллинга текста
         zone.on('wheel', (pointer, deltaX, deltaY, deltaZ) => {
