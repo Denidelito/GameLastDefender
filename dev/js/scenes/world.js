@@ -6,7 +6,8 @@ import { setupCamera } from "../config/cameraSetup";
 import { spawnRandomEnemy } from "../helpers/enemySpawner";
 import {createAnimations} from "../utils/createAnimation";
 import {wordGrid} from "../helpers/worldGrid";
-import {destroyEnemy} from "../helpers/enemyDestroy";
+import player from "../object/player";
+import {PlayerMovement} from "../utils/playerMovement";
 
 export default class WorldScene extends Phaser.Scene {
     constructor() {
@@ -93,8 +94,8 @@ export default class WorldScene extends Phaser.Scene {
 
             this.GameData.spawnEnemy.lastTimeSpawn = this.player.scene.time.now;
 
-            if (this.GameData.spawnEnemy.livingEnemies.length > 2) {
-                destroyEnemy(this.GameData.playerTarget, this.GameData.spawnEnemy.livingEnemies);
+            if (this.GameData.spawnEnemy.livingEnemies.length >= 1) {
+                // PlayerMovement(this, this.player, this.GameData.spawnEnemy.livingEnemies[this.GameData.playerTarget])
             }
         }
 

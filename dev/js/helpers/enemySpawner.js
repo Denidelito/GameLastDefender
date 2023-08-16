@@ -1,5 +1,3 @@
-import {PlayerMovement} from "../utils/playerMovement";
-import playerData from "../object/player";
 export function spawnRandomEnemy(scene, enemiesData) {
     const layerDate  = scene.mapLayers.wood.layer.data;
 
@@ -47,7 +45,7 @@ export function spawnRandomEnemy(scene, enemiesData) {
 
         scene.GameData.spawnEnemy.livingEnemies.push(
             {
-                enemy: enemy,
+                info: enemy,
                 name: enemyNameText,
                 hpBar: enemyHealthBar,
                 backgroundHealthBar: backgroundEnemyHealthBar

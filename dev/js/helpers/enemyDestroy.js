@@ -1,7 +1,10 @@
-export function destroyEnemy(playerTarget, livingEnemies) {
-    livingEnemies[playerTarget].enemy.destroy()
-    livingEnemies[playerTarget].name.destroy()
-    livingEnemies[playerTarget].hpBar.destroy()
-    livingEnemies[playerTarget].backgroundHealthBar.destroy()
-    livingEnemies.splice(playerTarget, 1);
+export function destroyEnemy(scene) {
+    let pTarget = scene.GameData.playerTarget;
+    let lEnemies = scene.GameData.spawnEnemy.livingEnemies;
+
+    lEnemies[pTarget].info.destroy()
+    lEnemies[pTarget].name.destroy()
+    lEnemies[pTarget].hpBar.destroy()
+    lEnemies[pTarget].backgroundHealthBar.destroy()
+    lEnemies.splice(pTarget, 1);
 }

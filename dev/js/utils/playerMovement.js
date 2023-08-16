@@ -4,8 +4,8 @@ export function PlayerMovement(scene, player, enemy) {
     const playerTileX = scene.map.worldToTileX(player.x);
     const playerTileY = scene.map.worldToTileY(player.y);
 
-    const enemyTileX = scene.map.worldToTileX(enemy.x);
-    const enemyTileY = scene.map.worldToTileY(enemy.y);
+    const enemyTileX = scene.map.worldToTileX(enemy.info.x);
+    const enemyTileY = scene.map.worldToTileY(enemy.info.y);
 
     scene.easystar.findPath(playerTileX, playerTileY, enemyTileX, enemyTileY, (path) => {
         if (path !== null) {
@@ -45,7 +45,7 @@ export function PlayerMovement(scene, player, enemy) {
                             }
                         });
                     } else {
-                        handleCombat(scene.player, scene.enemy, scene.GameData.combat, scene.GameData.score);
+                        handleCombat(player, enemy, scene.GameData.combat, scene.GameData.score);
                     }
                 }
             });

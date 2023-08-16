@@ -1,8 +1,13 @@
 import playerData from "../object/player";
+import {destroyEnemy} from "./enemyDestroy";
 
-export function handleCombat(player, targetEnemy, combatData, score) {
+export function handleCombat(player, targetEnemy, combatData) {
+    if (player.scene.playerTarget === null) {
+        return
+    }
+
     const currentTime = player.scene.time.now;
-    const distance = Phaser.Math.Distance.Between(player.x, player.y, targetEnemy.enemy.x, targetEnemy.enemy.y);
+    const distance = Phaser.Math.Distance.Between(player.x, player.y, targetEnemy.info.x, targetEnemy.info.y);
     const GameData = player.scene.GameData;
     // Устанавливаем интервал нанесения урона в 1 секунду
     const InfoScene = player.scene.scene.get('InfoScene');
@@ -34,32 +39,34 @@ export function handleCombat(player, targetEnemy, combatData, score) {
             if (combatData.isCombatTurn === 'player') {
                 player.anims.play('attack', true);
 
-                targetEnemy.enemy.anims.play('enemy1-idle', true);
+                targetEnemy.info.anims.play('enemy1-idle', true);
 
                 const damage = calculateDamage(numberOfDice, typeOfDice, GameData.playerData.damage, playerData);
 
-                targetEnemy.enemy.health -= damage;
+                targetEnemy.info.health -= damage;
 
                 // Обновление показателей здоровья в информации
-                if (targetEnemy.enemy.health > 0) {
+                if (targetEnemy.info.health > 0) {
                     InfoScene.updateDialogModal(
                         `${GameData.playerData.name}: нанесит противнику ${damage} урона`
                     );
                 } else {
                     InfoScene.updateDialogModal(
-                        `${GameData.playerData.name}: наносит ${damage} урона, и пустили на фарш ${enemy.name}`
+                        `${GameData.playerData.name}: наносит ${damage} урона, и пустили на фарш ${targetEnemy.name}`
                     );
                 }
 
 
                 // Проверяем состояние здоровья противника
-                if (targetEnemy.enemy.health <= 0) {
-                    targetEnemy.enemy.anims.play('enemy1-die', true);
+                if (targetEnemy.info.health <= 0) {
+                    targetEnemy.info.anims.play('enemy1-die', true);
 
                     // Обработчик события завершения анимации
-                    targetEnemy.enemy.on('animationcomplete', function(animation, frame) {
+                    targetEnemy.info.on('animationcomplete', function(animation, frame) {
                         if (animation.key === 'enemy1-die') {
                             // Если здоровье противника меньше или равно 0, удаляем противника и спавним нового
+                            destroyEnemy(player.scene);
+
                             // targetEnemy.enemy.destroy();
                         }
                     }, this);
@@ -68,7 +75,7 @@ export function handleCombat(player, targetEnemy, combatData, score) {
                     GameData.score += 10;
 
                     // Получаем доступные предметы для данного типа врага
-                    const possibleItems = targetEnemy.enemy.possibleItems;
+                    const possibleItems = targetEnemy.info.possibleItems;
 
                     // Если у врага есть доступные предметы
                     if (possibleItems && possibleItems.length > 0) {
@@ -89,10 +96,12 @@ export function handleCombat(player, targetEnemy, combatData, score) {
                         `Ваш счет равен: ${GameData.score}`
                     );
 
+
+                    player.scene.playerTarget = null
                 }
 
                 // Переключаем currentPlayer на 'enemy', чтобы следующий удар наносился противником
-                if (targetEnemy.enemy.health > 0){
+                if (targetEnemy.info.health > 0){
                     combatData.isCombatTurn = 'enemy';
                 } else {
                     combatData.isCombatTurn = 'player'
@@ -103,27 +112,27 @@ export function handleCombat(player, targetEnemy, combatData, score) {
 
             } else if (combatData.isCombatTurn === 'enemy') {
                 player.anims.play('idle', true);
-                targetEnemy.enemy.anims.play('enemy1-attack', true);
+                targetEnemy.info.anims.play('enemy1-attack', true);
 
-                const damage = calculateDamage(numberOfDice, typeOfDice, targetEnemy.enemy.damage, targetEnemy.enemy);
+                const damage = calculateDamage(numberOfDice, typeOfDice, targetEnemy.info.damage, targetEnemy.info);
                 player.scene.GameData.playerData.health -= damage;
 
                 // Обновление показателей здоровья в информации
                 InfoScene.updateDialogModal(
-                    `${targetEnemy.enemy.name}: нанесли ${damage} урона`
+                    `${targetEnemy.info.name}: нанесли ${damage} урона`
                 );
 
-                if (targetEnemy.enemy && player.scene.enemyHealthBar) {
+                if (targetEnemy.info && player.scene.enemyHealthBar) {
                     // Предполагается, что у врагов одинаковое максимальное здоровье
                     const healthPercent = enemy.health / GameData.enemiesData[0].health;
                     // Предполагается, что у врагов одинаковое максимальное здоровье                    // Максимальная ширина полоски здоровья (64 пикселей)
                     const healthBarWidth = 64 * healthPercent;
                     // Очищаем старое состояние полоски
-                    player.scene.enemyHealthBar.clear();
+                    targetEnemy.hpBar.clear();
                     // Красный цвет
-                    player.scene.enemyHealthBar.fillStyle(0xFF0000, 1);
+                    targetEnemy.hpBar.fillStyle(0xFF0000, 1);
                     // Обновляем ширину полоски
-                    player.scene.enemyHealthBar.fillRect(enemy.x, enemy.y - 30, healthBarWidth, 8);
+                    targetEnemy.hpBar.fillRect(targetEnemy.info.x, targetEnemy.info.y - 30, healthBarWidth, 8);
                 }
 
                 // Обновляем время последнего удара
