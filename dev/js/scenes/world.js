@@ -33,6 +33,12 @@ export default class WorldScene extends Phaser.Scene {
             playerData: structuredClone(playerData),
             // Объект с характеристиками противников
             enemiesData: structuredClone(enemiesData),
+            // Массив с живыми противниками
+            spawnEnemy: {
+                lastTimeSpawn: 0,
+                intervalTimeSpawn: 5000,
+                livingEnemies: [],
+            },
             combat: {
                 // Время последнего нанесения урона
                 lastDamageTime: 0,
@@ -80,8 +86,15 @@ export default class WorldScene extends Phaser.Scene {
 
     update() {
         // Если противник мертв спавним нового
-        if (!this.GameData.isEnemySpawned) {
+        if (this.player.scene.time.now - this.GameData.spawnEnemy.lastTimeSpawn >= this.GameData.spawnEnemy.intervalTimeSpawn && this.GameData.spawnEnemy.livingEnemies.length <= 10) {
             spawnRandomEnemy(this, this.GameData.enemiesData);
+
+            this.GameData.spawnEnemy.lastTimeSpawn = this.player.scene.time.now;
+
+            if (this.GameData.spawnEnemy.livingEnemies.length > 1) {
+                this.GameData.spawnEnemy.livingEnemies[0].destroy()
+                console.log(this.GameData.spawnEnemy.livingEnemies)
+            }
         }
 
         // Обновляем позицию камеры, чтобы она следовала за персонажем

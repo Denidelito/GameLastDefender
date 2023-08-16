@@ -4,7 +4,7 @@ export function setupCamera(scene, width, height, offsetX, offsetY) {
     camera.setPosition(offsetX, offsetY);
     // Центрируем камеру по размеру
     camera.centerOn(width / 2,height / 2);
-    camera.zoom = 1
+    camera.zoom = 0.5
 
 
     // Устанавливаем размеры камеры сцены WorldScene
