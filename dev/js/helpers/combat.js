@@ -34,7 +34,6 @@ export function handleCombat(scene, player, targetEnemy, combatData) {
         if (currentTime - combatData.lastDamageTime >= combatData.damageInterval) {
             // Проверяем, кто сейчас может наносить удар
             if (combatData.isCombatTurn === 'player') {
-                player.anims.play('attack', true);
 
                 targetEnemy.info.anims.play('enemy1-idle', true);
 
@@ -99,6 +98,8 @@ export function handleCombat(scene, player, targetEnemy, combatData) {
 
                     scene.playerTarget = null;
 
+                } else {
+                    player.anims.play('attack', true);
                 }
 
                 // Переключаем currentPlayer на 'enemy', чтобы следующий удар наносился противником
