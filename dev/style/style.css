@@ -1,0 +1,58 @@
+@font-face {
+  font-family: 'alundratext';
+  src: url('../assets/fonts/alundratext.eot'); /* IE9 Compat Modes */
+  src: url('../assets/fonts/alundratext.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../assets/fonts/alundratext.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../assets/fonts/alundratext.woff') format('woff'), /* Pretty Modern Browsers */
+  url('../assets/fonts/alundratext.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  font-family: 'alundratext';
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
