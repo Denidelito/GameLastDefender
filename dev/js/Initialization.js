@@ -1,5 +1,8 @@
 import * as Phaser from "phaser";
 import PreloadScene from "./scene/PreloadScene.js";
+import MeinMenuScene from "./scene/MeinMenuScene.js";
+import GameScene from "./scene/GameScene.js";
+import GameOverScene from "./scene/GameOverScene.js";
 
 const config = {
     type: Phaser.AUTO,
@@ -11,7 +14,7 @@ const config = {
         // Высота окна игры
         height: 1080,
     },
-    scene: [PreloadScene]
+    scene: [PreloadScene, MeinMenuScene, GameScene, GameOverScene]
 };
 
 const game = new Phaser.Game(config);
