@@ -94,6 +94,9 @@ export default class PreloadScene extends Phaser.Scene {
         // Предметы
         this.load.image('potionHP', 'assets/sprites/items/potion.png');
         this.load.image('stick', 'assets/sprites/items/stick.png');
+
+        // Игровой интерфейс
+        this.load.image('ui-game-interface', 'assets/ui/gameInterface.png')
     }
 
 
