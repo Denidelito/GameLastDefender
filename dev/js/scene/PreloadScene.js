@@ -65,7 +65,7 @@ export default class PreloadScene extends Phaser.Scene {
             });
         this.load.spritesheet(
             'enemy1Idle',
-            '/assets/anim/enemy/slime-idle.png',
+            'assets/anim/enemy/slime-idle.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
