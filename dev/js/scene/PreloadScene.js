@@ -11,7 +11,7 @@ export default class PreloadScene extends Phaser.Scene {
         // Загрузка анимаций
         this.load.spritesheet(
             'playerIdle',
-            '/assets/anim/player/idle.png',
+            'assets/anim/player/idle.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
@@ -20,7 +20,7 @@ export default class PreloadScene extends Phaser.Scene {
             });
         this.load.spritesheet(
             'playerWalkLeft',
-            '/assets/anim/player/walk-left.png',
+            'assets/anim/player/walk-left.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
@@ -29,7 +29,7 @@ export default class PreloadScene extends Phaser.Scene {
             });
         this.load.spritesheet(
             'playerWalkRight',
-            '/assets/anim/player/walk-right.png',
+            'assets/anim/player/walk-right.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
@@ -38,7 +38,7 @@ export default class PreloadScene extends Phaser.Scene {
             });
         this.load.spritesheet(
             'playerWalkUp',
-            '/assets/anim/player/walk-up.png',
+            'assets/anim/player/walk-up.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
@@ -47,7 +47,7 @@ export default class PreloadScene extends Phaser.Scene {
             });
         this.load.spritesheet(
             'playerWalkDown',
-            '/assets/anim/player/walk-down.png',
+            'assets/anim/player/walk-down.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
@@ -56,7 +56,7 @@ export default class PreloadScene extends Phaser.Scene {
             });
         this.load.spritesheet(
             'playerAttack',
-            '/assets/anim/player/attack.png',
+            'assets/anim/player/attack.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
@@ -74,7 +74,7 @@ export default class PreloadScene extends Phaser.Scene {
             });
         this.load.spritesheet(
             'enemy1Attack',
-            '/assets/anim/enemy/slime-attack.png',
+            'assets/anim/enemy/slime-attack.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
@@ -83,7 +83,7 @@ export default class PreloadScene extends Phaser.Scene {
             });
         this.load.spritesheet(
             'enemy1die',
-            '/assets/anim/enemy/slime-die.png',
+            'assets/anim/enemy/slime-die.png',
             {
                 frameWidth: 192,
                 frameHeight: 192,
@@ -92,8 +92,8 @@ export default class PreloadScene extends Phaser.Scene {
             });
 
         // Предметы
-        this.load.image('potionHP', '/assets/sprites/items/potion.png');
-        this.load.image('stick', '/assets/sprites/items/stick.png');
+        this.load.image('potionHP', 'assets/sprites/items/potion.png');
+        this.load.image('stick', 'assets/sprites/items/stick.png');
     }
 
 
