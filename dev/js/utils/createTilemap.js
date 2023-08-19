@@ -2,20 +2,20 @@ import EasyStar from "easystarjs";
 
 export function createTilemap(scene) {
     // Создаем карты
-    scene.map = scene.make.tilemap({ key: 'map' });
-    scene.map2 = scene.make.tilemap({ key: 'map' });
+    scene.map = scene.make.tilemap({ key: 'tilemaps' });
 
     // Выбираем tiles которые будут использоваться для отрисовки
-    const tile = scene.map.addTilesetImage('tilemap', 'tiles');
+    const tile = scene.map.addTilesetImage('ter', 'terrain-atlas');
 
     // Сыводим слои
     scene.mapLayers = {
-        ground: scene.map.createLayer('main', tile, 0, 0),
-        wood: scene.map.createLayer('wood', tile, 0, 0),
-        wood2: scene.map2.createLayer('hs', tile, 0, 0).setDepth(3),
+        Earth: scene.map.createLayer('Earth', tile, 0, 0),
+        Treebrush: scene.map.createLayer('Treebrush', tile, 0, 0),
+        ForestCastle: scene.map.createLayer('Forest&Castle', tile, 0, 0),
+        WOW: scene.map.createLayer(' WOW', tile, 0, 0),
     }
 
-    const tileData = scene.mapLayers.wood.layer.data;
+    const tileData = scene.mapLayers.Treebrush.layer.data;
     const grid = [];
     for (let y = 0; y < tileData.length; y++) {
         const row = [];

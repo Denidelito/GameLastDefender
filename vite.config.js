@@ -1,6 +1,5 @@
 import { resolve, parse } from 'path';
 import { defineConfig } from 'vite';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 
 export default defineConfig({
     base: './',

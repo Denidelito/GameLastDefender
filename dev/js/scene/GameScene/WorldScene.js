@@ -6,6 +6,8 @@ export default class WorldScene extends Phaser.Scene {
     }
 
     create() {
-        // createTilemap(this);
+        createTilemap(this);
+
+        console.log(this.data)
     }
 }

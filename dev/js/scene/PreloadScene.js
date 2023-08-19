@@ -96,7 +96,11 @@ export default class PreloadScene extends Phaser.Scene {
         this.load.image('stick', 'assets/sprites/items/stick.png');
 
         // Игровой интерфейс
-        this.load.image('ui-game-interface', 'assets/ui/gameInterface.png')
+        this.load.image('ui-game-interface', 'assets/ui/gameInterface.png');
+
+        // Карта мира
+        this.load.tilemapTiledJSON('tilemaps', 'assets/tilemaps/OldCastleTilemap.tmj');
+        this.load.image('terrain-atlas', 'assets/tilemaps/terrain_atlas.png');
     }
 
 
