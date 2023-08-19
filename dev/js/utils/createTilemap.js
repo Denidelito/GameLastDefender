@@ -15,7 +15,8 @@ export function createTilemap(scene) {
         WOW: scene.map.createLayer('WOW', tile, 0, 0),
     }
 
-    const tileData = scene.mapLayers.Treebrush.layer.data;
+    // Добавляем обьекты которые нужно обходить
+    const tileData = scene.mapLayers.ForestCastle.layer.data;
     const grid = [];
     for (let y = 0; y < tileData.length; y++) {
         const row = [];
