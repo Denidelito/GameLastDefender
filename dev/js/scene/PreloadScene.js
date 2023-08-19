@@ -91,6 +91,9 @@ export default class PreloadScene extends Phaser.Scene {
                 endFrame: 5
             });
 
+        //Спрайт персонажа
+        this.load.image('playerSprite', 'assets/sprites/player/player.png')
+
         // Предметы
         this.load.image('potionHP', 'assets/sprites/items/potion.png');
         this.load.image('stick', 'assets/sprites/items/stick.png');

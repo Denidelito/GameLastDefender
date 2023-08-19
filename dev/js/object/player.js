@@ -1,5 +1,6 @@
 const playerData = {
-    spawn: {
+    sprites: 'playerSprite',
+    spawnPosition: {
         x: 600,
         y: 600,
     },

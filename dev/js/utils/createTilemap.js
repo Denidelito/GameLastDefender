@@ -11,8 +11,8 @@ export function createTilemap(scene) {
     scene.mapLayers = {
         Earth: scene.map.createLayer('Earth', tile, 0, 0),
         Treebrush: scene.map.createLayer('Treebrush', tile, 0, 0),
-        ForestCastle: scene.map.createLayer('Forest&Castle', tile, 0, 0),
-        WOW: scene.map.createLayer(' WOW', tile, 0, 0),
+        ForestCastle: scene.map.createLayer('ForestCastle', tile, 0, 0),
+        WOW: scene.map.createLayer('WOW', tile, 0, 0),
     }
 
     const tileData = scene.mapLayers.Treebrush.layer.data;
