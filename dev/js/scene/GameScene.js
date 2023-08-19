@@ -15,11 +15,22 @@ export default class GameScene extends Phaser.Scene {
         // Объект с характеристиками противников
         this.data.set('enemy', structuredClone(enemiesData));
 
+        // Обект с данными о ведении боя
+        this.data.set('combat', {
+                active: false,
+                // Время последнего нанесения урона
+                lastDamageTime: 0,
+                // Очередность ударов
+                isCombatTurn: 'player',
+                // Интервал уларов
+                damageInterval: 2000,
+        });
+
         // Хранилище enemy которые заспавнились на карте
         this.data.set('spawnEnemy', {
             livingEnemies: [],
-            lastTimeSpawn: 0,
-            intervalTimeSpawn: 1000
+            lastTimeSpawn: -12000,
+            intervalTimeSpawn: 10000
         });
 
         this.cameras.main.setViewport(0, 0, 1920, 1080);

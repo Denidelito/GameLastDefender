@@ -1,10 +1,12 @@
 export function destroyEnemy(scene) {
-    let pTarget = scene.GameData.playerTarget;
-    let lEnemies = scene.GameData.spawnEnemy.livingEnemies;
+    const spawnEnemy = scene.scene.get('GameScene').data.get('spawnEnemy'),
+        player = scene.scene.get('GameScene').data.get('player');
 
-    lEnemies[pTarget].info.destroy()
-    lEnemies[pTarget].name.destroy()
-    lEnemies[pTarget].hpBar.destroy()
-    lEnemies[pTarget].backgroundHealthBar.destroy()
-    lEnemies.splice(pTarget, 1);
+    console.log(spawnEnemy, player.target);
+
+    spawnEnemy.livingEnemies[player.target].info.destroy()
+    spawnEnemy.livingEnemies[player.target].name.destroy()
+    spawnEnemy.livingEnemies[player.target].hpBar.destroy()
+    spawnEnemy.livingEnemies[player.target].backgroundHealthBar.destroy()
+    spawnEnemy.livingEnemies.splice(player.target, 1);
 }

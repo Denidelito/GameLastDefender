@@ -3,6 +3,7 @@ import {createAnimations} from "../../utils/createAnimation.js";
 import {cameraPlayer} from "../../config/cameraPlayer.js";
 import {spawnRandomEnemy} from "../../helpers/enemy/enemySpawner.js";
 import {createGrid} from "../../config/createGrid.js";
+import {combatEnemy} from "../../helpers/enemy/enemyCombat.js";
 export default class WorldScene extends Phaser.Scene {
     constructor() {
         super('WorldScene');
@@ -10,8 +11,7 @@ export default class WorldScene extends Phaser.Scene {
 
     create() {
         // Получаем информацию об игроке
-        const player = this.scene.get('GameScene').data.get('player'),
-            enemy = this.scene.get('GameScene').data.get('enemy');
+        const player = this.scene.get('GameScene').data.get('player');
 
         // Создаем камера на персонаже
         cameraPlayer(this, 1360, 640, 36, 36)
@@ -24,9 +24,6 @@ export default class WorldScene extends Phaser.Scene {
 
         // Создаем анимации
         createAnimations(this);
-
-        // Создаем Enemy
-        spawnRandomEnemy(this, enemy)
 
         this.scene.get('GameScene').data.get('spawnEnemy');
 
@@ -71,7 +68,9 @@ export default class WorldScene extends Phaser.Scene {
 
 
         const spawnEnemy = this.scene.get('GameScene').data.get('spawnEnemy'),
-            enemy = this.scene.get('GameScene').data.get('enemy')
+            enemy = this.scene.get('GameScene').data.get('enemy'),
+            combat = this.scene.get('GameScene').data.get('combat'),
+            player = this.scene.get('GameScene').data.get('player');
 
         // Если противник мертв спавним нового
         if (time - spawnEnemy.lastTimeSpawn >= spawnEnemy.intervalTimeSpawn && spawnEnemy.livingEnemies.length <= 10) {
@@ -80,6 +79,11 @@ export default class WorldScene extends Phaser.Scene {
             spawnEnemy.lastTimeSpawn = time;
 
             this.scene.get('QuestScene').updateQuest(this, spawnEnemy.livingEnemies)
+        }
+
+        // Проверяем нужно ли атаковать
+        if (combat.active) {
+            combatEnemy(this, this.playerSprite, spawnEnemy.livingEnemies[player.target], combat);
         }
     }
 }

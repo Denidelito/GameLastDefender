@@ -1,10 +1,14 @@
-export function playerMovement(scene, player, enemy) {
+export function playerMovement(scene, playerSprite, enemy) {
 
-    const playerTileX = scene.map.worldToTileX(player.x);
-    const playerTileY = scene.map.worldToTileY(player.y);
 
-    const enemyTileX = scene.map.worldToTileX(enemy.info.x);
-    const enemyTileY = scene.map.worldToTileY(enemy.info.y);
+    const spawnEnemy = scene.scene.get('GameScene').data.get('spawnEnemy'),
+        player = scene.scene.get('GameScene').data.get('player'),
+        combat = scene.scene.get('GameScene').data.get('combat'),
+        playerTileX = scene.map.worldToTileX(playerSprite.x),
+        playerTileY = scene.map.worldToTileY(playerSprite.y),
+        enemyTileX = scene.map.worldToTileX(enemy.info.x),
+        enemyTileY = scene.map.worldToTileY(enemy.info.y);
+
     scene.easystar.findPath(playerTileX, playerTileY, enemyTileX, enemyTileY, (path) => {
         if (path !== null) {
             // Передвигайте игрока по пути
@@ -14,26 +18,26 @@ export function playerMovement(scene, player, enemy) {
                 delay: 200,
                 loop: true,
                 callback: (event) => {
-                    if (currentPathIndex < path.length && enemy === scene.GameData.spawnEnemy.livingEnemies[scene.GameData.playerTarget]) {
+                    if (currentPathIndex < path.length && enemy === spawnEnemy.livingEnemies[player.target]) {
                         const nextTile = path[currentPathIndex];
                         const nextWorldX = scene.map.tileToWorldX(nextTile.x);
                         const nextWorldY = scene.map.tileToWorldY(nextTile.y);
 
-                        const deltaX = nextTile.x - scene.map.worldToTileX(player.x);
-                        const deltaY = nextTile.y - scene.map.worldToTileY(player.y);
+                        const deltaX = nextTile.x - scene.map.worldToTileX(playerSprite.x);
+                        const deltaY = nextTile.y - scene.map.worldToTileY(playerSprite.y);
 
                         if (deltaX > 0) {
-                            player.anims.play('walk-right', true);
+                            playerSprite.anims.play('walk-right', true);
                         } else if (deltaX < 0) {
-                            player.anims.play('walk-left', true);
+                            playerSprite.anims.play('walk-left', true);
                         } else if (deltaY > 0) {
-                            player.anims.play('walk-down', true);
+                            playerSprite.anims.play('walk-down', true);
                         } else if (deltaY < 0) {
-                            player.anims.play('walk-up', true);
+                            playerSprite.anims.play('walk-up', true);
                         }
 
                         scene.tweens.add({
-                            targets: player,
+                            targets: playerSprite,
                             x: nextWorldX,
                             y: nextWorldY,
                             duration: 200,
@@ -42,7 +46,7 @@ export function playerMovement(scene, player, enemy) {
                             }
                         });
                     } else if (currentPathIndex === path.length) {
-                        scene.GameData.combat.active = true;
+                        combat.active = true;
 
                         movementEvent.remove();
                     } else {

@@ -34,8 +34,11 @@ export default class QuestScene extends Phaser.Scene{
 
         let xOffset = 10;
         let yOffset = 10;
-        const buttonWidth = (494 - 20) / 2;
-        const buttonHeight = 88;
+
+        const player = scene.scene.get('GameScene').data.get('player'),
+            combat = scene.scene.get('GameScene').data.get('combat'),
+            buttonWidth = (494 - 20) / 2,
+            buttonHeight = 88;
 
         questData.forEach((quest, key) => {
             const buttonContainer = this.add.container(xOffset, yOffset);
@@ -47,8 +50,8 @@ export default class QuestScene extends Phaser.Scene{
             sprite.setDisplaySize(64, 64);
 
             const buttonText = this.add.text(-30, -30, quest.info.name, {
-                fontFamily: 'Arial',
-                fontSize: '16px',
+                fontFamily: 'alundratext',
+                fontSize: '18px',
                 color: '#ffffff'
             });
 
@@ -59,11 +62,11 @@ export default class QuestScene extends Phaser.Scene{
             buttonBackground.setInteractive();
 
             buttonBackground.on('pointerdown', () => {
-                if (this.scene.get('WorldScene').GameData.playerTarget !== key) {
-                    this.scene.get('WorldScene').GameData.playerTarget = key;
-                    this.scene.get('WorldScene').GameData.combat.active = false;
+                if (player.target !== key) {
+                    player.target = key;
+                    combat.active = false;
 
-                    playerMovement(scene, scene.player, questData[key]);
+                    playerMovement(scene, scene.playerSprite, questData[key]);
                 }
             });
 
