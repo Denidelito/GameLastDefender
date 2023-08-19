@@ -16,7 +16,7 @@ export function spawnRandomEnemy(scene, enemiesData) {
         .setOrigin(0.2, 0.3)
         .setDepth(1);
 
-    const randomIndex = 0 /*Phaser.Math.Between(0, enemiesData.length - 1)*/,
+    const randomIndex = Phaser.Math.Between(0, enemiesData.length - 1),
         randomEnemy = enemiesData[randomIndex];
 
     enemy.name = randomEnemy.name;
@@ -34,7 +34,6 @@ export function spawnRandomEnemy(scene, enemiesData) {
             fill: '#ffffff'
         }
     ).setOrigin(0.5);
-    console.log((enemyNameText.width - enemy.width) / 2);
     enemyNameText.setText(randomEnemy.name);
     enemyNameText.setPosition(enemy.x+32, enemy.y - 30);
     enemy.anims.play('enemy1-idle', true);
@@ -44,17 +43,17 @@ export function spawnRandomEnemy(scene, enemiesData) {
     enemyHealthBar.fillStyle(0xFF0000, 1);
     enemyHealthBar.fillRect(enemy.x , enemy.y - 10, 64, 8);
 
-    const backgroundEnemyHealthBar = scene.add.graphics();
-    backgroundEnemyHealthBar.setDepth(3);
-    backgroundEnemyHealthBar.fillStyle(0xFFFFFF, 1);
-    backgroundEnemyHealthBar.fillRect(enemy.x, enemy.y - 10, 64, 8);
+    const enemyHealthBarBackground = scene.add.graphics();
+    enemyHealthBarBackground.setDepth(3);
+    enemyHealthBarBackground.fillStyle(0xFFFFFF, 1);
+    enemyHealthBarBackground.fillRect(enemy.x, enemy.y - 10, 64, 8);
 
     scene.scene.get('GameScene').data.get('spawnEnemy').livingEnemies.push(
         {
             info: enemy,
             name: enemyNameText,
             hpBar: enemyHealthBar,
-            backgroundHealthBar: backgroundEnemyHealthBar
+            backgroundHealthBar: enemyHealthBarBackground
         }
     )
 

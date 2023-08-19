@@ -91,6 +91,9 @@ export default class PreloadScene extends Phaser.Scene {
                 endFrame: 5
             });
 
+        //Спрайты вргов
+        this.load.image('slimeAvatar', 'assets/sprites/enemy/smileAvatar.png')
+
         //Спрайт персонажа
         this.load.image('playerSprite', 'assets/sprites/player/player.png')
 
@@ -100,6 +103,8 @@ export default class PreloadScene extends Phaser.Scene {
 
         // Игровой интерфейс
         this.load.image('ui-game-interface', 'assets/ui/gameInterface.png');
+        this.load.image('ui-player-bar', 'assets/ui/playerBar.png');
+        this.load.image('ui-quest-table', 'assets/ui/questTable.png');
 
         // Карта мира
         this.load.tilemapTiledJSON('tilemaps', 'assets/tilemaps/OldCastleTilemap.tmj');

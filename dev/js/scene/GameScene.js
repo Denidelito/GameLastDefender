@@ -1,6 +1,7 @@
 import WorldScene from "./GameScene/WorldScene.js";
 import playerData from "../object/player.js";
 import enemiesData from "../object/enemies.js";
+import QuestScene from "./GameScene/interfaceScene/questScene.js";
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -16,7 +17,9 @@ export default class GameScene extends Phaser.Scene {
 
         // Хранилище enemy которые заспавнились на карте
         this.data.set('spawnEnemy', {
-            livingEnemies: []
+            livingEnemies: [],
+            lastTimeSpawn: 0,
+            intervalTimeSpawn: 1000
         });
 
         this.cameras.main.setViewport(0, 0, 1920, 1080);
@@ -24,5 +27,6 @@ export default class GameScene extends Phaser.Scene {
         this.add.image(0, 0, 'ui-game-interface').setOrigin(0);
 
         this.scene.add('WorldScene', WorldScene, true);
+        this.scene.add('QuestScene', QuestScene, true);1
     }
 }

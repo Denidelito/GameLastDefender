@@ -68,5 +68,18 @@ export default class WorldScene extends Phaser.Scene {
         // Устанавливаем новые значения scrollX и scrollY
         mainCamera.scrollX = newScrollX;
         mainCamera.scrollY = newScrollY;
+
+
+        const spawnEnemy = this.scene.get('GameScene').data.get('spawnEnemy'),
+            enemy = this.scene.get('GameScene').data.get('enemy')
+
+        // Если противник мертв спавним нового
+        if (time - spawnEnemy.lastTimeSpawn >= spawnEnemy.intervalTimeSpawn && spawnEnemy.livingEnemies.length <= 10) {
+            spawnRandomEnemy(this, enemy);
+
+            spawnEnemy.lastTimeSpawn = time;
+
+            this.scene.get('QuestScene').updateQuest(this, spawnEnemy.livingEnemies)
+        }
     }
 }
