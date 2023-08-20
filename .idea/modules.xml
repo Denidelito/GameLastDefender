@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/GameLastDefender.iml" filepath="$PROJECT_DIR$/.idea/GameLastDefender.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/GameLastDefenderBuild.iml" filepath="$PROJECT_DIR$/.idea/GameLastDefenderBuild.iml" />
     </modules>
   </component>
 </project>
