@@ -13,7 +13,7 @@ export function combatEnemy(scene, playerSprite, targetEnemy, combatData) {
     const distance = Phaser.Math.Distance.Between(playerSprite.x, playerSprite.y, targetEnemy.info.x, targetEnemy.info.y);
     const GameData = scene.GameData;
     // Устанавливаем интервал нанесения урона в 1 секунду
-    const InfoScene = scene.scene.get('InfoScene');
+    const informationScene = scene.scene.get('InformationScene');
     const InventoryScene = scene.scene.get('InventoryScene');
 
 
@@ -47,13 +47,13 @@ export function combatEnemy(scene, playerSprite, targetEnemy, combatData) {
 
                 // Обновление показателей здоровья в информации
                 if (targetEnemy.info.health > 0) {
-                    /*InfoScene.updateDialogModal(
-                        `${GameData.playerData.name}: нанесит противнику ${damage} урона`
-                    );*/
+                    informationScene.updateDialogModal(
+                        `${player.name}: нанесит противнику ${damage} урона`
+                    );
                 } else {
-                    /*InfoScene.updateDialogModal(
-                        `${GameData.playerData.name}: наносит ${damage} урона, и пустили на фарш ${targetEnemy.name}`
-                    );*/
+                    informationScene.updateDialogModal(
+                        `${player.name}: наносит ${damage} урона, и пустили на фарш ${targetEnemy.name}`
+                    );
                 }
 
 
@@ -88,17 +88,13 @@ export function combatEnemy(scene, playerSprite, targetEnemy, combatData) {
                         const randomItemIndex = Phaser.Math.Between(0, possibleItems.length - 1);
                         const droppedItem = possibleItems[randomItemIndex];
 
-                        /*InfoScene.updateDialogModal(
+                        informationScene.updateDialogModal(
                             `Вы получили: ${possibleItems[randomItemIndex]}`
-                        );*/
+                        );
 
                         // Добавляем предмет в инвентарь или делаем другие действия с ним
-                        // InventoryScene.addToInventory(droppedItem);
+                        InventoryScene.addToInventory(droppedItem);
                     }
-
-                    /*InfoScene.updateDialogModal(
-                        `Ваш счет равен: ${GameData.score}`
-                    );*/
 
                 } else {
                     playerSprite.anims.play('attack', true);
@@ -122,9 +118,9 @@ export function combatEnemy(scene, playerSprite, targetEnemy, combatData) {
                 player.characteristics.health -= damage;
 
                 // Обновление показателей здоровья в информации
-                /*InfoScene.updateDialogModal(
+                informationScene.updateDialogModal(
                     `${targetEnemy.info.name}: нанесли ${damage} урона`
-                );*/
+                );
 
                 // Предполагается, что у врагов одинаковое максимальное здоровье
                 const healthPercent = targetEnemy.health / enemy[0].health;

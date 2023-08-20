@@ -1,7 +1,10 @@
 import WorldScene from "./GameScene/WorldScene.js";
 import playerData from "../object/player.js";
 import enemiesData from "../object/enemies.js";
-import QuestScene from "./GameScene/interfaceScene/questScene.js";
+import QuestScene from "./GameScene/interfaceScene/QuestScene.js";
+import InformationScene from "./GameScene/interfaceScene/InformationScene.js";
+import InventoryScene from "./GameScene/interfaceScene/InventoryScene.js";
+import SpecificationsScene from "./GameScene/interfaceScene/SpecificationsScene.js";
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -29,7 +32,7 @@ export default class GameScene extends Phaser.Scene {
         // Хранилище enemy которые заспавнились на карте
         this.data.set('spawnEnemy', {
             livingEnemies: [],
-            lastTimeSpawn: -12000,
+            lastTimeSpawn: -20000,
             intervalTimeSpawn: 10000
         });
 
@@ -39,5 +42,8 @@ export default class GameScene extends Phaser.Scene {
 
         this.scene.add('WorldScene', WorldScene, true);
         this.scene.add('QuestScene', QuestScene, true);1
+        this.scene.add('InformationScene', InformationScene, true);
+        this.scene.add('InventoryScene', InventoryScene, true);
+        this.scene.add('SpecificationsScene', SpecificationsScene, true);
     }
 }

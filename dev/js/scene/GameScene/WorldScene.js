@@ -4,6 +4,8 @@ import {cameraPlayer} from "../../config/cameraPlayer.js";
 import {spawnRandomEnemy} from "../../helpers/enemy/enemySpawner.js";
 import {createGrid} from "../../config/createGrid.js";
 import {combatEnemy} from "../../helpers/enemy/enemyCombat.js";
+import staff from "../../object/items.js";
+
 export default class WorldScene extends Phaser.Scene {
     constructor() {
         super('WorldScene');
@@ -43,8 +45,28 @@ export default class WorldScene extends Phaser.Scene {
         this.playerSprite.anims.play('idle', true);
     }
 
+
+    updatePlayer(idStaff) {
+
+        // Получаем выьранный предмет
+        const currentStaff = staff[idStaff],
+            player = this.scene.get('GameScene').data.get('player');
+
+        // Проверяем к какому типу он оттносится
+        if (currentStaff.type === 'potion') {
+
+            // Обновлям характеристики игрока
+            player.characteristics.health += currentStaff.stats.health;
+        }
+    }
+
     update(time, delta) {
         super.update(time, delta);
+
+        const spawnEnemy = this.scene.get('GameScene').data.get('spawnEnemy'),
+            enemy = this.scene.get('GameScene').data.get('enemy'),
+            combat = this.scene.get('GameScene').data.get('combat'),
+            player = this.scene.get('GameScene').data.get('player');
 
         // Обновляем позицию камеры, чтобы она следовала за персонажем
         const mainCamera = this.cameras.main
@@ -66,12 +88,6 @@ export default class WorldScene extends Phaser.Scene {
         mainCamera.scrollX = newScrollX;
         mainCamera.scrollY = newScrollY;
 
-
-        const spawnEnemy = this.scene.get('GameScene').data.get('spawnEnemy'),
-            enemy = this.scene.get('GameScene').data.get('enemy'),
-            combat = this.scene.get('GameScene').data.get('combat'),
-            player = this.scene.get('GameScene').data.get('player');
-
         // Если противник мертв спавним нового
         if (time - spawnEnemy.lastTimeSpawn >= spawnEnemy.intervalTimeSpawn && spawnEnemy.livingEnemies.length <= 10) {
             spawnRandomEnemy(this, enemy);
@@ -85,5 +101,15 @@ export default class WorldScene extends Phaser.Scene {
         if (combat.active) {
             combatEnemy(this, this.playerSprite, spawnEnemy.livingEnemies[player.target], combat);
         }
+
+
+        // Обновляем характеристики персонажа
+        this.scene.get('SpecificationsScene').updateInformationPlayer(
+            `Сила: ${player.characteristics.force}`,
+            `Ловкость: ${player.characteristics.agility}`,
+            `Удача: ${player.characteristics.luck}`,
+            `Урон: ${player.characteristics.damage}`,
+            `Защита: ${player.characteristics.protection}`,
+        )
     }
 }

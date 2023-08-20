@@ -3,16 +3,21 @@ import EasyStar from "easystarjs";
 export function createTilemap(scene) {
     // Создаем карты
     scene.map = scene.make.tilemap({ key: 'tilemaps' });
+    scene.mapEarth = scene.make.tilemap({ key: 'tilemaps' });
 
     // Выбираем tiles которые будут использоваться для отрисовки
     const tile = scene.map.addTilesetImage('ter', 'terrain-atlas');
 
+
     // Сыводим слои
     scene.mapLayers = {
-        Earth: scene.map.createLayer('Earth', tile, 0, 0),
-        Treebrush: scene.map.createLayer('Treebrush', tile, 0, 0),
+        Earth: scene.mapEarth.createLayer('Earth', tile, 0, 0),
         ForestCastle: scene.map.createLayer('ForestCastle', tile, 0, 0),
         WOW: scene.map.createLayer('WOW', tile, 0, 0),
+    }
+
+    scene.MapLayer = {
+        Treebrush: scene.map.createLayer('Treebrush', tile, 0, 0).setDepth(3),
     }
 
     // Добавляем обьекты которые нужно обходить
