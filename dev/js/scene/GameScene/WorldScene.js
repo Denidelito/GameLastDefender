@@ -89,7 +89,7 @@ export default class WorldScene extends Phaser.Scene {
         mainCamera.scrollY = newScrollY;
 
         // Если противник мертв спавним нового
-        if (time - spawnEnemy.lastTimeSpawn >= spawnEnemy.intervalTimeSpawn && spawnEnemy.livingEnemies.length <= 10) {
+        if (time - spawnEnemy.lastTimeSpawn >= spawnEnemy.intervalTimeSpawn) {
             spawnRandomEnemy(this, enemy);
 
             spawnEnemy.lastTimeSpawn = time;

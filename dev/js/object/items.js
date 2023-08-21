@@ -16,9 +16,11 @@ const staff = {
         description: 'Палка которой уже пользовались, но непонятно как. +10 сомнительного урона.',
         sprite: 'stick',
         stats: {
-            speed: 0,
-            health: 0,
-            damage: 10
+            force: 1,
+            agility: 1,
+            luck: 1,
+            damage: 10,
+            protection: 0
         }
     },
 

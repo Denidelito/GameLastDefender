@@ -41,7 +41,6 @@ export default class InformationScene extends Phaser.Scene {
 
         // Обрабатываем событие колесика мыши на зоне для скроллинга текста
         zone.on('wheel', (pointer, deltaX, deltaY, deltaZ) => {
-
             // Изменяем позицию текста в соответствии с направлением прокрутки
             this.text.y -= deltaY * 2;
 

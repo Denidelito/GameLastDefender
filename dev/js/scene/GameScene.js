@@ -8,6 +8,7 @@ import SpecificationsScene from "./GameScene/interfaceScene/SpecificationsScene.
 import PlayerBarScene from "./GameScene/interfaceScene/PlayerBarScene.js";
 import player from "../object/player.js";
 import ChaosBarScene from "./GameScene/interfaceScene/ChaosBarScene.js";
+import {EquipmentScene} from "./GameScene/interfaceScene/EquipmentScene.js";
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -56,6 +57,7 @@ export default class GameScene extends Phaser.Scene {
         this.scene.add('SpecificationsScene', SpecificationsScene, true);
         this.scene.add('PlayerBarScene', PlayerBarScene, true);
         this.scene.add('ChaosBarScene', ChaosBarScene, true);
+        this.scene.add('EquipmentScene', EquipmentScene, true);
 
     }
 
@@ -67,6 +69,7 @@ export default class GameScene extends Phaser.Scene {
         this.scene.remove('SpecificationsScene');
         this.scene.remove('PlayerBarScene');
         this.scene.remove('ChaosBarScene');
+        this.scene.remove('EquipmentScene');
         this.scene.start('GameOverScene');
     }
 }

@@ -16,7 +16,7 @@ const enemiesData = [
         avatar: 'slimeAvatar',
         description: 'Мерский слизень',
         health: 80,
-        damage: 8,
+        damage: 20,
         color: 0x00ff00, // Синий цвет
         chaos: 10,
         possibleItems: ['hpPotion']
@@ -29,7 +29,7 @@ const enemiesData = [
         health: 100,
         damage: 12,
         color: 0x0000ff, // Синий цвет
-        chaos: 15,
+        chaos: 25,
         possibleItems: ['hpPotion']
     }
     // Можете добавить больше типов противников с их характеристиками и цветами по аналогии

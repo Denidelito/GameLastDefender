@@ -126,11 +126,10 @@ export default class InventoryScene extends Phaser.Scene {
         button1.setInteractive({ useHandCursor: true });
 
         button1.on('pointerdown', () => {
-
             scene.playerInventory[itemIndex] = scene.itemUse(scene, scene.playerInventory[itemIndex], scene.inventorySlots[itemIndex]);
-
             container.destroy();
         });
+
         container.add(button1);
 
         const button2 = scene.add.text(-40, 20, 'Продать', {
@@ -152,7 +151,11 @@ export default class InventoryScene extends Phaser.Scene {
 
         if (item !== null) {
 
-            scene.scene.get('WorldScene').updatePlayer(item);
+            if (staff[item].type === 'potion') {
+                scene.scene.get('WorldScene').updatePlayer(item);
+            } else if (staff[item].type === 'weapon') {
+                scene.scene.get('EquipmentScene').addEquipment(item, 44, 232, 94, 94);
+            }
 
             // Убираем спрайт предмета из слота
             if (slot.itemSprite) {
