@@ -2,7 +2,7 @@ const staff = {
     hpPotion: {
         type: 'potion',
         name: 'Зелье здоровья',
-        description: 'Востанавливает 25 ОЗ',
+        description: 'Восстанавливает 25 ОЗ',
         sprite: 'potionHP',
         stats: {
             speed: 0,
@@ -13,7 +13,7 @@ const staff = {
     stick: {
         type: 'weapon',
         name: 'Палка истины',
-        description: 'Палка которой кто уже пользовался +10 Урона',
+        description: 'Палка которой уже пользовались, но непонятно как. +10 сомнительного урона.',
         sprite: 'stick',
         stats: {
             speed: 0,

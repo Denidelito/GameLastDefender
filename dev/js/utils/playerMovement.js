@@ -10,6 +10,7 @@ export function playerMovement(scene, playerSprite, enemy) {
         enemyTileY = scene.map.worldToTileY(enemy.info.y);
 
     scene.easystar.findPath(playerTileX, playerTileY, enemyTileX, enemyTileY, (path) => {
+
         if (path !== null) {
             // Передвигайте игрока по пути
             let currentPathIndex = 0;
@@ -50,6 +51,7 @@ export function playerMovement(scene, playerSprite, enemy) {
 
                         movementEvent.remove();
                     } else {
+
                         movementEvent.remove();
                     }
                 }

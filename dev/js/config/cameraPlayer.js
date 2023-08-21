@@ -6,7 +6,6 @@ export function cameraPlayer(scene, width, height, offsetX, offsetY) {
     camera.centerOn(width / 2,height / 2);
     camera.zoom = 1
 
-
     // Устанавливаем размеры камеры сцены WorldScene
     scene.cameras.main.setSize(width, height);
     scene.cameras.main.setPosition(offsetX, offsetY);

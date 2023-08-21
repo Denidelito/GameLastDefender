@@ -1,7 +1,7 @@
+import {spawnRandomEnemy} from "../../helpers/enemy/enemySpawner.js";
 import {createTilemap} from "../../utils/createTilemap.js";
 import {createAnimations} from "../../utils/createAnimation.js";
 import {cameraPlayer} from "../../config/cameraPlayer.js";
-import {spawnRandomEnemy} from "../../helpers/enemy/enemySpawner.js";
 import {createGrid} from "../../config/createGrid.js";
 import {combatEnemy} from "../../helpers/enemy/enemyCombat.js";
 import staff from "../../object/items.js";
@@ -20,9 +20,6 @@ export default class WorldScene extends Phaser.Scene {
 
         // Создайем tilemap
         createTilemap(this);
-
-        // Сетка
-        // createGrid(this, this.map, true);
 
         // Создаем анимации
         createAnimations(this);
@@ -47,16 +44,18 @@ export default class WorldScene extends Phaser.Scene {
 
 
     updatePlayer(idStaff) {
-
         // Получаем выьранный предмет
         const currentStaff = staff[idStaff],
             player = this.scene.get('GameScene').data.get('player');
 
         // Проверяем к какому типу он оттносится
         if (currentStaff.type === 'potion') {
-
             // Обновлям характеристики игрока
-            player.characteristics.health += currentStaff.stats.health;
+            if (player.characteristics.health + currentStaff.stats.health < 100) {
+                player.characteristics.health += currentStaff.stats.health;
+            } else {
+                player.characteristics.health = 100;
+            }
         }
     }
 
@@ -102,6 +101,7 @@ export default class WorldScene extends Phaser.Scene {
             combatEnemy(this, this.playerSprite, spawnEnemy.livingEnemies[player.target], combat);
         }
 
+        this.scene.get('PlayerBarScene').updateHealth(player.characteristics.health);
 
         // Обновляем характеристики персонажа
         this.scene.get('SpecificationsScene').updateInformationPlayer(
@@ -111,5 +111,11 @@ export default class WorldScene extends Phaser.Scene {
             `Урон: ${player.characteristics.damage}`,
             `Защита: ${player.characteristics.protection}`,
         )
+
+
+        // Проверям здоровье персанажа и рестартим игру
+        if (player.characteristics.health <= 0) {
+            this.scene.get('GameScene').resetGame();
+        }
     }
 }

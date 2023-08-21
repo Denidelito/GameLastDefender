@@ -5,6 +5,8 @@ import QuestScene from "./GameScene/interfaceScene/QuestScene.js";
 import InformationScene from "./GameScene/interfaceScene/InformationScene.js";
 import InventoryScene from "./GameScene/interfaceScene/InventoryScene.js";
 import SpecificationsScene from "./GameScene/interfaceScene/SpecificationsScene.js";
+import PlayerBarScene from "./GameScene/interfaceScene/PlayerBarScene.js";
+import player from "../object/player.js";
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -41,9 +43,21 @@ export default class GameScene extends Phaser.Scene {
         this.add.image(0, 0, 'ui-game-interface').setOrigin(0);
 
         this.scene.add('WorldScene', WorldScene, true);
-        this.scene.add('QuestScene', QuestScene, true);1
+        this.scene.add('QuestScene', QuestScene, true);
         this.scene.add('InformationScene', InformationScene, true);
         this.scene.add('InventoryScene', InventoryScene, true);
         this.scene.add('SpecificationsScene', SpecificationsScene, true);
+        this.scene.add('PlayerBarScene', PlayerBarScene, true);
+
+    }
+
+    resetGame() {
+        this.scene.remove('WorldScene');
+        this.scene.remove('QuestScene');
+        this.scene.remove('InformationScene');
+        this.scene.remove('InventoryScene');
+        this.scene.remove('SpecificationsScene');
+        this.scene.remove('PlayerBarScene');
+        this.scene.start('GameOverScene');
     }
 }

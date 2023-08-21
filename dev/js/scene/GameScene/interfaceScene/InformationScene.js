@@ -23,7 +23,11 @@ export default class InformationScene extends Phaser.Scene {
                 fontSize: '24px',
                 lineSpacing: '10',
                 color: '#ACACAC',
-                wordWrap: { width: 462 }
+                wordWrap: { width: 462 },
+                padding: {
+                    x: 10,
+                    y: 10,
+                },
             }).setOrigin(0);
 
         // Создаем маску для текстового элемента

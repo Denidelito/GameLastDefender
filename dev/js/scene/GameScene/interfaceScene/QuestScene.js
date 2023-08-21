@@ -72,7 +72,7 @@ export default class QuestScene extends Phaser.Scene{
 
             xOffset += buttonWidth + 10;
 
-            if (xOffset + buttonWidth > 494) { // Заменил containerWidth на 494
+            if (xOffset + buttonWidth > 494) {
                 xOffset = 10;
                 yOffset += buttonHeight + 10;
             }
