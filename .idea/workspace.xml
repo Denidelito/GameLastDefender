@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78e419fd-2545-4b18-8af8-8cd8b8c14740" name="Changes" comment="Билд проекта">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_05_08_2023_1_17__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_05_08_2023_1_17__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_1_22__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_08_2023_1_22__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/index-2d693809.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/index-14ec2850.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/index-2d693809.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/index-14ec2850.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/tilemaps/OldCastleTilemap.tmj" beforeDir="false" afterPath="$PROJECT_DIR$/assets/tilemaps/OldCastleTilemap.tmj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,6 +141,8 @@
       <workItem from="1691187690984" duration="518000" />
       <workItem from="1692369577601" duration="31000" />
       <workItem from="1692565432332" duration="24000" />
+      <workItem from="1692565573165" duration="33000" />
+      <workItem from="1692565662888" duration="4000" />
     </task>
     <task id="LOCAL-00001" summary="Подготовка проекта">
       <created>1690994349598</created>
@@ -282,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692563201531</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Билд проекта">
+      <created>1692565597386</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1692565597386</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
