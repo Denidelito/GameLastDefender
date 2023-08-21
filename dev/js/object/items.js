@@ -19,7 +19,7 @@ const staff = {
             force: 1,
             agility: 1,
             luck: 1,
-            damage: 10,
+            damage: 100,
             protection: 0
         }
     },

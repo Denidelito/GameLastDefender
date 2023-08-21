@@ -40,29 +40,21 @@ function handlePlayerAttack(scene, playerSprite, targetEnemy, combatData, distan
     targetEnemy.info.health -= damage;
 
     const informationScene = scene.scene.get('InformationScene');
-    const InventoryScene = scene.scene.get('InventoryScene');
 
     if (targetEnemy.info.health > 0) {
+        playerSprite.anims.play('attack', true);
+        combatData.isCombatTurn = 'enemy';
         informationScene.updateDialogModal(
             `${player.name}: нанесит противнику ${damage} урона`
         );
     } else {
+        combatData.isCombatTurn = 'player';
         informationScene.updateDialogModal(
             `${player.name}: наносит ${damage} урона, и пустили на фарш ${targetEnemy.name}`
         );
-    }
-
-    if (targetEnemy.info.health <= 0) {
         handleEnemyDeath(scene, targetEnemy, playerSprite,  combatData);
-    } else {
-        playerSprite.anims.play('attack', true);
     }
 
-    if (targetEnemy.info.health > 0) {
-        combatData.isCombatTurn = 'enemy';
-    } else {
-        combatData.isCombatTurn = 'player';
-    }
 
     combatData.lastDamageTime = scene.time.now;
 }
@@ -71,16 +63,16 @@ function handleEnemyDeath(scene, targetEnemy, playerSprite, combatData) {
     targetEnemy.info.anims.play('enemy1-die', true);
     playerSprite.anims.play('attack', true);
 
-
     scene.scene.get('GameScene').data.get('worldChaos').current += -targetEnemy.info.chaos;
 
     targetEnemy.info.on('animationcomplete', function(animation, frame) {
         if (animation.key === 'enemy1-die') {
-            destroyEnemy(scene);
             const spawnEnemy = getSceneData(scene, 'spawnEnemy');
             scene.scene.get('QuestScene').updateQuest(scene, spawnEnemy.livingEnemies);
 
             playerSprite.anims.play('idle', true);
+
+            destroyEnemy(scene);
 
             const combat = getSceneData(scene, 'combat');
             combat.active = false;
