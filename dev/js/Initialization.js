@@ -6,6 +6,8 @@ import GameOverScene from "./scene/GameOverScene.js";
 
 const config = {
     type: Phaser.AUTO,
+    width: 1920,
+    height: 1080,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -14,6 +16,7 @@ const config = {
         // Высота окна игры
         height: 1080,
     },
+    pixelArt: true,
     scene: [PreloadScene, MeinMenuScene, GameScene, GameOverScene]
 };
 
