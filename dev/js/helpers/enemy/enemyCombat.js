@@ -71,6 +71,9 @@ function handleEnemyDeath(scene, targetEnemy, playerSprite, combatData) {
     targetEnemy.info.anims.play('enemy1-die', true);
     playerSprite.anims.play('attack', true);
 
+
+    scene.scene.get('GameScene').data.get('worldChaos').current += -targetEnemy.info.chaos;
+
     targetEnemy.info.on('animationcomplete', function(animation, frame) {
         if (animation.key === 'enemy1-die') {
             destroyEnemy(scene);

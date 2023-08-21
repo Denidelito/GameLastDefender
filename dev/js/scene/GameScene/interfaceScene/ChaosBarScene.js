@@ -15,9 +15,6 @@ export default class ChaosBarScene extends Phaser.Scene {
         // Создаем полоску хаоса
         this.playerHelthBar = this.add.graphics();
 
-        // Рисуем полоску здоровья с начальной шириной
-        this.drawChaosBar((322 / 100) * 80);
-
         // Создаем текстовый элемент
         this.textBarHealth = this.add.text(24, 225, 'Шкала хаоса',
             {
@@ -36,12 +33,12 @@ export default class ChaosBarScene extends Phaser.Scene {
 
         // Рисуем полоску с новой шириной
         this.playerHelthBar.fillStyle(0xDA3B3B, 1);
-        this.playerHelthBar.fillRect(4, 322 - newHeight, 68, newHeight);
+        this.playerHelthBar.fillRect(4, 322 - (322 / 100) * newHeight, 68, (322 / 100) * newHeight);
     }
 
     // Функция для обновления полоски здоровья
     updateChaos(health) {
         // Обновляем размер полоски здоровья
-        this.drawHealthBar(health);
+        this.drawChaosBar(health);
     }
 }

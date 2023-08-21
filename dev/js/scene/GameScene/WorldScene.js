@@ -65,7 +65,8 @@ export default class WorldScene extends Phaser.Scene {
         const spawnEnemy = this.scene.get('GameScene').data.get('spawnEnemy'),
             enemy = this.scene.get('GameScene').data.get('enemy'),
             combat = this.scene.get('GameScene').data.get('combat'),
-            player = this.scene.get('GameScene').data.get('player');
+            player = this.scene.get('GameScene').data.get('player'),
+            worldChaos = this.scene.get('GameScene').data.get('worldChaos');
 
         // Обновляем позицию камеры, чтобы она следовала за персонажем
         const mainCamera = this.cameras.main
@@ -102,6 +103,7 @@ export default class WorldScene extends Phaser.Scene {
         }
 
         this.scene.get('PlayerBarScene').updateHealth(player.characteristics.health);
+        this.scene.get('ChaosBarScene').updateChaos(worldChaos.current);
 
         // Обновляем характеристики персонажа
         this.scene.get('SpecificationsScene').updateInformationPlayer(
@@ -112,9 +114,8 @@ export default class WorldScene extends Phaser.Scene {
             `Защита: ${player.characteristics.protection}`,
         )
 
-
         // Проверям здоровье персанажа и рестартим игру
-        if (player.characteristics.health <= 0) {
+        if (player.characteristics.health <= 0 || worldChaos.current >= worldChaos.max) {
             this.scene.get('GameScene').resetGame();
         }
     }

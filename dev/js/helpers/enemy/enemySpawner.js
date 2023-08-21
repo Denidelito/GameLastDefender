@@ -26,6 +26,9 @@ export function spawnRandomEnemy(scene, enemiesData) {
     enemy.y = tile.pixelY;
     enemy.health = randomEnemy.health;
     enemy.damage = randomEnemy.damage;
+    enemy.chaos = randomEnemy.chaos;
+
+    scene.scene.get('GameScene').data.get('worldChaos').current += randomEnemy.chaos;
 
     const enemyNameText = scene.add.text(0, 0, '',
         {

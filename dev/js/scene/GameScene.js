@@ -39,6 +39,12 @@ export default class GameScene extends Phaser.Scene {
             intervalTimeSpawn: 10000
         });
 
+        // Хранилище enemy которые заспавнились на карте
+        this.data.set('worldChaos', {
+            current: 0,
+            max: 100
+        });
+
         this.cameras.main.setViewport(0, 0, 1920, 1080);
 
         this.add.image(0, 0, 'ui-game-interface').setOrigin(0);
