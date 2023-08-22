@@ -17,6 +17,8 @@ export default class QuestScene extends Phaser.Scene{
 
         const zone = this.add.zone(0, 0, 494, 264).setOrigin(0).setInteractive();
 
+        this.itemsQuest = [];
+
         // Обработка скроллинга колесиком мыши
         zone.on('wheel', (pointer, deltaX, deltaY, deltaZ) => {
             // Изменяем позицию контейнера в соответствии с направлением прокрутки
@@ -24,7 +26,6 @@ export default class QuestScene extends Phaser.Scene{
             // Ограничение перемещения контейнера по вертикали, чтобы не выходил за пределы
             this.containerQuest.y = Phaser.Math.Clamp(this.containerQuest.y, -200, 50);
         });
-
 
         // this.updateQuest(buttonData);
     }
@@ -42,8 +43,12 @@ export default class QuestScene extends Phaser.Scene{
 
         questData.forEach((quest, key) => {
             const buttonContainer = this.add.container(xOffset, yOffset);
-
             const buttonBackground = this.add.image(0, 0, 'ui-quest-table');
+
+            if (player.target === key) {
+                buttonBackground.setTexture('ui-quest-table-active');
+            }
+
             buttonBackground.setDisplaySize(buttonWidth, buttonHeight);
 
             const sprite = this.add.sprite(-80, 0, quest.info.avatar);
@@ -65,8 +70,17 @@ export default class QuestScene extends Phaser.Scene{
                 if (player.target !== key) {
                     player.target = key;
                     combat.active = false;
-
                     playerMovement(scene, scene.playerSprite, questData[key]);
+
+                    // Смена спрайта при нажатии
+                    questData.forEach((quest, index) => {
+                        const questButton = this.containerQuest.getAt(index).getAt(0);
+                        if (index === key) {
+                            questButton.setTexture('ui-quest-table-active');
+                        } else {
+                            questButton.setTexture('ui-quest-table');
+                        }
+                    });
                 }
             });
 
@@ -78,4 +92,5 @@ export default class QuestScene extends Phaser.Scene{
             }
         });
     }
+
 }

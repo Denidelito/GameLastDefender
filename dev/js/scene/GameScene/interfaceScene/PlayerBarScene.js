@@ -18,6 +18,7 @@ export default class PlayerBarScene extends Phaser.Scene {
 
         // Создаем полоску здоровья
         this.playerHelthBar = this.add.graphics();
+        this.playerManaBar = this.add.graphics();
 
         // Создаем текстовый элемент
         this.textBarHealth = this.add.text(194, 12, '100/100',
@@ -31,6 +32,7 @@ export default class PlayerBarScene extends Phaser.Scene {
 
         // Рисуем полоску здоровья с начальной шириной
         this.drawHealthBar((246 / 100) * player.characteristics.health)
+        this.drawManaBar(100)
     }
     // Функция для перерисовки полоски здоровья с новой шириной
     drawHealthBar(newWidth) {
@@ -42,6 +44,14 @@ export default class PlayerBarScene extends Phaser.Scene {
         // Рисуем полоску с новой шириной
         this.playerHelthBar.fillStyle(0xD04648, 1);
         this.playerHelthBar.fillRect(108, 10, (244 / 100) * newWidth, 20);
+    }
+    drawManaBar(newWidth) {
+        // Очищаем graphics
+        this.playerManaBar.clear();
+
+        // Рисуем полоску с новой шириной
+        this.playerManaBar.fillStyle(0x597DCE, 1);
+        this.playerManaBar.fillRect(108, 44, (244 / 100) * newWidth, 20);
     }
 
     // Функция для обновления полоски здоровья

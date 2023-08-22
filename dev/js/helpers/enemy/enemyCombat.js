@@ -1,6 +1,6 @@
 import {destroyEnemy} from "./enemyDestroy.js";
 
-const DISTANCE_THRESHOLD = 50;
+const DISTANCE_THRESHOLD = 64;
 const NUMBER_OF_DICE = 2;
 const TYPE_OF_DICE = 16;
 
@@ -50,7 +50,7 @@ function handlePlayerAttack(scene, playerSprite, targetEnemy, combatData, distan
     } else {
         combatData.isCombatTurn = 'player';
         informationScene.updateDialogModal(
-            `${player.name}: наносит ${damage} урона, и пустили на фарш ${targetEnemy.name}`
+            `${player.name}: наносит ${damage} урона, и пустили на фарш ${targetEnemy.info.name}`
         );
         handleEnemyDeath(scene, targetEnemy, playerSprite,  combatData);
     }
@@ -67,18 +67,16 @@ function handleEnemyDeath(scene, targetEnemy, playerSprite, combatData) {
 
     targetEnemy.info.on('animationcomplete', function(animation, frame) {
         if (animation.key === 'enemy1-die') {
-            const spawnEnemy = getSceneData(scene, 'spawnEnemy');
-            scene.scene.get('QuestScene').updateQuest(scene, spawnEnemy.livingEnemies);
-
             playerSprite.anims.play('idle', true);
 
             destroyEnemy(scene);
 
             const combat = getSceneData(scene, 'combat');
             combat.active = false;
-
             const player = getSceneData(scene, 'player');
             player.target = null;
+            const spawnEnemy = getSceneData(scene, 'spawnEnemy');
+            scene.scene.get('QuestScene').updateQuest(scene, spawnEnemy.livingEnemies);
         }
     }, this);
 

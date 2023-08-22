@@ -48,7 +48,6 @@ export function playerMovement(scene, playerSprite, enemy) {
                         });
                     } else if (currentPathIndex === path.length) {
                         combat.active = true;
-
                         movementEvent.remove();
                     } else {
 
