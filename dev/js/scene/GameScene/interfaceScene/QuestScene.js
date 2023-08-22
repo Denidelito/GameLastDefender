@@ -15,6 +15,8 @@ export default class QuestScene extends Phaser.Scene{
         this.containerQuest.setSize(494, 264);
         this.containerQuest.setDepth(3);
 
+        this.soundTarget = this.sound.add('sound-ui-target', { loop: false, volume: 0.5 });
+
         const zone = this.add.zone(0, 0, 494, 264).setOrigin(0).setInteractive();
 
         this.itemsQuest = [];
@@ -76,6 +78,7 @@ export default class QuestScene extends Phaser.Scene{
                     questData.forEach((quest, index) => {
                         const questButton = this.containerQuest.getAt(index).getAt(0);
                         if (index === key) {
+                            this.soundTarget.play();
                             questButton.setTexture('ui-quest-table-active');
                         } else {
                             questButton.setTexture('ui-quest-table');

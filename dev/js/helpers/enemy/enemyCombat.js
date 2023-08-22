@@ -34,15 +34,15 @@ function calculateDamage(numberOfDice, typeOfDice, modifier) {
 
 function handlePlayerAttack(scene, playerSprite, targetEnemy, combatData, distance) {
     targetEnemy.info.anims.play('enemy1-idle', true);
-
     const player = getSceneData(scene, 'player');
     const damage = calculateDamage(NUMBER_OF_DICE, TYPE_OF_DICE, player.characteristics.damage, player);
     targetEnemy.info.health -= damage;
 
     const informationScene = scene.scene.get('InformationScene');
 
+    playerSprite.anims.play('attack', true);
+
     if (targetEnemy.info.health > 0) {
-        playerSprite.anims.play('attack', true);
         combatData.isCombatTurn = 'enemy';
         informationScene.updateDialogModal(
             `${player.name}: нанесит противнику ${damage} урона`
@@ -68,6 +68,8 @@ function handleEnemyDeath(scene, targetEnemy, playerSprite, combatData) {
     targetEnemy.info.on('animationcomplete', function(animation, frame) {
         if (animation.key === 'enemy1-die') {
             playerSprite.anims.play('idle', true);
+
+            scene.soundAttack.stop();
 
             destroyEnemy(scene);
 
@@ -108,10 +110,13 @@ export function combatEnemy(scene, playerSprite, targetEnemy, combatData) {
         }
 
         if (combatData.isCombatTurn === 'player') {
+            scene.soundAttack.play();
 
             handlePlayerAttack(scene, playerSprite, targetEnemy, combatData, distance);
 
         } else if (combatData.isCombatTurn === 'enemy') {
+            scene.soundAttack.stop();
+
             playerSprite.anims.play('idle', true);
             targetEnemy.info.anims.play('enemy1-attack', true);
 

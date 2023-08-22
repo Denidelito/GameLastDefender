@@ -12,6 +12,7 @@ export default class WorldScene extends Phaser.Scene {
     }
 
     create() {
+        this.soundAttack = this.sound.add('sound-player-attack', { loop: true, volume: 0.1 });
         // Получаем информацию об игроке
         const player = this.scene.get('GameScene').data.get('player');
 

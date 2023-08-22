@@ -110,6 +110,10 @@ export default class PreloadScene extends Phaser.Scene {
         // Карта мира
         this.load.tilemapTiledJSON('tilemaps', 'assets/tilemaps/OldCastleTilemap.tmj');
         this.load.image('terrain-atlas', 'assets/tilemaps/terrain_atlas.png');
+
+        // Загрузка звуков
+        this.load.audio('sound-ui-target', 'assets/sound/ui/currentTarget.mp3');
+        this.load.audio('sound-player-attack', 'assets/sound/player/playerAttack.mp3');
     }
 
 
