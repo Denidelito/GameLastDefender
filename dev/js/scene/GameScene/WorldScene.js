@@ -14,8 +14,11 @@ export default class WorldScene extends Phaser.Scene {
     create() {
         this.soundAttack = this.sound.add('sound-player-attack', { loop: true, volume: 0.1 });
         this.soundEnemyAttack = this.sound.add('sound-enemy-attack', { loop: true, volume: 0.1 });
+        this.music = this.sound.add('music-main', { loop: true, volume: 0.2 });
         // Получаем информацию об игроке
         const player = this.scene.get('GameScene').data.get('player');
+
+        this.music.play();
 
         // Создаем камера на персонаже
         cameraPlayer(this, 1360, 640, 36, 36)
@@ -119,6 +122,7 @@ export default class WorldScene extends Phaser.Scene {
         // Проверям здоровье персанажа и рестартим игру
         if (player.characteristics.health <= 0 || worldChaos.current >= worldChaos.max) {
             this.soundEnemyAttack.stop();
+            this.music.stop();
             this.scene.get('GameScene').resetGame();
         }
     }

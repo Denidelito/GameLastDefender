@@ -9,6 +9,7 @@ import PlayerBarScene from "./GameScene/interfaceScene/PlayerBarScene.js";
 import player from "../object/player.js";
 import ChaosBarScene from "./GameScene/interfaceScene/ChaosBarScene.js";
 import {EquipmentScene} from "./GameScene/interfaceScene/EquipmentScene.js";
+import MeinMenuScene from "./MeinMenuScene.js";
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
