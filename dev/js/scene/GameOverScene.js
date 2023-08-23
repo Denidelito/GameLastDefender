@@ -4,6 +4,8 @@ export default class GameOverScene extends Phaser.Scene {
     }
 
     preload() {
+        this.soundClick = this.sound.add('sound-ui-click', { loop: false, volume: 0.1 });
+
         const { width, height } = this.cameras.main;
         this.text = this.add.text(0, 0, 'Тебя поглотила пустыня',
             {
@@ -44,6 +46,7 @@ export default class GameOverScene extends Phaser.Scene {
     }
 
     startGame() {
+        this.soundClick.play();
         this.scene.start('MeinMenuScene');
     }
 }

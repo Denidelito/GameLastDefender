@@ -5,6 +5,10 @@ export default class MeinMenuScene extends Phaser.Scene {
 
     create() {
         const { width, height } = this.cameras.main;
+        this.soundClick = this.sound.add('sound-ui-click', { loop: false, volume: 0.2 });
+        this.music = this.sound.add('music-main', { loop: true, volume: 0.2 });
+
+        this.music.play();
 
         const title = this.add.text(0, 0, 'The Last Defender - Rise of the King',
             {
@@ -58,6 +62,7 @@ export default class MeinMenuScene extends Phaser.Scene {
     }
 
     startGame() {
+        this.soundClick.play();
         this.scene.start('GameScene');
     }
 }

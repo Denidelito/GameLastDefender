@@ -41,6 +41,7 @@ function handlePlayerAttack(scene, playerSprite, targetEnemy, combatData, distan
     const informationScene = scene.scene.get('InformationScene');
 
     playerSprite.anims.play('attack', true);
+    scene.soundEnemyAttack.stop();
 
     if (targetEnemy.info.health > 0) {
         combatData.isCombatTurn = 'enemy';
@@ -70,6 +71,7 @@ function handleEnemyDeath(scene, targetEnemy, playerSprite, combatData) {
             playerSprite.anims.play('idle', true);
 
             scene.soundAttack.stop();
+            scene.soundEnemyAttack.stop();
 
             destroyEnemy(scene);
 
@@ -116,6 +118,7 @@ export function combatEnemy(scene, playerSprite, targetEnemy, combatData) {
 
         } else if (combatData.isCombatTurn === 'enemy') {
             scene.soundAttack.stop();
+            scene.soundEnemyAttack.play();
 
             playerSprite.anims.play('idle', true);
             targetEnemy.info.anims.play('enemy1-attack', true);

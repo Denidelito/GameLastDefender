@@ -1,7 +1,6 @@
 export function destroyEnemy(scene) {
     const spawnEnemy = scene.scene.get('GameScene').data.get('spawnEnemy'),
         player = scene.scene.get('GameScene').data.get('player');
-    console.log(player.target)
 
     spawnEnemy.livingEnemies[player.target].info.destroy()
     spawnEnemy.livingEnemies[player.target].name.destroy()

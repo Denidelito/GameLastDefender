@@ -7,6 +7,8 @@ export default class InventoryScene extends Phaser.Scene {
     }
 
     create() {
+        this.soundPotion = this.sound.add('sound-item-manaPotion', { loop: false, volume: 0.4 });
+        this.soundEquip = this.sound.add('sound-item-equip', { loop: false, volume: 0.5 });
         const player = this.scene.get('GameScene').data.get('player');
 
         this.playerInventory = player.inventory;
@@ -152,8 +154,10 @@ export default class InventoryScene extends Phaser.Scene {
         if (item !== null) {
 
             if (staff[item].type === 'potion') {
+                this.soundPotion.play();
                 scene.scene.get('WorldScene').updatePlayer(item);
             } else if (staff[item].type === 'weapon') {
+                this.soundEquip.play();
                 scene.scene.get('EquipmentScene').addEquipment(item, 44, 232, 94, 94);
             }
 

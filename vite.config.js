@@ -1,5 +1,6 @@
 import { resolve, parse } from 'path';
 import { defineConfig } from 'vite';
+import mkcert from "vite-plugin-mkcert";
 
 export default defineConfig({
     base: './',
@@ -10,8 +11,9 @@ export default defineConfig({
         emptyOutDir: true,
         sourcemap: true,
     },
+    plugins: [ mkcert() ],
     server: {
-        https: false,
+        https: true,
         port: 8080,
     },
 });

@@ -113,7 +113,12 @@ export default class PreloadScene extends Phaser.Scene {
 
         // Загрузка звуков
         this.load.audio('sound-ui-target', 'assets/sound/ui/currentTarget.mp3');
+        this.load.audio('sound-ui-click', 'assets/sound/ui/click.mp3');
+        this.load.audio('sound-item-manaPotion', 'assets/sound/ui/manaPotion.mp3');
+        this.load.audio('sound-item-equip', 'assets/sound/ui/equip.mp3');
         this.load.audio('sound-player-attack', 'assets/sound/player/playerAttack.mp3');
+        this.load.audio('sound-enemy-attack', 'assets/sound/enemy/slimeAttack.mp3');
+        this.load.audio('music-main', 'assets/sound/music.mp3');
     }
 
 

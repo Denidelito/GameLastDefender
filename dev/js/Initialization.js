@@ -20,4 +20,16 @@ const config = {
     scene: [PreloadScene, MeinMenuScene, GameScene, GameOverScene]
 };
 
-const game = new Phaser.Game(config);
+new Phaser.Game(config);
+
+/*
+let ysdk;
+
+YaGames
+    .init()
+    .then(_sdk => {
+        ysdk = _sdk;
+        ysdk.features.LoadingAPI?.ready(); // Показываем SDK, что игра загрузилась и можно начинать играть
+    })
+    .catch(console.error);
+*/
