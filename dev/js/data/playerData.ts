@@ -1,13 +1,15 @@
 const playerData = {
-    sprites: 'playerSprite',
     target: null,
     spawnPosition: {
-        x: 600,
-        y: 600,
+        x: 0,
+        y: 0,
     },
-    sizeSprite: {
-        width: 96,
-        height: 96,
+    sprite: {
+        name: 'playerDefault',
+        sizeSprite: {
+            width: 96,
+            height: 96,
+        },
     },
     name: 'Джотаро',
     characteristics: {
@@ -27,6 +29,5 @@ const playerData = {
         decoration1: '',
         decoration2: '',
     }
-};
-
+}
 export default playerData;

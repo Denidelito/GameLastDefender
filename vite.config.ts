@@ -11,7 +11,7 @@ export default defineConfig({
         emptyOutDir: true,
         sourcemap: true,
     },
-    plugins: [ mkcert() ],
+    plugins: [mkcert()],
     server: {
         https: true,
         port: 8080,
