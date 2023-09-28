@@ -6,9 +6,14 @@ export default class PreloadScene extends Phaser.Scene {
     preload(): void {
         this.load.image('loaderBg', 'assets/images/loader.png');
         this.load.image('playerDefault', 'assets/sprites/player/player.png');
+        this.load.spritesheet('player',
+            'assets/sprites/player/player.png',
+            true,
+            {frameWidth: 128, frameHeight: 128}
+        );
 
         this.load.on('progress', (value: any) => {
-            console.log(value + '%');
+            console.log(Math.round(value * 100) + '%');
         });
 
         // Скрываем спрайт после завершения загрузки
