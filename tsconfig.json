@@ -20,6 +20,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "dev"
+    "dev",
+    "node_modules/phaser3/types/phaser3.d.ts"
   ]
 }
