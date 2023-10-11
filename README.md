@@ -1,27 +1,72 @@
-<h1 align="center">
-  <br>
-  <a href="https://github.com/geocine/phaser3-rollup-typescript#readme"><img src="https://i.imgur.com/6lcIxDs.png" alt="header" width="600"/></a>
-  <br>
-  Phaser 3 TypeScript Starter
-  <br>
-</h1>
+# Vite Phaser Typescript Template
 
-This is a [Phaser 3](https://github.com/photonstorm/phaser) starter with [TypeScript](https://www.typescriptlang.org/), [Rollup](https://rollupjs.org) with ⚡️ lightning fast HMR through [Vite](https://vitejs.dev/).
+Vite + Phaser + Typescript starter template.
 
-## Available Commands
+## Preview
 
-| Command | Description |
-|---------|-------------|
-| `yarn install` | Install project dependencies |
-| `yarn dev` | Builds project and open web server, watching for changes |
-| `yarn build` | Builds code bundle with production settings  |
-| `yarn serve` | Run a web server to serve built code bundle |
+![preview.jpg](preview.jpg)
 
-## Development
+## Getting Started
 
-After cloning the repo, run `yarn install` from your project directory. Then, you can start the local development
-server by running `yarn dev` and navigate to http://localhost:3000.
+```bash
+npx degit iwantantra/vite-phaser-ts my-game
+cd my-game
+npm install
+```
 
-## Production
+## Available scripts
 
-After running `yarn build`, the files you need for production will be on the `dist` folder. To test code on your `dist` folder, run `yarn serve` and navigate to http://localhost:5000
+### To run the project
+
+```bash
+npm run dev
+```
+
+### To build the project
+
+```bash
+npm run build
+```
+
+### To preview the build
+
+```bash
+npm run preview
+```
+
+### To lint check your code using eslint
+
+```bash
+npm run lint
+```
+
+### To lint check and fix your code
+
+```bash
+npm run lint-fix
+```
+
+## Project structure
+
+```
+.
+├── dist
+├── node_modules
+├── public
+│    ├── assets
+├── src
+│   ├── scenes
+│       ├── HelloScene.ts
+│   ├── main.ts
+├── index.html
+├── package.json
+```
+
+`dist` your build will placed in this folder.\
+`src` you can structure your codes and folder as you like inside this folder.\
+`public` your static asset must be placed inside this folder. You can also
+create new folder inside this folder.
+
+## License
+
+[MIT License](LICENSE.md)

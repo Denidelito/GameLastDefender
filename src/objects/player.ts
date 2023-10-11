@@ -1,3 +1,5 @@
+import {equipItems} from "../data/items";
+
 interface PlayerStats {
     health: number;
     damage: number;
@@ -7,8 +9,17 @@ interface PlayerStats {
     luck: number;
 }
 
+interface playerEquipped {
+    sword: string;
+    armor: string;
+    pants: string;
+    helmet: string;
+    shield: string;
+}
+
 export class Player extends Phaser.GameObjects.Sprite {
     private readonly stats: PlayerStats;
+    readonly equipped: playerEquipped;
     private readonly inventory: string[];
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -23,6 +34,7 @@ export class Player extends Phaser.GameObjects.Sprite {
             strength: 5,
             luck: 0.1,
         }
+
 
         // Инвентарь игрока
         this.inventory = [];
@@ -55,13 +67,6 @@ export class Player extends Phaser.GameObjects.Sprite {
     // Метод для одевания предмета по индексу из инветаря
     equipItem(index: number): void {
         if (index >= 0 && index < this.inventory.length) {
-            const item = this.inventory[index];
-
-            if (item === 'sword') {
-                this.stats.damage += 100;
-            } else if (item === 'armor') {
-                this.stats.health += 50;
-            }
 
             // Удалить предмет из инвентаря по индексу
             this.removeItemToInventory(index);
@@ -70,12 +75,6 @@ export class Player extends Phaser.GameObjects.Sprite {
 
     // Метод для снятия предмета и помещения его обратно в инвентарь
     unequipItem(item: string): void {
-        if (item === 'sword') {
-            this.stats.damage -= 10;
-        } else if (item === 'armor') {
-            this.stats.health -= 50;
-        }
-
         // Добавить предмет обратно в инвентарь
         this.addItemToInventory(item);
     }
