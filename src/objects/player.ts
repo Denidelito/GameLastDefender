@@ -19,7 +19,7 @@ interface playerEquipped {
 
 export class Player extends Phaser.GameObjects.Sprite {
     private readonly stats: PlayerStats;
-    readonly equipped: playerEquipped;
+    private readonly equipped: playerEquipped;
     private readonly inventory: string[];
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -35,6 +35,13 @@ export class Player extends Phaser.GameObjects.Sprite {
             luck: 0.1,
         }
 
+        this.equipped = {
+            sword: 'empty',
+            armor: 'empty',
+            pants: 'empty',
+            helmet: 'empty',
+            shield: 'empty'
+        }
 
         // Инвентарь игрока
         this.inventory = [];
@@ -64,18 +71,37 @@ export class Player extends Phaser.GameObjects.Sprite {
         return this.inventory;
     }
 
+
+    //Поиск предмета в массиве equipItems
+    findEquippedItemById(itemId: string) {
+        return equipItems.find((item) => item.itemId === itemId)
+    }
+
+
     // Метод для одевания предмета по индексу из инветаря
     equipItem(index: number): void {
-        if (index >= 0 && index < this.inventory.length) {
-
-            // Удалить предмет из инвентаря по индексу
-            this.removeItemToInventory(index);
+        if (!(index >= 0 && index < this.inventory.length)) {
+            return;
         }
+
+        // @ts-ignore
+        const {type: itemType}: object = this.findEquippedItemById(this.inventory[index]);
+
+        // @ts-ignore
+        this.equipped[itemType] = this.inventory[index];
+
+        this.removeItemToInventory(index);
     }
 
     // Метод для снятия предмета и помещения его обратно в инвентарь
-    unequipItem(item: string): void {
+    unequipItem(equipSlot: string): void {
+        // @ts-ignore
+        let equipItemId: string = this.equipped[equipSlot];
+
+        // @ts-ignore
+        this.equipped[equipSlot] = 'empty';
+
         // Добавить предмет обратно в инвентарь
-        this.addItemToInventory(item);
+        this.addItemToInventory(equipItemId);
     }
 }
