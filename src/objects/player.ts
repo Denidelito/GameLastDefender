@@ -54,6 +54,9 @@ export class Player extends Phaser.GameObjects.Sprite {
         return this.stats;
     }
 
+    getEquipItems(): playerEquipped {
+        return this.equipped;
+    }
     // Метод для добавления предмета в инвентарь
     addItemToInventory(item: string): void {
         this.inventory.push(item);
@@ -85,13 +88,21 @@ export class Player extends Phaser.GameObjects.Sprite {
         }
 
         // @ts-ignore
-        const {type: itemType}: object = this.findEquippedItemById(this.inventory[index]);
+        const {type: itemType}: string = this.findEquippedItemById(this.inventory[index]);
+        const currentEquippedItem : string = this.equipped[itemType];
 
+        console.log(this.inventory[index])
         // @ts-ignore
         this.equipped[itemType] = this.inventory[index];
 
-        this.updateStats();
+        if (currentEquippedItem !== 'empty') {
+            this.addItemToInventory(currentEquippedItem);
+        }
+
         this.removeItemToInventory(index);
+
+        // Обновлять статы у персонажа
+        this.updateStats();
     }
 
     // Метод для снятия предмета и помещения его обратно в инвентарь
@@ -107,5 +118,10 @@ export class Player extends Phaser.GameObjects.Sprite {
     }
 
     updateStats() {
+        this.inventory.forEach((equippedId: string) => {
+            const equippedItemInfo: object = this.findEquippedItemById(equippedId);
+        });
+
+        // console.log(this.equipped, this.stats);
     }
 }
