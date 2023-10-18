@@ -56,7 +56,6 @@ export class Player extends Phaser.GameObjects.Sprite {
         return this.stats;
     }
 
-
     // Метод для добавления предмета в инвентарь
     addItemToInventory(item: string): void {
         this.inventory.push(item);
@@ -94,6 +93,8 @@ export class Player extends Phaser.GameObjects.Sprite {
 
         if (currentEquippedItem !== 'empty') {
             this.addItemToInventory(currentEquippedItem);
+            // @ts-ignore
+            this.updateStats({stats: this.findEquippedItemById(currentEquippedItem).stats, removal: true})
         }
 
         this.removeItemToInventory(index);
@@ -110,6 +111,7 @@ export class Player extends Phaser.GameObjects.Sprite {
         // @ts-ignore
         this.equipped[equipSlot] = 'empty';
 
+        // @ts-ignore
         const {stats : itemStats} = this.findEquippedItemById(equipItemId);
 
         this.updateStats({stats: itemStats, removal: true})

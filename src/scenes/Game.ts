@@ -17,5 +17,6 @@ export default class Demo extends Phaser.Scene {
     player.addItemToInventory(equipItems[0].itemId);
     player.addItemToInventory(equipItems[1].itemId);
     player.addItemToInventory(equipItems[3].itemId);
+
   }
 }
