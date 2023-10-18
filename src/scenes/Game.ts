@@ -16,20 +16,6 @@ export default class Demo extends Phaser.Scene {
 
     player.addItemToInventory(equipItems[0].itemId);
     player.addItemToInventory(equipItems[1].itemId);
-
-
-    player.equipItem(0);
-
-    console.group('Группа');
-    console.log('Надетые предметы:', player.getEquipItems());
-    console.log('Инвентарь:', player.getInventory());
-    console.groupEnd();
-
-    player.equipItem(0);
-
-    console.group('Группа');
-    console.log('Надетые предметы:', player.getEquipItems());
-    console.log('Инвентарь:', player.getInventory());
-    console.groupEnd();
+    player.addItemToInventory(equipItems[3].itemId);
   }
 }

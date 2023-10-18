@@ -3,6 +3,7 @@ import {equipItems} from "../data/items";
 interface PlayerStats {
     health: number;
     damage: number;
+    defense: number;
     attackSpeed: number;
     movementSpeed: number;
     strength: number;
@@ -29,6 +30,7 @@ export class Player extends Phaser.GameObjects.Sprite {
         this.stats = {
             health: 100,
             damage: 10,
+            defense: 10,
             attackSpeed: 1,
             movementSpeed: 150,
             strength: 5,
@@ -54,9 +56,7 @@ export class Player extends Phaser.GameObjects.Sprite {
         return this.stats;
     }
 
-    getEquipItems(): playerEquipped {
-        return this.equipped;
-    }
+
     // Метод для добавления предмета в инвентарь
     addItemToInventory(item: string): void {
         this.inventory.push(item);
@@ -74,12 +74,10 @@ export class Player extends Phaser.GameObjects.Sprite {
         return this.inventory;
     }
 
-
     //Поиск предмета в массиве equipItems
     findEquippedItemById(itemId: string) {
         return equipItems.find((item) => item.itemId === itemId)
     }
-
 
     // Метод для одевания предмета по индексу из инветаря
     equipItem(index: number): void {
@@ -88,10 +86,9 @@ export class Player extends Phaser.GameObjects.Sprite {
         }
 
         // @ts-ignore
-        const {type: itemType}: string = this.findEquippedItemById(this.inventory[index]);
+        const {type: itemType, stats: itemStats}: string = this.findEquippedItemById(this.inventory[index]);
+        // @ts-ignore
         const currentEquippedItem : string = this.equipped[itemType];
-
-        console.log(this.inventory[index])
         // @ts-ignore
         this.equipped[itemType] = this.inventory[index];
 
@@ -102,7 +99,7 @@ export class Player extends Phaser.GameObjects.Sprite {
         this.removeItemToInventory(index);
 
         // Обновлять статы у персонажа
-        this.updateStats();
+        this.updateStats({stats: itemStats});
     }
 
     // Метод для снятия предмета и помещения его обратно в инвентарь
@@ -113,15 +110,28 @@ export class Player extends Phaser.GameObjects.Sprite {
         // @ts-ignore
         this.equipped[equipSlot] = 'empty';
 
+        const {stats : itemStats} = this.findEquippedItemById(equipItemId);
+
+        this.updateStats({stats: itemStats, removal: true})
+
         // Добавить предмет обратно в инвентарь
         this.addItemToInventory(equipItemId);
     }
 
-    updateStats() {
-        this.inventory.forEach((equippedId: string) => {
-            const equippedItemInfo: object = this.findEquippedItemById(equippedId);
-        });
+    // Метод для получения предметов на персонаже
+    getEquipItems(): playerEquipped {
+        return this.equipped;
+    }
 
-        // console.log(this.equipped, this.stats);
+    updateStats({ stats, removal = false }: { stats: object, removal?: boolean }) {
+        for (let statsKey in stats) {
+            if (!removal) {
+                // @ts-ignore
+                this.stats[statsKey] += stats[statsKey];
+            } else {
+                // @ts-ignore
+                this.stats[statsKey] -= stats[statsKey];
+            }
+        }
     }
 }
