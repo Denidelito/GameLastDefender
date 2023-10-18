@@ -90,6 +90,7 @@ export class Player extends Phaser.GameObjects.Sprite {
         // @ts-ignore
         this.equipped[itemType] = this.inventory[index];
 
+        this.updateStats();
         this.removeItemToInventory(index);
     }
 
@@ -103,5 +104,8 @@ export class Player extends Phaser.GameObjects.Sprite {
 
         // Добавить предмет обратно в инвентарь
         this.addItemToInventory(equipItemId);
+    }
+
+    updateStats() {
     }
 }
