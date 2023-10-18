@@ -9,14 +9,16 @@ export default class Demo extends Phaser.Scene {
 
   preload() {
     this.load.spritesheet('player', 'assets/sprites/player.png',{ frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('player-had', 'assets/sprites/player-had.png',{ frameWidth: 128, frameHeight: 128 });
   }
 
   create() {
-    const player = new Player(this, 100, 100);
+    const player = new Player(this, 0, 0);
 
     player.addItemToInventory(equipItems[0].itemId);
     player.addItemToInventory(equipItems[1].itemId);
     player.addItemToInventory(equipItems[3].itemId);
 
+    player.equipItem(0)
   }
 }

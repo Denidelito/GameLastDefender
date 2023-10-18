@@ -7,7 +7,7 @@ export const equipItems =[
         stats: {
             damage: 10,
         },
-        texture: 'sharpSwordTexture',
+        texture: 'player-had',
         animation: 'sharpSwordAnimation',
     },
     {
@@ -17,7 +17,7 @@ export const equipItems =[
         stats: {
             damage: 15,
         },
-        texture: 'bladeSwordTexture',
+        texture: 'player-had',
         animation: 'bladeSwordAnimation',
     },
     {

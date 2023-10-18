@@ -22,9 +22,16 @@ export class Player extends Phaser.GameObjects.Sprite {
     private readonly stats: PlayerStats;
     private readonly equipped: playerEquipped;
     private readonly inventory: string[];
+    private readonly equippedItemSprites: object;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, 'player');
+
+        this.equippedItemSprites = {
+            sword: {},
+            armor: {},
+            had: {},
+        }
 
         // Характеристики игрока
         this.stats = {
@@ -48,6 +55,7 @@ export class Player extends Phaser.GameObjects.Sprite {
         // Инвентарь игрока
         this.inventory = [];
 
+        this.setOrigin(0, 0)
         scene.add.existing(this);
     }
 
@@ -85,13 +93,25 @@ export class Player extends Phaser.GameObjects.Sprite {
         }
 
         // @ts-ignore
-        const {type: itemType, stats: itemStats}: string = this.findEquippedItemById(this.inventory[index]);
+        const {type: itemType, stats: itemStats, texture: itemTexture}: string = this.findEquippedItemById(this.inventory[index]);
         // @ts-ignore
         const currentEquippedItem : string = this.equipped[itemType];
         // @ts-ignore
         this.equipped[itemType] = this.inventory[index];
 
+        // Добавляем текстуру предмета
+        const itemSprite = this.scene.add.sprite(this.x, this.y, itemTexture).setOrigin(0, 0);
+        itemSprite.x = this.x;
+        itemSprite.y = this.y;
+
+        // Добавляем спрайт предмета в массив equippedItemSprites
+        // @ts-ignore
+        this.equippedItemSprites[itemType] = itemSprite;
+
         if (currentEquippedItem !== 'empty') {
+            // @ts-ignore
+            this.equippedItemSprites[itemType].destroy();
+
             this.addItemToInventory(currentEquippedItem);
             // @ts-ignore
             this.updateStats({stats: this.findEquippedItemById(currentEquippedItem).stats, removal: true})
@@ -105,6 +125,10 @@ export class Player extends Phaser.GameObjects.Sprite {
 
     // Метод для снятия предмета и помещения его обратно в инвентарь
     unequipItem(equipSlot: string): void {
+        // @ts-ignore
+        this.equippedItemSprites[equipSlot].destroy();
+
+
         // @ts-ignore
         let equipItemId: string = this.equipped[equipSlot];
 
